@@ -1,0 +1,350 @@
+project_id,county_fips,county_matches_tracker,location_reliable,in_city_limits,city,in_urban_area,county_population_2024,county_density_per_sqmi,nearest_metro,km_to_nearest_metro,capacity_mw,log_capacity_mw,is_crypto,county_tracked_projects,geocode_error,water_stress_score,water_stress_label,water_stress_raw
+a6c6c249-830c-422a-87e4-64c96b0c144b,48113,no,no,yes,Dallas city,yes,2656028,3041.9,Dallas,4.6,490.0,2.69,no,3,,1.85,Low - Medium (10-20%),0.1802
+86726a25-0275-468d-9afc-b10c9bf29bc6,48027,yes,yes,yes,Killeen city,yes,399578,379.2,Austin,88.8,,,no,6,,2.29,Medium - High (20-40%),0.2454
+ee35ac96-05c3-43ef-9618-5e536b3297de,48041,yes,yes,yes,College Station city,yes,249624,425.9,Houston,134.2,600.0,2.778,no,2,,0.0,Low (<10%),0.0242
+9bd1f4db-9d0c-47b4-964b-bb8c297578ca,48061,yes,yes,yes,Harlingen city,yes,431874,484.3,San Antonio,368.0,2000.0,3.301,no,6,,5.0,Extremely High (>80%),4.5799
+6d1f9665-be11-4d17-99f3-35ddf2cc3240,48061,yes,yes,yes,Brownsville city,yes,431874,484.3,San Antonio,403.9,,,no,6,,3.88,High (40-80%),0.7361
+4f2eaf6e-61e0-4721-8ac1-8f12718c64c8,48085,no,yes,yes,Prosper town,yes,1254658,1491.2,Dallas,51.5,,,no,9,,3.29,High (40-80%),0.4899
+1c23acb7-4ec3-459b-aa99-1bd3104a4fb9,48209,yes,yes,yes,San Marcos city,yes,292029,431.5,Austin,44.9,,,no,3,,3.99,High (40-80%),0.7943
+53035780-aaef-4edb-b279-eb8e2b5cc470,48213,yes,yes,yes,Athens city,yes,87467,100.1,Dallas,109.6,10.0,1.0,no,2,,2.88,Medium - High (20-40%),0.3672
+6251ccd6-f245-4bf4-bdf1-118825fa3123,48213,yes,yes,yes,Athens city,yes,87467,100.1,Dallas,108.8,,,no,2,,2.88,Medium - High (20-40%),0.3672
+705b551b-d88a-4d37-93ed-5c219890df85,48425,no,yes,yes,Glen Rose city,no,10098,54.2,Fort Worth,70.9,,,no,6,,1.05,Low - Medium (10-20%),0.1038
+e58ee4c7-54c2-406f-acd7-1dedcf281958,48221,yes,yes,yes,Granbury city,yes,69126,164.3,Fort Worth,55.6,,,no,6,,1.05,Low - Medium (10-20%),0.1038
+70eb46a0-986e-41da-bbbe-4b87f7051d00,48221,yes,yes,no,,no,69126,164.3,Fort Worth,62.6,,,no,6,,1.05,Low - Medium (10-20%),0.1038
+36a8e10f-045d-47b7-8e64-0319d509ce45,48223,yes,yes,yes,Sulphur Springs city,yes,38784,50.5,Dallas,118.7,800.0,2.903,no,1,,1.7,Low - Medium (10-20%),0.163
+3a20a035-d33f-4960-9b23-6e1ada7e0123,48303,yes,yes,yes,Lubbock city,yes,327394,365.6,Fort Worth,433.4,,,no,1,,5.0,Extremely High (>80%),6.711
+588a88ca-f437-40a3-a181-8f0676a8e473,48423,yes,yes,yes,Tyler city,yes,249091,270.3,Dallas,146.9,,,no,1,,1.52,Low - Medium (10-20%),0.1433
+69b00fbc-e59b-4d17-b602-ee114b8d664a,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.6,,,no,19,,4.21,Extremely High (>80%),0.926
+8b2810cd-ac07-4d63-86b1-abbc66b90cf1,48441,yes,yes,yes,Abilene city,yes,148813,162.5,Fort Worth,227.6,900.0,2.954,no,3,,3.09,High (40-80%),0.4268
+e5dfc289-8a17-485b-9f5e-0a08f21975e2,48475,yes,yes,yes,Barstow city,no,11038,13.2,El Paso,295.0,500.0,2.699,no,3,,5.0,Extremely High (>80%),9999.0
+113665c7-a75f-49e3-ae78-e7ddd2123d9f,48485,yes,yes,yes,Wichita Falls city,yes,129984,207.1,Fort Worth,167.3,,,no,3,,2.58,Medium - High (20-40%),0.2996
+52b6a680-5444-40fb-96de-886471697c9f,48491,yes,yes,yes,Hutto city,yes,727480,652.0,Austin,35.7,70.0,1.845,no,16,,2.29,Medium - High (20-40%),0.2454
+de5aa2f5-e2c2-4fc5-9344-917a7025d1fb,48507,yes,yes,yes,Crystal City city,yes,9209,7.1,San Antonio,154.0,10.0,1.0,yes,1,,5.0,Arid and Low Water Use,1.0
+5698ffa8-ab9a-4b71-8bc9-fee76c69e6b0,48003,yes,yes,no,,no,18923,12.6,El Paso,370.6,40.0,1.602,yes,3,,5.0,Extremely High (>80%),9999.0
+c842d9c5-db30-49f4-91e2-9b6f33395083,48003,yes,yes,no,,no,18923,12.6,El Paso,370.6,40.0,1.602,yes,3,,5.0,Extremely High (>80%),9999.0
+ce5d4422-2da7-4a7b-a5bb-2af4a3d54427,48003,yes,yes,yes,Andrews city,yes,18923,12.6,El Paso,376.0,100.0,2.0,no,3,,5.0,Extremely High (>80%),9999.0
+ff3a2034-9ac3-4033-be8c-ca27a7ebc4ee,48005,yes,yes,yes,Lufkin city,yes,88094,110.4,Houston,186.1,,,no,2,,1.52,Low - Medium (10-20%),0.1433
+5e01a26e-6ff8-4cb4-947d-0d9043e83040,48011,yes,yes,yes,Claude city,no,1809,2.0,Fort Worth,454.6,1030.0,3.013,no,1,,5.0,Extremely High (>80%),3.7964
+ac4e17d5-6b88-4782-bd83-656eac8e1524,48021,yes,yes,no,,no,114931,129.4,Austin,28.5,,,no,3,,2.78,Medium - High (20-40%),0.3431
+db7686d6-b5db-4751-88a2-6483df2e0633,48021,yes,yes,no,,no,114931,129.4,Austin,32.0,96.0,1.982,no,3,,2.78,Medium - High (20-40%),0.3431
+00eca0f6-9f94-4420-8256-3484baf80ebe,48027,yes,yes,yes,Belton city,yes,399578,379.2,Austin,91.5,300.0,2.477,no,6,,2.29,Medium - High (20-40%),0.2454
+142fe883-a867-48b6-b6ce-c9164c21b3bc,48027,yes,yes,no,,no,399578,379.2,Austin,103.1,,,no,6,,2.29,Medium - High (20-40%),0.2454
+d65bde90-6f65-48f9-8cb5-6920841ecafb,48027,yes,yes,yes,Temple city,yes,399578,379.2,Austin,100.1,250.0,2.398,no,6,,2.29,Medium - High (20-40%),0.2454
+7c118592-8fb0-4dbd-869d-670cc0bcf2cf,48027,yes,yes,yes,Temple city,yes,399578,379.2,Austin,100.3,35.0,1.544,no,6,,2.29,Medium - High (20-40%),0.2454
+676d12c0-e0f6-4ba6-ae29-4cbf7755f696,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,6.6,,,no,27,,3.99,High (40-80%),0.7943
+7533f94e-9648-44c1-ae49-9b5d063d5048,48029,yes,yes,no,,no,2127737,1715.4,San Antonio,26.0,,,no,27,,3.99,High (40-80%),0.7943
+e374393e-03d1-4fec-a227-47e9014d6095,48029,yes,yes,yes,San Antonio city,no,2127737,1715.4,San Antonio,17.6,,,no,27,,3.99,High (40-80%),0.7943
+d69e5636-9803-4db1-bb00-42938dc487f4,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,10.6,10.0,1.0,no,27,,3.99,High (40-80%),0.7943
+f725b603-e616-4e3d-b0c2-2c266d69d971,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,6.7,40.0,1.602,no,27,,3.99,High (40-80%),0.7943
+52ce708c-ec37-4c74-b219-56b9b3b37a6c,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,6.7,36.0,1.556,no,27,,3.99,High (40-80%),0.7943
+9fe6562a-ff79-4acf-a835-59ca37b03b5c,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,17.9,,,no,27,,3.99,High (40-80%),0.7943
+2ec5b2bf-819c-4edc-a660-f0c1f6d06122,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,36.0,1.556,no,27,,3.99,High (40-80%),0.7943
+5bebd4b1-b934-4e24-8dbe-36e155dbf52f,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,1.1,,,no,27,,3.99,High (40-80%),0.7943
+81b293fb-a315-4af2-9984-b767c09be3ae,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,,,no,27,,3.99,High (40-80%),0.7943
+6cad705e-f6b3-492d-a21b-c226051d1146,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,13.8,,,no,27,,3.99,High (40-80%),0.7943
+650351aa-ece6-44cb-a92b-41436a1f45a9,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,7.7,,,no,27,,3.99,High (40-80%),0.7943
+5e348811-0bfa-48ec-8c1a-c0e76c892606,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,,,no,27,,3.99,High (40-80%),0.7943
+24a32659-3068-4031-b4cb-95e7010450d4,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.5,450.0,2.653,no,27,,3.99,High (40-80%),0.7943
+1d0ec21a-11e8-4c41-bde6-bd3cdae7e673,48029,yes,yes,no,,yes,2127737,1715.4,San Antonio,30.0,,,no,27,,3.99,High (40-80%),0.7943
+a72e6b16-422f-480d-883a-a15c8fbbc9e3,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,19.9,,,no,27,,3.99,High (40-80%),0.7943
+e6da7c01-4f78-48b5-9ad4-981972e50f70,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,14.6,,,no,27,,3.99,High (40-80%),0.7943
+e76e924d-b49a-42b6-bb81-9513e303da42,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,15.0,200.0,2.301,no,27,,3.99,High (40-80%),0.7943
+71335a67-a0fa-4881-9666-dec8ec6f0629,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,12.1,,,no,27,,3.99,High (40-80%),0.7943
+7556dfd6-5421-47eb-9c3f-995198b9a661,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,21.2,,,no,27,,3.99,High (40-80%),0.7943
+26301f26-1ad0-465b-a385-4658de4ee0b9,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,96.0,1.982,no,27,,3.99,High (40-80%),0.7943
+f81341a3-0844-459d-8a32-9051eef10eb7,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,,,no,27,,3.99,High (40-80%),0.7943
+48a484dc-4645-4888-8d48-c62f4f4240b8,48029,yes,yes,no,,yes,2127737,1715.4,San Antonio,28.5,32.0,1.505,no,27,,3.99,High (40-80%),0.7943
+9a147098-3723-4129-8ba2-3b7efd3683a0,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,21.0,,,no,27,,3.99,High (40-80%),0.7943
+b3e13681-0733-45ff-8f14-42c407cd5f82,48217,no,yes,yes,Whitney town,no,38771,40.4,Fort Worth,89.5,,,no,1,,1.05,Low - Medium (10-20%),0.1038
+96a605bb-ae39-4980-985d-278d03b9cdb6,48037,yes,yes,yes,Texarkana city,yes,91992,104.0,Dallas,265.7,,,no,3,,1.7,Low - Medium (10-20%),0.163
+7dc182d1-8a44-4dc1-b0f0-3cacda1f3562,48039,yes,yes,yes,Angleton city,yes,413224,303.1,Houston,65.9,300.0,2.477,no,2,,2.52,Medium - High (20-40%),0.2873
+ec294fc4-d30f-4632-9341-82cf249bc0eb,48041,yes,yes,yes,Bryan city,yes,249624,425.9,Austin,139.0,,,no,2,,0.0,Low (<10%),0.0242
+bf5a9f25-0948-484b-b31a-b53d7c449d71,48381,no,no,yes,Amarillo city,yes,150547,164.9,Fort Worth,498.4,100.0,2.0,no,3,,5.0,Extremely High (>80%),3.7964
+3a056bda-ebde-4864-99f2-659aa7626cd8,48045,yes,yes,yes,Silverton city,no,1494,1.7,Fort Worth,414.0,20.0,1.301,no,3,,5.0,Extremely High (>80%),2.4041
+7f329e2d-8c48-456c-aa7a-c50479becafd,48055,yes,yes,yes,Martindale city,no,52430,96.3,Austin,48.0,,,no,4,,3.99,High (40-80%),0.7943
+99cda4ef-3b12-4b18-b1cf-870fbb44553c,48055,yes,yes,yes,Lockhart city,yes,52430,96.3,Austin,43.6,,,no,4,,3.99,High (40-80%),0.7943
+86089d2e-927c-40eb-afa0-e6ef5571fd8d,48061,yes,yes,yes,Harlingen city,yes,431874,484.3,San Antonio,368.0,1500.0,3.176,no,6,,5.0,Extremely High (>80%),4.5799
+9836d251-7f23-4ec9-a702-e4da0532f636,48061,yes,yes,no,,no,431874,484.3,San Antonio,403.1,1000.0,3.0,no,6,,5.0,Extremely High (>80%),4.5799
+9b3ab8f8-b605-49c0-856c-0f59e3eb3c9e,48065,yes,yes,no,,no,5822,6.3,Fort Worth,485.8,,,no,2,,4.75,Extremely High (>80%),1.3458
+ff540993-11fa-4c9d-b959-6baa0acebc02,48075,yes,yes,yes,Childress city,no,6679,9.6,Fort Worth,324.5,750.0,2.875,yes,2,,5.0,Extremely High (>80%),3.7964
+529c7c39-be3e-4ec0-98e0-4af7db43e708,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.5,,,no,23,,3.21,High (40-80%),0.4627
+65e93b39-4442-48c0-aca0-955be80b6653,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,27.4,,,no,23,,3.21,High (40-80%),0.4627
+8a21340b-ed36-4403-8785-4af9ee42115f,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.2,60.0,1.778,no,23,,3.21,High (40-80%),0.4627
+095c431d-4852-4e92-bec2-d348d9efa03a,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,33.7,80.0,1.903,no,23,,1.85,Low - Medium (10-20%),0.1802
+36836d17-40d0-41de-9f8d-943a8b1a4b25,48085,yes,yes,yes,McKinney city,yes,1254658,1491.2,Dallas,49.6,,,no,23,,3.21,High (40-80%),0.4627
+9bf99d46-c5c4-457a-ae85-0dfe07126bf4,48085,yes,yes,yes,Allen city,yes,1254658,1491.2,Dallas,38.1,,,no,23,,3.21,High (40-80%),0.4627
+4a04f769-f41e-49b1-8541-ff73ee60123e,48113,no,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,0.9,13.0,1.114,no,23,,1.85,Low - Medium (10-20%),0.1802
+533bd095-5c23-4e53-b8cf-e0de981ce3a8,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,34.0,13.0,1.114,no,23,,3.21,High (40-80%),0.4627
+bab99f98-a24e-41e4-91fc-c0652db90e97,48085,yes,yes,yes,Allen city,yes,1254658,1491.2,Dallas,37.8,,,no,23,,3.21,High (40-80%),0.4627
+026b3933-da60-481c-a347-ce177dce215c,48085,yes,yes,yes,Allen city,yes,1254658,1491.2,Dallas,38.1,,,no,23,,3.21,High (40-80%),0.4627
+89db5065-868f-4df1-8f1e-325405862366,48113,no,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,12.9,12.0,1.079,no,23,,3.29,High (40-80%),0.4899
+8458c0ad-3f4e-4b9b-ad11-55adbacc23bd,48113,no,yes,yes,Richardson city,yes,2656028,3041.9,Dallas,20.0,,,no,23,,1.85,Low - Medium (10-20%),0.1802
+d15b450d-18a0-4457-9850-c43b9ccb5366,48439,no,no,yes,Arlington city,yes,2230708,2577.8,Fort Worth,22.3,11.0,1.041,no,23,,4.21,Extremely High (>80%),0.926
+be83eb16-e74e-4182-99c6-dc1e3e51961b,48113,no,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,14.6,,,no,23,,1.85,Low - Medium (10-20%),0.1802
+e70a392f-c900-4a1c-b023-457e65ef3753,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.5,12.0,1.079,no,23,,3.21,High (40-80%),0.4627
+559e5363-27bf-4a91-b3e1-fa90332112a3,48085,yes,yes,yes,Allen city,yes,1254658,1491.2,Dallas,36.9,12.0,1.079,no,23,,3.21,High (40-80%),0.4627
+cf6f3bc6-1e65-48b4-8906-cfeceddf2e95,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.5,,,no,23,,3.21,High (40-80%),0.4627
+1ed3ba82-0899-433f-9fd5-5f710b70bf52,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.5,,,no,23,,3.21,High (40-80%),0.4627
+22c0f586-065e-4c15-be92-212ac9bb945b,48085,yes,yes,yes,Princeton city,yes,1254658,1491.2,Dallas,52.7,,,no,23,,3.21,High (40-80%),0.4627
+d371207f-fcb7-425c-9ddd-25d106f15f88,48113,no,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,11.7,,,no,23,,1.85,Low - Medium (10-20%),0.1802
+37751388-382b-436a-9110-bafaaa1237e4,48085,yes,yes,yes,Richardson city,yes,1254658,1491.2,Dallas,27.8,10.0,1.0,no,23,,3.21,High (40-80%),0.4627
+2f2f08c6-a068-4384-9090-2d2f45c69f5c,48085,yes,yes,yes,Plano city,yes,1254658,1491.2,Dallas,31.8,10.75,1.031,no,23,,1.85,Low - Medium (10-20%),0.1802
+0247e01e-6ac3-47af-9e72-0f793c0f87b0,48109,yes,yes,no,,no,2254,0.6,El Paso,174.7,63.0,1.799,no,1,,5.0,Arid and Low Water Use,1.0
+5f9bdc28-bd4a-4df9-bf07-c7e6c093c592,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,1.5,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+191a0664-80da-4174-b06d-8cf1e1f048d1,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,19.8,,,no,53,,3.29,High (40-80%),0.4899
+ec3e619e-91fc-4219-ba09-39aef48f8582,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,22.7,,,no,53,,3.29,High (40-80%),0.4899
+268a47af-34e8-4c9f-a1da-7aece420746e,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,12.3,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+8c4f7c96-2bfc-4ec3-9610-a4185899bac6,48085,no,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.5,,,no,53,,3.21,High (40-80%),0.4627
+a28bf48a-f172-4698-9d9d-e835aa88fce3,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,16.4,10.0,1.0,no,53,,3.29,High (40-80%),0.4899
+0986a12a-f24e-4b7c-89f3-2862032c539d,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,13.8,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+431fccb0-bf62-4a94-a34a-a2a0f886cf88,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,6.4,11.0,1.041,no,53,,1.85,Low - Medium (10-20%),0.1802
+92e075a5-105d-47cf-8b08-5834ed818c81,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,0.0,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+00d47f00-c2e6-4322-8d36-adb283117c6f,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,1.1,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+e61f6705-fc2e-4333-a602-433b11effa5c,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,5.4,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+d31765d7-246b-4d4d-b5d4-b57ffe5c9ef1,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,20.8,,,no,53,,3.21,High (40-80%),0.4627
+76911021-cd03-4f29-a3cd-67e4bbfd1f8c,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,14.6,24.0,1.38,no,53,,4.21,Extremely High (>80%),0.926
+8c147043-125d-4069-a5c7-7177f7ace3c8,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,14.1,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+69087985-218b-417c-bf52-250b55706aff,48113,yes,yes,no,,yes,2656028,3041.9,Dallas,17.5,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+87556dcf-c47f-4145-b75e-982298c39ff2,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,19.0,,,no,53,,3.29,High (40-80%),0.4899
+2f13dc41-6606-4f00-b851-7649fb7e2ccd,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,15.7,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+e506a2d6-6ce3-4904-b735-1b2ee344d9fd,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,20.1,,,no,53,,3.29,High (40-80%),0.4899
+be56de84-87f7-422e-8537-29d73cce232c,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,14.5,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+9b61fd5e-4fb2-4454-b13e-ae765eab011c,48085,no,yes,yes,Plano city,yes,1254658,1491.2,Dallas,28.4,,,no,53,,3.21,High (40-80%),0.4627
+d1b66a02-747c-4567-91a2-af58214d4fce,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,21.2,,,no,53,,3.21,High (40-80%),0.4627
+29763bf0-7fdf-4726-9ea0-69d2e579caf8,48113,yes,yes,yes,Lancaster city,yes,2656028,3041.9,Dallas,21.1,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+11c3cb12-0953-474b-970e-c64bcbe77634,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,1.5,12.0,1.079,no,53,,1.85,Low - Medium (10-20%),0.1802
+65cb299e-45aa-468f-9940-88fbaeaf9ffd,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,7.5,12.0,1.079,no,53,,1.85,Low - Medium (10-20%),0.1802
+a3900704-0a63-4c80-a8c6-b0e464bc083f,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,19.8,,,no,53,,3.29,High (40-80%),0.4899
+6711de76-a78c-44f5-beae-dc4f4a5275a9,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,9.5,,,no,53,,3.29,High (40-80%),0.4899
+15f58baf-2616-48dc-92ce-b608abe89930,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,15.6,36.0,1.556,no,53,,3.29,High (40-80%),0.4899
+71bc7490-b57d-4e48-8be0-45ea7f728685,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,26.2,16.0,1.204,no,53,,3.21,High (40-80%),0.4627
+1635d259-3bf1-4587-a74e-8f23a4406e99,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,21.5,,,no,53,,3.21,High (40-80%),0.4627
+361bd550-8385-4039-abd2-e5d0197c86b4,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,12.6,40.0,1.602,no,53,,1.85,Low - Medium (10-20%),0.1802
+2200ecb0-30b8-49c7-850b-b08227da2e67,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,17.2,200.0,2.301,no,53,,3.29,High (40-80%),0.4899
+d82b6058-b54b-4afe-a025-2340fc8a4aea,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,21.5,,,no,53,,3.21,High (40-80%),0.4627
+322f0781-cebb-45b6-a91f-8b52ff833280,48113,yes,yes,yes,Wilmer city,yes,2656028,3041.9,Dallas,23.1,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+7f92346c-f3e4-4edb-acce-80f9a8b6eb0e,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,22.7,,,no,53,,3.29,High (40-80%),0.4899
+1274dc2e-d951-4ecb-b805-0bacff4c4bd4,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,14.8,130.0,2.114,no,53,,4.21,Extremely High (>80%),0.926
+0af8a36c-75c4-4de1-ba5c-2501d3c8dcca,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,21.9,175.0,2.243,no,53,,3.29,High (40-80%),0.4899
+d4f1f49b-3038-4ddc-a5d6-f0c3871a241e,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,16.2,75.0,1.875,no,53,,3.29,High (40-80%),0.4899
+058c0622-eaea-4a13-9ec3-912d57f3f6fa,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,18.3,75.0,1.875,no,53,,3.29,High (40-80%),0.4899
+ac85253e-5685-4c00-a295-39ca6608dbfb,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,7.2,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+a1470ff7-090b-4a0d-b141-05558ea26125,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,16.1,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+4fb5afc2-85a6-420f-a912-c6db56c8f030,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,0.8,13.5,1.13,no,53,,1.85,Low - Medium (10-20%),0.1802
+1dc53e38-b948-416b-a616-f0ea0a8ec975,48113,yes,yes,yes,Addison town,yes,2656028,3041.9,Dallas,19.5,43.0,1.633,no,53,,3.29,High (40-80%),0.4899
+c3286159-2f33-4269-9be2-d3b20abe9fd0,48113,yes,yes,yes,Richardson city,yes,2656028,3041.9,Dallas,20.0,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+30fc95fb-462d-4be2-b228-b0572cf37c08,48113,yes,yes,yes,Richardson city,yes,2656028,3041.9,Dallas,20.2,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+a43811bc-74a0-40d4-b2f4-7e7f5a17b920,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,13.7,48.0,1.681,no,53,,1.85,Low - Medium (10-20%),0.1802
+207881e7-5706-4df2-9d52-c767f260db51,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,2.6,,,no,53,,1.85,Low - Medium (10-20%),0.1802
+4144a447-ecbe-4bbd-a168-ea221b6ea529,48117,yes,yes,yes,Hereford city,yes,18495,12.4,El Paso,509.6,,,no,1,,5.0,Extremely High (>80%),3.7964
+0d6ec85d-09bb-431d-8885-d97d16060c68,48121,yes,yes,yes,Flower Mound town,yes,1045120,1189.3,Dallas,36.7,,,no,9,,3.29,High (40-80%),0.4899
+fff065c3-5e8e-4718-a25a-ae9a7b9e096b,48121,yes,yes,yes,Corinth city,yes,1045120,1189.3,Dallas,47.7,394.0,2.595,no,9,,3.29,High (40-80%),0.4899
+dcf08288-4544-4ed5-9213-6b9849c1291c,48113,no,yes,yes,Carrollton city,yes,2656028,3041.9,Dallas,21.5,90.0,1.954,no,9,,3.29,High (40-80%),0.4899
+b98d1f70-d80a-4ced-816c-87023f94928e,48113,no,yes,yes,Carrollton city,yes,2656028,3041.9,Dallas,24.5,,,no,9,,3.29,High (40-80%),0.4899
+342d1812-f365-413b-a3fe-e52212955255,48121,yes,yes,yes,Lewisville city,yes,1045120,1189.3,Dallas,35.1,,,no,9,,3.29,High (40-80%),0.4899
+89a9d099-cd94-4932-9ae7-6854e7ac394d,48121,yes,yes,yes,Lewisville city,yes,1045120,1189.3,Dallas,35.1,47.0,1.672,no,9,,3.29,High (40-80%),0.4899
+0e23476a-b41d-4426-bb1a-695b86f2b613,48125,yes,yes,no,,no,1725,1.9,Fort Worth,348.0,800.0,2.903,no,1,,5.0,Extremely High (>80%),2.4041
+7a1705d7-2722-43a5-a594-b1c5112940a2,48135,yes,yes,yes,Odessa city,yes,170022,189.4,El Paso,391.0,207.0,2.316,yes,4,,5.0,Extremely High (>80%),9999.0
+cf55e1ab-1fce-4791-8414-d68e915ef186,48329,no,yes,yes,Midland city,yes,183587,203.9,El Paso,416.9,250.0,2.398,no,4,,5.0,Extremely High (>80%),9999.0
+12fb4a86-babe-496b-b9f9-e06b6685eb1c,48135,yes,yes,yes,Odessa city,yes,170022,189.4,El Paso,389.0,19.9,1.299,yes,4,,5.0,Extremely High (>80%),9999.0
+1dd16d9f-c22a-4f43-b23a-8eaa8c3151a1,48135,yes,yes,yes,Odessa city,yes,170022,189.4,El Paso,391.1,250.0,2.398,no,4,,5.0,Extremely High (>80%),9999.0
+44852f88-9ac1-4cb3-96b3-6d9142dc8825,48141,yes,yes,yes,El Paso city,yes,875784,864.1,El Paso,11.3,1000.0,3.0,no,2,,4.66,Extremely High (>80%),1.2673
+77f59ef2-d73e-4d11-bd54-c0b692cea59e,48113,no,no,yes,Irving city,yes,2656028,3041.9,Dallas,16.9,,,no,9,,3.29,High (40-80%),0.4899
+5c2e0306-33d8-4557-95f4-cae3d3d07de3,48439,no,no,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,8.8,,,no,9,,4.21,Extremely High (>80%),0.926
+88d11fae-6d27-4fdd-9005-12513e39ce8b,48139,yes,yes,yes,Red Oak city,yes,232387,248.3,Dallas,28.6,,,no,9,,0.0,Low (<10%),0.0401
+bc6d3865-6371-405c-b942-8d10ef8f7d21,48139,yes,yes,yes,Red Oak city,yes,232387,248.3,Dallas,28.8,480.0,2.681,no,9,,0.0,Low (<10%),0.0401
+0678a219-d5e0-487c-87e2-539d002b54a8,48139,yes,yes,yes,Waxahachie city,yes,232387,248.3,Dallas,43.7,500.0,2.699,no,9,,0.79,Low (<10%),0.0867
+2919fc4a-a419-4f44-9019-1e9137fafd73,48139,yes,yes,yes,Midlothian city,no,232387,248.3,Fort Worth,42.9,,,no,9,,4.21,Extremely High (>80%),0.926
+1cbfea29-bd73-41eb-9d6d-3e652c5d2b84,48139,yes,yes,yes,Midlothian city,yes,232387,248.3,Dallas,37.6,,,no,9,,0.79,Low (<10%),0.0867
+253e12ba-feed-4b59-b6a5-5841a04bea87,48157,no,no,yes,Sugar Land city,yes,958434,1112.1,Houston,31.6,,,no,9,,0.12,Low (<10%),0.0545
+765b7397-aaf5-4e79-88cd-cc84d558fdb3,48113,no,yes,yes,Irving city,yes,2656028,3041.9,Dallas,17.0,540.0,2.732,no,9,,3.29,High (40-80%),0.4899
+c6605f0d-d55b-48d3-87c2-3cd1feba8a5e,48161,yes,yes,no,,no,20645,23.5,Dallas,131.9,760.0,2.881,no,1,,0.27,Low (<10%),0.0604
+f63c04b7-0877-40ac-b559-f1ca31af24a3,48167,yes,yes,yes,La Marque city,yes,367407,968.4,Houston,58.4,30.0,1.477,no,1,,2.52,Medium - High (20-40%),0.2873
+07fb9eb1-9cd8-453b-bde2-89b64563f58e,48173,yes,yes,no,,no,1153,1.3,San Antonio,394.8,200.0,2.301,no,2,,3.0,High (40-80%),0.4011
+456df088-1541-42c6-b144-93b6bc50b27b,48179,yes,yes,yes,Pampa city,yes,20888,22.6,Fort Worth,455.4,,,no,1,,1.05,Low - Medium (10-20%),0.1034
+14e371fc-b5d5-42b7-8047-6659c888a65c,48187,yes,yes,yes,Seguin city,yes,195166,274.4,San Antonio,53.7,1200.0,3.079,no,3,,3.99,High (40-80%),0.7943
+68d99309-ec9b-43a7-b40c-2876df0e1fdf,48315,no,no,no,,no,9704,25.5,Dallas,229.7,50.0,1.699,no,3,,0.0,Low (<10%),0.0415
+2844c1ae-6ed3-48da-b67e-40808658cf57,48189,yes,yes,yes,Abernathy city,no,31953,31.8,Fort Worth,435.8,540.0,2.732,no,2,,5.0,Extremely High (>80%),6.711
+97fc1994-259e-406e-9721-e5bb865ea778,48195,yes,yes,yes,Spearman city,no,5006,5.4,Fort Worth,520.5,114.0,2.057,no,1,,2.11,Medium - High (20-40%),0.2155
+55df3427-3917-4dcb-8a4d-bcee194a8372,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,0.0,,,no,16,,2.52,Medium - High (20-40%),0.2873
+47ef77d3-b189-4ff7-9cbf-33ad4da88307,48201,yes,yes,yes,Houston city,no,5009302,2934.1,Houston,27.8,,,no,16,,2.52,Medium - High (20-40%),0.2873
+28a89a2e-03e1-4b50-acf9-850d98a9f316,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,22.3,32.0,1.505,no,16,,2.52,Medium - High (20-40%),0.2873
+bbfa9627-90fa-4c41-bc7f-ccca9cf280b8,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,27.1,,,no,16,,2.52,Medium - High (20-40%),0.2873
+b9d489f2-fd6f-4590-8ef4-40b15020bfa8,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,0.0,26.0,1.415,no,16,,2.52,Medium - High (20-40%),0.2873
+ef2c504c-3fe2-489e-b60e-eebdc12d7dca,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,0.0,,,no,16,,2.52,Medium - High (20-40%),0.2873
+977fa7a4-5a6e-4c6c-b961-70e6487d8d18,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,0.2,,,no,16,,2.52,Medium - High (20-40%),0.2873
+f37c472c-d6de-455c-b012-4e672b633504,48201,yes,yes,no,,yes,5009302,2934.1,Houston,35.8,,,no,16,,2.52,Medium - High (20-40%),0.2873
+4d11164f-d675-4084-afe2-a69fad28165b,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,25.8,410.0,2.613,no,16,,2.52,Medium - High (20-40%),0.2873
+4986f7b1-3748-4fce-aa34-dc15908a60d4,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,6.4,15.0,1.176,no,16,,2.52,Medium - High (20-40%),0.2873
+1c47758c-a653-47b8-94da-1945ab383800,48201,yes,yes,yes,Baytown city,yes,5009302,2934.1,Houston,37.9,60.0,1.778,no,16,,2.52,Medium - High (20-40%),0.2873
+27b2e17f-1063-4b5b-8c1e-f446c60f2c83,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,21.2,60.0,1.778,no,16,,2.52,Medium - High (20-40%),0.2873
+f8183709-5048-48af-9940-d646dbca4720,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,35.0,24.0,1.38,no,16,,2.52,Medium - High (20-40%),0.2873
+ca53023e-7410-4ecf-a22a-1ff862d00e0f,48253,no,yes,no,,no,20850,22.5,Fort Worth,215.0,,,no,1,,3.09,High (40-80%),0.4268
+c387151f-37d4-4196-b39e-8628bb5a7743,48209,yes,yes,no,,no,292029,431.5,Austin,60.9,1200.0,3.079,no,3,,3.99,High (40-80%),0.7943
+e8781b6f-5aeb-401b-bc0a-f6d34938c6f2,48217,yes,yes,yes,Hubbard city,no,38771,40.4,Dallas,103.1,,,no,3,,0.79,Low (<10%),0.0867
+866c133c-6de4-4218-9ad9-f9e712ffd4c1,48221,yes,yes,no,,no,69126,164.3,Fort Worth,59.4,300.0,2.477,no,6,,1.05,Low - Medium (10-20%),0.1038
+d70a6ed1-c21d-4223-8da6-434a79cd3cc6,48221,yes,yes,yes,Granbury city,yes,69126,164.3,Fort Worth,55.5,300.0,2.477,yes,6,,1.05,Low - Medium (10-20%),0.1038
+bbae55e3-2165-4218-9850-07ae7ccfed29,48135,no,no,yes,Odessa city,yes,170022,189.4,El Paso,386.1,350.0,2.544,no,1,,5.0,Extremely High (>80%),9999.0
+c9aeb27b-e332-430a-8f6b-26a85320b313,48253,yes,yes,no,,no,20850,22.5,Fort Worth,214.5,,,no,1,,3.09,High (40-80%),0.4268
+678bec5c-a850-4a69-baf6-d49bd9e90f91,48283,yes,yes,yes,Cotulla city,no,6679,4.5,San Antonio,131.3,70.0,1.845,no,1,,1.53,Low - Medium (10-20%),0.1443
+4686a499-408c-4df1-a08d-d0a988566fbf,48321,yes,yes,yes,Bay City city,yes,36391,33.3,Houston,104.4,10.0,1.0,no,2,,2.78,Medium - High (20-40%),0.3431
+9fc3e0fd-5479-422b-a23f-92f97a62f79c,48325,yes,yes,no,,no,55619,42.0,San Antonio,50.4,300.0,2.477,no,4,,4.32,Extremely High (>80%),0.997
+10551af5-0418-4ae5-8d5c-7240addb8b78,48325,yes,yes,yes,Castroville city,no,55619,42.0,San Antonio,38.2,,,no,4,,3.99,High (40-80%),0.7943
+c797913e-1770-4e86-a7d6-d28f87c9f025,48331,yes,yes,yes,Rockdale city,no,26159,25.7,Austin,82.2,700.0,2.845,no,2,,0.0,Low (<10%),0.0357
+c9b38274-1cf5-4a6a-b302-47ae8f4a5835,48145,no,yes,yes,Rosebud city,no,17752,23.2,Austin,115.3,1200.0,3.079,no,2,,1.05,Low - Medium (10-20%),0.1038
+ca3583e4-8a93-4e89-b3cb-cecb4e6bd563,48335,yes,yes,yes,Colorado City city,yes,8968,9.8,Fort Worth,333.2,300.0,2.477,no,1,,5.0,Extremely High (>80%),8.2993
+4967bb71-8db0-4873-894b-e794708b8f98,48339,yes,yes,no,,yes,749613,719.3,Houston,47.8,,,no,2,,2.52,Medium - High (20-40%),0.2873
+360de8f2-2849-450c-b959-9e8911c09e37,48349,yes,yes,yes,Corsicana city,yes,56533,56.0,Dallas,82.3,400.0,2.602,no,2,,0.79,Low (<10%),0.0867
+6ea0b85e-de0a-4301-9f78-43aefc0950e5,48151,no,yes,no,,no,3665,4.1,Fort Worth,301.3,1400.0,3.146,no,3,,3.09,High (40-80%),0.4268
+4c4f5123-bd82-48f5-82c4-c326035eae6b,48355,yes,yes,yes,Corpus Christi city,yes,353125,420.7,San Antonio,213.6,1000.0,3.0,no,2,,3.6,High (40-80%),0.6081
+c0cab618-988c-4b81-bb63-5112281f3438,48355,yes,yes,yes,Corpus Christi city,yes,353125,420.7,San Antonio,213.6,300.0,2.477,yes,2,,3.6,High (40-80%),0.6081
+895c34f0-273b-4f9d-912c-9675b20a0775,48371,yes,yes,no,,no,14712,3.1,El Paso,382.0,,,no,4,,5.0,Arid and Low Water Use,1.0
+5174c3ce-218e-4793-b98f-99790333261b,48371,yes,yes,yes,Fort Stockton city,yes,14712,3.1,El Paso,355.9,130.0,2.114,no,4,,5.0,Arid and Low Water Use,1.0
+285a30c6-183f-4c76-89e9-ae2ba6fca415,48371,yes,yes,yes,Fort Stockton city,yes,14712,3.1,El Paso,355.9,325.0,2.512,no,4,,5.0,Arid and Low Water Use,1.0
+500c4943-f4f2-4af0-9922-e8f4994c030d,48375,yes,yes,yes,Amarillo city,yes,114649,126.2,Fort Worth,497.1,,,no,1,,1.05,Low - Medium (10-20%),0.1034
+1c47aa25-7ccd-4d3d-a37d-88fb6624287c,48381,yes,yes,no,,no,150547,164.9,Fort Worth,473.8,40.0,1.602,yes,1,,5.0,Extremely High (>80%),3.7964
+7cadb95b-1551-4ae2-8d6d-dde2f479bb46,48389,yes,yes,yes,Town of Pecos city,yes,11956,4.5,El Paso,285.1,71.0,1.851,yes,4,,5.0,Extremely High (>80%),9999.0
+1d4124ef-e4d9-444a-b651-715d8b24b98f,48325,no,no,no,,no,55619,42.0,San Antonio,37.1,,,no,1,,3.99,High (40-80%),0.7943
+371a8470-ab61-467e-97f0-5ce1e0419f85,48417,yes,yes,no,,no,3169,3.5,Fort Worth,170.4,1400.0,3.146,no,2,,3.09,High (40-80%),0.4268
+d33151bd-a655-470f-87a9-535fd891c9b3,48439,yes,yes,yes,Fort Worth city,no,2230708,2577.8,Fort Worth,18.2,,,no,19,,4.21,Extremely High (>80%),0.926
+12f14a6a-cc2c-4a81-ba3a-72fd8ad60777,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Dallas,23.6,,,no,19,,4.21,Extremely High (>80%),0.926
+a3187960-4f53-42be-b0a4-3ae2d4cd7b09,48439,yes,yes,yes,Westlake town,yes,2230708,2577.8,Fort Worth,29.3,300.0,2.477,no,19,,3.29,High (40-80%),0.4899
+eef3de16-1419-4dac-869a-aa3130c7dbb0,48113,no,yes,yes,Irving city,yes,2656028,3041.9,Dallas,19.7,,,no,19,,3.29,High (40-80%),0.4899
+f595a9de-dcfa-4945-9c87-f154b085e1c4,48113,no,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,2.6,,,no,19,,1.85,Low - Medium (10-20%),0.1802
+0fa1040c-2dd7-4a23-8747-e48341e39230,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Dallas,23.6,,,no,19,,4.21,Extremely High (>80%),0.926
+b81aec6c-e84a-467e-b196-5375bc4c26fd,48439,yes,yes,yes,Grand Prairie city,yes,2230708,2577.8,Fort Worth,28.6,,,no,19,,4.21,Extremely High (>80%),0.926
+08ae7f91-e3d1-4bd3-9d7c-8cf612a48af3,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.6,70.0,1.845,no,19,,4.21,Extremely High (>80%),0.926
+225199d2-ec53-49ef-8eff-5730cd9823e4,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.1,,,no,19,,4.21,Extremely High (>80%),0.926
+947d0efa-e18d-437e-88ea-ddedc9325378,48439,yes,yes,yes,Arlington city,yes,2230708,2577.8,Fort Worth,21.0,48.0,1.681,no,19,,4.21,Extremely High (>80%),0.926
+abefa293-8c7f-4635-9bc7-cc7de0214c21,48121,no,yes,yes,Flower Mound town,yes,1045120,1189.3,Fort Worth,37.4,,,no,19,,3.29,High (40-80%),0.4899
+129dec3d-64d7-407f-9e42-d8915d786c11,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,16.5,,,no,19,,4.21,Extremely High (>80%),0.926
+8d40793e-3b05-4676-abb6-4a55d0b89279,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,1.1,18.0,1.255,no,19,,4.21,Extremely High (>80%),0.926
+794149ef-ff40-4be6-84db-28232d8580fa,48441,yes,yes,yes,Abilene city,yes,148813,162.5,Fort Worth,227.3,1200.0,3.079,no,3,,3.09,High (40-80%),0.4268
+bb61a363-c4a5-48b1-b52e-eb598a0157fc,48491,no,yes,yes,Round Rock city,yes,727480,652.0,Austin,31.9,16.0,1.204,no,10,,2.29,Medium - High (20-40%),0.2454
+a0953434-e168-4eeb-9cda-f4a9495b5722,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,17.3,50.0,1.699,no,10,,2.78,Medium - High (20-40%),0.3431
+fb66e06b-ce67-43e9-aeee-73fb0690d3cf,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,5.8,33.0,1.519,no,10,,2.78,Medium - High (20-40%),0.3431
+68c3bb6b-15f8-491f-8818-5ea122637414,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,7.6,,,no,10,,2.78,Medium - High (20-40%),0.3431
+4e8a3e95-81a6-4885-bb16-8d903d7c546b,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,10.1,,,no,10,,2.78,Medium - High (20-40%),0.3431
+8d680916-ec2e-458c-9cdc-e9baa84352b6,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,0.0,,,no,10,,2.78,Medium - High (20-40%),0.3431
+6e6cbe0d-5c21-43ef-8fc9-062009d042b8,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,9.3,,,no,10,,2.78,Medium - High (20-40%),0.3431
+727921ef-bc9c-477f-8466-309374b2d3cd,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,0.0,,,no,10,,2.78,Medium - High (20-40%),0.3431
+29eeb5b9-0500-449d-8627-0776057d8b6b,48453,yes,yes,yes,Pflugerville city,yes,1363767,1371.6,Austin,22.5,30.0,1.477,no,10,,2.78,Medium - High (20-40%),0.3431
+ad2658e0-ae0f-470e-8c9e-c2ab5d0d33fd,48453,yes,yes,yes,Austin city,yes,1363767,1371.6,Austin,0.9,,,no,10,,2.78,Medium - High (20-40%),0.3431
+2bec9e36-be0e-4332-a5e2-c61661dca31d,48461,yes,yes,yes,McCamey city,no,3128,2.5,San Antonio,404.9,280.0,2.447,no,1,,5.0,Arid and Low Water Use,1.0
+bf434225-3953-4cd7-83da-d740284ccad5,48475,yes,yes,no,,no,11038,13.2,El Paso,288.8,234.0,2.369,no,3,,5.0,Extremely High (>80%),9999.0
+9a197ce4-7780-4730-a004-6a688a1109b8,48475,yes,yes,yes,Pyote town,no,11038,13.2,El Paso,318.5,30.0,1.477,yes,3,,5.0,Arid and Low Water Use,1.0
+dd6ff1a7-bac7-41fd-b16a-37f4404a3692,48481,yes,yes,no,,no,42035,38.7,Houston,78.2,,,no,1,,1.35,Low - Medium (10-20%),0.1277
+b855a91f-893e-4c51-9c1b-fe14f20c87c9,48487,yes,yes,yes,Vernon city,yes,12455,12.8,Fort Worth,238.9,,,no,1,,5.0,Extremely High (>80%),2.4041
+26000bb6-941c-4069-a965-818c3b5e71d3,48489,yes,yes,yes,Lyford city,yes,20027,33.9,San Antonio,342.2,166.0,2.22,no,1,,5.0,Extremely High (>80%),4.5799
+12bcae2e-aa52-41ac-9734-24f74135ba59,48491,yes,yes,yes,Hutto city,yes,727480,652.0,Austin,36.0,,,no,16,,2.29,Medium - High (20-40%),0.2454
+5e40f2bc-36d8-4e0f-936e-92457b8c4f84,48491,yes,yes,yes,Round Rock city,yes,727480,652.0,Austin,27.8,72.0,1.857,no,16,,2.29,Medium - High (20-40%),0.2454
+62a0ee17-2c27-48e5-b533-f5171d74d30f,48491,yes,yes,yes,Round Rock city,yes,727480,652.0,Austin,27.6,,,no,16,,2.29,Medium - High (20-40%),0.2454
+4010ab4d-5d66-457a-8c86-77ecb52a9856,48491,yes,yes,yes,Taylor city,yes,727480,652.0,Austin,45.9,,,no,16,,2.29,Medium - High (20-40%),0.2454
+ac2803c5-2736-420a-97e3-f6060d053c65,48491,yes,yes,yes,Hutto city,yes,727480,652.0,Austin,36.0,600.0,2.778,no,16,,2.29,Medium - High (20-40%),0.2454
+4423366d-ff77-482f-996d-f6e6c14ec32e,48491,yes,yes,yes,Round Rock city,yes,727480,652.0,Austin,27.7,,,no,16,,2.29,Medium - High (20-40%),0.2454
+2a9d8524-f452-49fc-a1a7-f7d6278a5641,48491,yes,yes,yes,Round Rock city,yes,727480,652.0,Austin,27.5,,,no,16,,2.29,Medium - High (20-40%),0.2454
+ddee8daf-cf64-4d45-b7ff-dfa48aa18807,48491,yes,yes,yes,Georgetown city,yes,727480,652.0,Austin,41.2,600.0,2.778,no,16,,2.29,Medium - High (20-40%),0.2454
+60331f01-6da8-4e97-9798-45c7c7b7beb4,48493,yes,yes,yes,Stockdale city,no,55415,68.9,San Antonio,55.5,,,no,1,,3.99,High (40-80%),0.7943
+cb95cb96-b378-463d-af78-ec280f3bb175,48389,no,no,no,,no,11956,4.5,El Paso,297.5,300.0,2.477,yes,1,,5.0,Arid and Low Water Use,1.0
+bb3efad7-1b4a-42e2-b5ac-97c91c340bb9,48005,yes,yes,yes,Lufkin city,yes,88094,110.4,Houston,185.9,175.0,2.243,no,2,,1.52,Low - Medium (10-20%),0.1433
+53f5cff2-660f-4417-b89f-e6fe4cb8c5ee,48009,yes,yes,no,,no,9155,10.1,Fort Worth,164.6,,,no,1,,2.58,Medium - High (20-40%),0.2996
+9e7353a4-6a67-48ca-afdc-369b233d210b,48029,no,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.7,,,no,2,,3.99,High (40-80%),0.7943
+4c77ecab-ee09-4b5c-910a-e06c3d8b5977,48013,yes,yes,no,,no,52783,43.3,San Antonio,62.8,250.0,2.398,no,2,,4.32,Extremely High (>80%),0.997
+c543b916-b7fa-47cc-8cb7-0826bc598560,48015,yes,yes,no,,no,32546,50.3,Houston,85.2,285.0,2.455,no,1,,0.12,Low (<10%),0.0545
+7d1e20f1-dec9-4d5e-a6ea-f81cc031e1be,48027,yes,yes,yes,Temple city,yes,399578,379.2,Austin,100.3,,,no,6,,2.29,Medium - High (20-40%),0.2454
+baef8700-d0e6-4822-95d9-d0545c2fc9ee,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,,,no,27,,3.99,High (40-80%),0.7943
+6c841707-3500-4ccf-a3b0-a1814ccf9239,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,0.0,600.0,2.778,no,27,,3.99,High (40-80%),0.7943
+2d92d15d-1d29-4206-9d5c-02eb064f2cbe,48029,yes,yes,yes,San Antonio city,yes,2127737,1715.4,San Antonio,12.8,100.0,2.0,no,27,,3.99,High (40-80%),0.7943
+10f03b88-c06d-4457-9381-7bc6f68d2a8c,48037,yes,yes,yes,Hooks city,no,91992,104.0,Dallas,245.8,,,no,3,,0.0,Low (<10%),0.0236
+6e133d1d-f922-4252-b06a-7e783f110cd3,48037,yes,yes,yes,New Boston city,yes,91992,104.0,Dallas,234.6,,,no,3,,1.7,Low - Medium (10-20%),0.163
+904d2057-1dc9-4540-8010-16474f7fbfaa,48039,yes,yes,yes,Sweeny city,no,413224,303.1,Houston,86.2,620.0,2.792,no,2,,1.35,Low - Medium (10-20%),0.1277
+b694468b-6698-4109-9926-20d812757c57,48043,yes,yes,yes,Alpine city,yes,9508,1.5,El Paso,311.0,,,no,1,,5.0,Arid and Low Water Use,1.0
+87dffd0b-437f-41d9-a27c-aa89565757bd,48045,yes,yes,yes,Silverton city,no,1494,1.7,Fort Worth,414.0,300.0,2.477,no,3,,5.0,Extremely High (>80%),2.4041
+73c5f933-48bf-4525-bdf3-74c10bcc5cbe,48187,no,yes,no,,no,195166,274.4,Austin,51.6,,,no,4,,3.99,High (40-80%),0.7943
+91b3fd4b-de46-4dbd-b596-21b7610edbb9,48209,no,yes,yes,Uhland city,no,292029,431.5,Austin,34.4,360.0,2.556,no,4,,3.99,High (40-80%),0.7943
+053e4e72-53d2-4f92-bf9f-f1b000309d58,48469,no,yes,yes,Victoria city,yes,91949,104.2,San Antonio,162.6,1500.0,3.176,no,1,,3.99,High (40-80%),0.7943
+48e64cc7-2476-4cab-a12d-0f8d5b042fb2,48061,yes,yes,no,,no,431874,484.3,San Antonio,381.5,120.0,2.079,no,6,,5.0,Extremely High (>80%),4.5799
+535d4c8f-afab-4be4-a0eb-db8290613140,48061,yes,yes,yes,Rio Hondo city,no,431874,484.3,San Antonio,365.3,100.0,2.0,no,6,,5.0,Extremely High (>80%),4.5799
+dc5da265-93a3-4c69-8ed7-25ee18d0c248,48065,yes,yes,yes,Panhandle town,no,5822,6.3,Fort Worth,471.5,,,no,2,,4.75,Extremely High (>80%),1.3458
+62a7f764-202b-4224-aaed-cb35f4ee6392,48075,yes,yes,yes,Childress city,yes,6679,9.6,Fort Worth,324.6,1000.0,3.0,no,2,,5.0,Extremely High (>80%),2.4041
+8debdf93-863f-4c27-a1d7-46900223754a,48085,yes,yes,yes,Princeton city,yes,1254658,1491.2,Dallas,52.7,,,no,23,,3.21,High (40-80%),0.4627
+675ed1bf-fe0e-4fb5-98c0-528927f2dde7,48101,yes,yes,no,,no,1263,1.4,Fort Worth,309.8,96.0,1.982,no,1,,2.58,Medium - High (20-40%),0.2996
+2a38c49d-510e-4245-9740-d4036b1a0b29,48113,yes,yes,yes,Irving city,yes,2656028,3041.9,Dallas,11.8,,,no,53,,3.29,High (40-80%),0.4899
+c774c116-fc4c-4dfd-8f0c-4f77f29c4530,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,3.7,245.0,2.389,no,53,,1.85,Low - Medium (10-20%),0.1802
+009f0c3b-7c34-40c3-8786-39b1ed649512,48113,yes,yes,yes,Garland city,yes,2656028,3041.9,Dallas,17.7,,,no,53,,3.21,High (40-80%),0.4627
+12e6d584-fdbb-4b4c-a0cf-5cf9d8cbf125,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,0.4,54.0,1.732,no,53,,1.85,Low - Medium (10-20%),0.1802
+2cbe64cf-1e6b-45bf-855d-cd173b2a907d,48113,yes,yes,yes,Lancaster city,yes,2656028,3041.9,Dallas,21.1,252.0,2.401,no,53,,1.85,Low - Medium (10-20%),0.1802
+29eb9095-f1ba-4916-b043-0606ff6ae489,48113,yes,yes,yes,Lancaster city,yes,2656028,3041.9,Dallas,21.1,220.0,2.342,no,53,,1.85,Low - Medium (10-20%),0.1802
+8bee701d-6c1b-47ca-9182-4de5005610b6,48113,yes,yes,yes,Dallas city,yes,2656028,3041.9,Dallas,10.0,550.0,2.74,no,53,,4.21,Extremely High (>80%),0.926
+00fd0f10-4c40-4655-9dd7-03dfc6ddf3b8,48119,yes,yes,yes,Cooper city,no,5647,22.0,Dallas,122.4,,,no,1,,1.7,Low - Medium (10-20%),0.163
+b754a5f5-ad73-4179-b0fc-c6aa49c6fcc2,48439,no,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.6,32.0,1.505,no,9,,4.21,Extremely High (>80%),0.926
+f9d6a1f8-8953-4549-8d19-be757ce8d08b,48121,yes,yes,yes,Denton city,yes,1045120,1189.3,Fort Worth,50.5,20.0,1.301,no,9,,3.29,High (40-80%),0.4899
+50d8e6ef-f359-48e5-9769-d4843f62d7b4,48141,yes,yes,yes,El Paso city,yes,875784,864.1,El Paso,0.5,3000.0,3.477,no,2,,4.66,Extremely High (>80%),1.2673
+08654c1d-98af-4e0c-af8c-19d4b001452d,48149,yes,yes,no,,no,25488,26.8,Austin,76.1,,,no,1,,2.78,Medium - High (20-40%),0.3431
+044675ea-0492-4c79-9f30-48f40c1ce91e,48173,yes,yes,no,,no,1153,1.3,San Antonio,393.6,100.0,2.0,no,2,,3.0,High (40-80%),0.4011
+b9a73968-2680-4773-bbe5-33c1495a9982,48181,yes,yes,yes,Bells town,no,150532,161.4,Dallas,99.4,,,no,1,,0.0,Low (<10%),0.0236
+9882f9b2-a17b-40cf-b9de-79eda563df2a,48187,yes,yes,yes,Kingsbury city,no,195166,274.4,Austin,70.8,,,no,3,,3.99,High (40-80%),0.7943
+8c064095-6b27-4716-a13a-1aa26484e108,48189,yes,yes,yes,Abernathy city,no,31953,31.8,Fort Worth,435.8,168.0,2.225,no,2,,5.0,Extremely High (>80%),6.711
+0a79b1b8-3a79-4c13-a67a-79c14b6a1973,48191,yes,yes,yes,Turkey city,no,2828,3.2,Fort Worth,377.3,,,no,1,,5.0,Extremely High (>80%),2.4041
+cc6ab63d-db65-414f-b7d1-6e42f5dd03dc,48197,yes,yes,yes,Quanah city,no,3417,4.9,Fort Worth,281.1,756.0,2.879,no,1,,5.0,Extremely High (>80%),3.7964
+fcf3bf54-ef07-4871-8d78-364b8b6ea9e1,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,17.9,,,yes,16,,2.52,Medium - High (20-40%),0.2873
+e125288f-4396-42c8-8048-3603ee536c8a,48201,yes,yes,yes,Jacinto City city,yes,5009302,2934.1,Houston,13.6,79.0,1.898,no,16,,2.52,Medium - High (20-40%),0.2873
+1f5b61a9-9afe-47cf-89f1-37117bbff987,48201,yes,yes,yes,Houston city,yes,5009302,2934.1,Houston,35.2,79.0,1.898,no,16,,2.52,Medium - High (20-40%),0.2873
+4ed87767-70bd-4287-9af6-bff25ef45241,48209,yes,yes,yes,San Marcos city,yes,292029,431.5,Austin,47.0,,,no,3,,3.99,High (40-80%),0.7943
+21fda9a4-5f62-4736-811c-976a34c06fb3,48217,yes,yes,yes,Hillsboro city,yes,38771,40.4,Fort Worth,85.0,1235.0,3.092,no,3,,1.05,Low - Medium (10-20%),0.1038
+54e083db-9b58-47f4-a516-4e13e51992aa,48217,yes,yes,no,,no,38771,40.4,Fort Worth,77.5,,,no,3,,1.05,Low - Medium (10-20%),0.1038
+f2e61214-4fa3-4399-a85b-2afe2600f114,48219,yes,yes,yes,Sundown city,no,21505,23.7,El Paso,419.1,,,no,1,,5.0,Extremely High (>80%),8.2993
+a6418a80-e3ac-4cb1-bc5a-4fe817c597f4,48221,yes,yes,no,,no,69126,164.3,Fort Worth,58.7,,,no,6,,1.05,Low - Medium (10-20%),0.1038
+5c82e8aa-0251-4051-b0f9-75414274e16b,48397,no,yes,yes,Royse City city,yes,137044,1077.3,Dallas,49.1,,,no,2,,2.26,Medium - High (20-40%),0.2399
+58b7da98-9e8b-497b-a7f8-e09d5f659adf,48231,yes,yes,no,,no,118729,141.3,Dallas,73.5,430.0,2.633,no,2,,2.26,Medium - High (20-40%),0.2399
+fd5559ed-a5b0-4ccf-b6b5-ccf1dd222d98,48237,yes,yes,yes,Jacksboro city,no,9398,10.3,Fort Worth,93.0,144.0,2.158,no,1,,4.21,Extremely High (>80%),0.926
+576be522-cd99-48ff-9145-b086867ea973,48245,yes,yes,yes,Beaumont city,yes,253948,289.7,Houston,127.8,300.0,2.477,no,1,,1.52,Low - Medium (10-20%),0.1433
+752bce9d-851f-4228-878c-d1fdebd35eae,48247,yes,yes,no,,no,4583,4.0,San Antonio,235.8,,,no,1,,3.6,High (40-80%),0.6081
+391e6d30-8c49-4627-9061-1e18c29b731f,48257,yes,yes,yes,Talty city,no,197829,253.4,Dallas,39.6,200.0,2.301,no,1,,2.88,Medium - High (20-40%),0.3672
+ca0197bb-2fe8-4b86-9f8c-7e949c3627d6,48263,yes,yes,yes,Jayton city,no,703,0.8,Fort Worth,307.0,,,no,1,,5.0,Extremely High (>80%),9.4601
+bec6bd3f-31a7-4a64-b900-5b9982aacd62,48289,yes,yes,yes,Marquez city,no,16698,15.6,Dallas,178.5,1500.0,3.176,no,1,,0.0,Low (<10%),0.0242
+75422881-0333-4f8e-83da-4efe5b0cf21b,48291,yes,yes,no,,no,115042,99.3,Houston,74.3,3000.0,3.477,no,1,,0.27,Low (<10%),0.0604
+49acb7a6-ab9a-4117-8b4e-848a1cc83187,48321,yes,yes,yes,Bay City city,yes,36391,33.3,Houston,104.4,2000.0,3.301,no,2,,2.78,Medium - High (20-40%),0.3431
+fad01621-efc2-4e4f-9273-e30309405ca7,48307,yes,yes,yes,Brady city,yes,7448,7.0,Austin,179.5,500.0,2.699,yes,1,,5.0,Arid and Low Water Use,1.0
+272282c1-22ca-4227-ad2f-a173fae2ac33,48309,yes,yes,yes,Waco city,yes,270358,260.8,Fort Worth,134.5,925.0,2.966,no,3,,1.05,Low - Medium (10-20%),0.1038
+a9be931c-5608-42bf-bcf9-2eb66a5fbd77,48309,yes,yes,yes,Waco city,yes,270358,260.8,Fort Worth,135.1,500.0,2.699,yes,3,,1.05,Low - Medium (10-20%),0.1038
+3d578ec2-926b-443f-98bc-76b767896432,48309,yes,yes,yes,McGregor city,no,270358,260.8,Austin,129.4,74.0,1.869,no,3,,1.05,Low - Medium (10-20%),0.1038
+897fe279-8932-4ffa-9928-dcda4d51a867,48325,yes,yes,yes,Castroville city,no,55619,42.0,San Antonio,38.5,,,no,4,,3.99,High (40-80%),0.7943
+723ea193-0435-4776-9f3c-adb85192158b,48325,yes,yes,yes,Castroville city,no,55619,42.0,San Antonio,38.1,500.0,2.699,no,4,,3.99,High (40-80%),0.7943
+79e400aa-8e72-413f-aa09-ab2e929ea2d2,48329,yes,yes,no,,no,183587,203.9,El Paso,423.0,150.0,2.176,no,1,,5.0,Extremely High (>80%),9999.0
+a2e7bac6-2a05-4353-a876-408c4c9059df,48339,yes,yes,yes,Conroe city,yes,749613,719.3,Houston,64.2,,,no,2,,2.52,Medium - High (20-40%),0.2873
+70109c07-a39e-4bfb-8ca3-e2eeadbdf725,48349,yes,yes,yes,Oak Valley town,no,56533,56.0,Dallas,87.6,600.0,2.778,no,2,,0.79,Low (<10%),0.0867
+e61171be-7a67-451d-bb39-06d76a71163c,48353,yes,yes,yes,Sweetwater city,yes,14182,15.6,Fort Worth,290.1,300.0,2.477,no,3,,3.09,High (40-80%),0.4268
+aac97fd9-2cc1-4588-8ee4-264ca0a3a076,48353,yes,yes,yes,Sweetwater city,yes,14182,15.6,Fort Worth,290.1,200.0,2.301,no,3,,3.09,High (40-80%),0.4268
+c3529d48-788a-4669-8742-3ee1cc15d760,48371,yes,yes,yes,Fort Stockton city,yes,14712,3.1,El Paso,355.9,2000.0,3.301,no,4,,5.0,Arid and Low Water Use,1.0
+cda99336-e25e-472f-83c6-1f3a9761c119,48377,yes,yes,yes,Marfa city,no,5686,1.5,El Paso,285.0,,,no,1,,5.0,Arid and Low Water Use,1.0
+dfb4f9f2-bf7d-42c3-99b6-2b5d1e94a5e3,48389,yes,yes,no,,no,11956,4.5,El Paso,274.3,2000.0,3.301,no,4,,5.0,Arid and Low Water Use,1.0
+996b55b1-c096-403f-a759-8ed4ea5f049b,48389,yes,yes,yes,Town of Pecos city,yes,11956,4.5,El Paso,285.9,2670.0,3.427,no,4,,5.0,Extremely High (>80%),9999.0
+3a711b9e-cf27-47e7-a241-be63ec1c676d,48389,yes,yes,yes,Town of Pecos city,yes,11956,4.5,El Paso,286.0,1100.0,3.041,no,4,,5.0,Extremely High (>80%),9999.0
+569d7225-3a22-4cae-b919-c8491367135a,48393,yes,yes,yes,Miami city,no,837,0.9,Fort Worth,446.1,,,no,1,,1.05,Low - Medium (10-20%),0.1034
+1ed530ba-8fd2-4bc4-b473-77f92cb3e53d,48417,yes,yes,yes,Albany city,no,3169,3.5,Fort Worth,183.2,,,no,2,,3.09,High (40-80%),0.4268
+9d6c3bd1-30ce-4973-8ca9-448c330968bc,48425,yes,yes,no,,no,10098,54.2,Fort Worth,66.4,,,no,1,,1.05,Low - Medium (10-20%),0.1038
+66521e62-ed54-49a3-abb5-7600c4651ac6,48433,yes,yes,no,,no,1235,1.3,Fort Worth,282.4,,,no,1,,5.0,Extremely High (>80%),9.4601
+3766374e-a42d-4f43-90bd-aec9e3e83391,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.6,,,no,19,,4.21,Extremely High (>80%),0.926
+73f561de-9829-47e0-8f84-06950e8501f2,48439,yes,yes,yes,Kennedale city,yes,2230708,2577.8,Fort Worth,13.4,,,no,19,,4.21,Extremely High (>80%),0.926
+4f48142a-0a3d-4281-8a4e-4274c01291fd,48439,yes,yes,yes,North Richland Hills city,yes,2230708,2577.8,Fort Worth,12.6,,,no,19,,4.21,Extremely High (>80%),0.926
+14544740-91aa-4aa4-a8b3-332dae4c2bf5,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,4.0,,,no,19,,4.21,Extremely High (>80%),0.926
+de4ea9e1-80fd-428f-9e17-910c825b71f2,48439,yes,yes,yes,Fort Worth city,yes,2230708,2577.8,Fort Worth,0.6,,,no,19,,4.21,Extremely High (>80%),0.926
+9991e300-6b0a-4efc-b2ab-d678846670e9,48441,yes,yes,yes,Abilene city,yes,148813,162.5,Fort Worth,227.3,400.0,2.602,no,3,,3.09,High (40-80%),0.4268
+8d2d592e-8b0a-4472-89ad-8bb5a81ad621,48451,yes,yes,no,,no,120103,78.9,Austin,303.4,,,no,3,,3.0,High (40-80%),0.4011
+0ca280c0-79c7-48d3-85ab-7aab3902578c,48451,yes,yes,yes,San Angelo city,no,120103,78.9,Austin,288.7,1000.0,3.0,no,3,,3.0,High (40-80%),0.4011
+4493f4e1-ac3b-48e5-b990-0e4eb3a702c1,48451,yes,yes,yes,San Angelo city,no,120103,78.9,Austin,289.2,,,no,3,,3.0,High (40-80%),0.4011
+bdf94e5c-6980-4dcc-8549-ba3583a97910,48471,yes,yes,yes,Huntsville city,yes,83722,106.8,Houston,108.1,500.0,2.699,yes,1,,0.27,Low (<10%),0.0604
+47bf532b-eb28-4669-8078-32654c53097d,48477,yes,yes,yes,Brenham city,yes,37810,62.6,Houston,108.8,45.0,1.653,no,1,,0.12,Low (<10%),0.0545
+7ea6a5d6-c201-4608-9658-3f361a911ce5,48479,yes,yes,yes,Laredo city,yes,272823,81.2,San Antonio,234.6,300.0,2.477,no,1,,4.29,Extremely High (>80%),0.9763
+bf8b9c18-917e-4d14-b866-7358492f4870,48485,yes,yes,yes,Wichita Falls city,yes,129984,207.1,Fort Worth,167.3,,,no,3,,2.58,Medium - High (20-40%),0.2996
+df191d5a-e10c-455b-9b07-105f912c57d8,48485,yes,yes,yes,Wichita Falls city,yes,129984,207.1,Fort Worth,167.3,800.0,2.903,no,3,,2.58,Medium - High (20-40%),0.2996
+97d7a111-5974-4d95-836c-26a08a08a970,48491,yes,yes,yes,Georgetown city,yes,727480,652.0,Austin,41.2,25.0,1.398,no,16,,2.29,Medium - High (20-40%),0.2454
+9e0c6d73-37c3-4037-81d1-f96bf6821442,48491,yes,yes,yes,Georgetown city,yes,727480,652.0,Austin,41.9,68.0,1.833,no,16,,2.29,Medium - High (20-40%),0.2454
+0d8ced9d-7d96-4c16-8ec5-4fa57a4894f2,48491,yes,yes,yes,Taylor city,no,727480,652.0,Austin,41.5,360.0,2.556,no,16,,2.29,Medium - High (20-40%),0.2454
+334b3b03-a0ad-4c87-8d28-1a0e0138d513,48491,yes,yes,no,,no,727480,652.0,Austin,64.9,200.0,2.301,no,16,,2.29,Medium - High (20-40%),0.2454
+3899d8e3-fb78-474a-9680-aae6dcc5c40a,48491,yes,yes,yes,Taylor city,yes,727480,652.0,Austin,46.4,477.0,2.679,no,16,,2.29,Medium - High (20-40%),0.2454
+1113198b-ee1e-4187-b407-63fad6689ebf,48491,yes,yes,yes,Round Rock city,yes,727480,652.0,Austin,34.7,70.0,1.845,no,16,,2.29,Medium - High (20-40%),0.2454
+e1f0d33f-b789-4b48-ac1e-09c358350e48,48491,yes,yes,yes,Taylor city,yes,727480,652.0,Austin,46.4,,,no,16,,2.29,Medium - High (20-40%),0.2454
+24eada77-eeb0-46ac-9c7c-f3d8eb1dd637,48497,yes,yes,no,,no,81275,89.9,Fort Worth,59.2,20.0,1.301,yes,1,,4.21,Extremely High (>80%),0.926
+c51b3dea-975e-445a-aef3-4571817436a3,48503,yes,yes,yes,Graham city,yes,18236,19.9,Fort Worth,124.0,164.0,2.215,no,1,,1.05,Low - Medium (10-20%),0.1038

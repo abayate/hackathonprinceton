@@ -31,4 +31,9 @@ Build a narrow, real slice, not the whole product:
 
 ## Stack
 
-Not chosen yet; there is no code in the repo. Update this section once a stack is picked.
+- **Web app:** `web/`, Next.js 15 (App Router, TypeScript, Tailwind v4, MapLibre). Server components query Tiger Data directly with `pg`; the only API route is `/api/watchlist`. Run: `cd web && npm run dev`. Reads `DATABASE_URL` from the environment or the repo-root `.env`.
+- **Data and model:** Python scripts in `scripts/`, run in order: `build_tx_projects.py` → `build_features.py` → `add_water_stress.py` → `train_risk_model.py` → `load_projects_tiger.py` → `build_sites.py` (listings from the CoStar kit).
+- **Database:** Tiger Data (Postgres + TimescaleDB + PostGIS). Our tables: `sites` (158 CoStar listings in Houston/LA), `tx_projects`, `tx_project_features`, `risk_scores` (hypertable), `site_watchlist`. Team tables (`parcels`, `regions`, `electricity_prices`, `score_history`, `reports`, `watchlist`) are not ours; don't alter them.
+- **Sponsor data:** CoStar, Vexcel and Matterport data never go in git. `build_sites.py` writes only to Tiger; Vexcel images are cached in `data/private/cache/vexcel/`. The Vexcel key stays server-side: the browser only talks to `/api/vexcel/image/[siteId]` and `/api/vexcel/3d/[tileset|tile]`.
+- **Vexcel coverage:** the hackathon key covers Houston and LA only (other places return 403).
+- **Constants:** every cost or rate in `web/lib/model.ts` names its source ID from `data/sources.csv` and is tagged reported, modeled or assumed.

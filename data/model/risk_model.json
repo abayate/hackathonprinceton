@@ -1,0 +1,102 @@
+{
+ "model": "logistic_regression_class_weighted",
+ "trained": "2026-11-14",
+ "features": [
+  "in_city_limits",
+  "in_urban_area",
+  "log_county_density",
+  "log_km_to_metro",
+  "is_crypto",
+  "log_county_projects"
+ ],
+ "label": "1 = stopped (withdrawn, denied, moratorium, suspended, cancelled), 0 = built",
+ "data": "More Than Just Parks Texas tracker (T01) + Census geocoder and county data",
+ "notes": [
+  "Features are static location and project facts, not dated signals, so they carry no outcome leakage, but they also cannot show risk changing over time.",
+  "Built projects include older colocation sites; stopped ones are mostly recent proposals. The 'recent' comparison reduces that mismatch.",
+  "Small sample: treat metrics as indicative, not proof."
+ ],
+ "default_model": "recent",
+ "comparisons": {
+  "all_built": {
+   "description": "stopped vs all built (operating + under construction)",
+   "metrics": {
+    "n_projects": 233,
+    "n_stopped": 16,
+    "n_built": 217,
+    "cv": "5-fold stratified, repeated 20 times",
+    "roc_auc_mean": 0.779,
+    "roc_auc_std": 0.132,
+    "stopped_recall_at_0_5": 0.739,
+    "stopped_precision_at_0_5": 0.208,
+    "baseline_stopped_rate": 0.069
+   },
+   "coefficients": {
+    "in_city_limits": 0.245,
+    "in_urban_area": 0.119,
+    "log_county_density": 0.602,
+    "log_km_to_metro": 1.056,
+    "is_crypto": -0.795,
+    "log_county_projects": -1.082
+   },
+   "intercept": -0.838,
+   "feature_mean": [
+    0.87554,
+    0.81116,
+    2.73472,
+    1.53001,
+    0.04292,
+    1.02686
+   ],
+   "feature_std": [
+    0.33011,
+    0.39138,
+    0.87913,
+    0.6825,
+    0.20267,
+    0.55734
+   ],
+   "median_log_capacity_mw": 2.301
+  },
+  "recent": {
+   "description": "stopped vs under construction only (recent projects that got through)",
+   "metrics": {
+    "n_projects": 102,
+    "n_stopped": 16,
+    "n_built": 86,
+    "cv": "5-fold stratified, repeated 20 times",
+    "roc_auc_mean": 0.7,
+    "roc_auc_std": 0.149,
+    "stopped_recall_at_0_5": 0.704,
+    "stopped_precision_at_0_5": 0.313,
+    "baseline_stopped_rate": 0.157
+   },
+   "coefficients": {
+    "in_city_limits": 0.184,
+    "in_urban_area": 0.318,
+    "log_county_density": 0.35,
+    "log_km_to_metro": 0.615,
+    "is_crypto": -0.333,
+    "log_county_projects": -0.729
+   },
+   "intercept": -0.339,
+   "feature_mean": [
+    0.85294,
+    0.7549,
+    2.53855,
+    1.73177,
+    0.0098,
+    0.84253
+   ],
+   "feature_std": [
+    0.35416,
+    0.43015,
+    0.81457,
+    0.60749,
+    0.09853,
+    0.57154
+   ],
+   "median_log_capacity_mw": 2.301
+  }
+ }
+}
