@@ -1,17 +1,28 @@
-# secrets
-.env*
+# Secrets
+.env
+.env.*
 !.env.example
 *.pem
 
-# sponsor data (hackathon-use only, never commit)
+# Sponsor data (hackathon-use only, never commit)
+costar-hackathon-kit/
 data/private/
 agent/samples/private/
 
-# build and dependency output
-.venv/
-node_modules/
-.next/
+# Python
 __pycache__/
+*.pyc
+.venv/
+venv/
 
-# local files
+# Node
+node_modules/
+dist/
+.next/
+
+# Local files
 *.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
