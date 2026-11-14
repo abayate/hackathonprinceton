@@ -4,12 +4,20 @@ import { isPublicDataMode } from "@/lib/dataMode";
 import { isPropertyInvestigatorEnabled } from "@/lib/featureFlags";
 import { createGeminiMemoWriter, isGeminiConfigured } from "@/lib/geminiClient";
 import { getStore } from "@/lib/gwStore";
-import { newRun, runPropertyInvestigation, sampleValuationForMemo, type PropertyFacts } from "@/lib/propertyInvestigator";
+import type { Listing } from "@/lib/listings";
+import { newRun, runPropertyInvestigation, valuationForMemo, type PropertyFacts } from "@/lib/propertyInvestigator";
+import { readJsonBody } from "@/lib/requestBody";
+import { sampleValuation } from "@/lib/valuation";
+import type { PropertyValuation } from "@/lib/valuationTypes";
 
 export const runtime = "nodejs";
 // The run keeps working after the 202 via after(); Vercel needs the function to live that long.
 export const maxDuration = 60;
 
+/** The demo workload, in MW of IT power. */
+const DEFAULT_MW = 1.5;
+const MAX_MW = 5000;
+const BODY_LIMIT = 1_024;
 const RUNS_PER_CLIENT_PER_HOUR = 5;
 const recent = new Map<string, number[]>();
 
@@ -22,6 +30,28 @@ function allowRun(clientId: string, now = Date.now()): boolean {
   return true;
 }
 
+/** The body is optional. If present it is `{}` or `{ "mw": <number> }`; anything else is rejected (null). */
+async function workloadMw(req: Request): Promise<number | null> {
+  if (!req.headers.get("content-type") && !Number(req.headers.get("content-length"))) return DEFAULT_MW;
+  const body = await readJsonBody(req, BODY_LIMIT);
+  if (!body.ok || !body.value || typeof body.value !== "object" || Array.isArray(body.value)) return null;
+  const value = body.value as Record<string, unknown>;
+  if (Object.keys(value).some((key) => key !== "mw")) return null;
+  if (value.mw === undefined) return DEFAULT_MW;
+  return typeof value.mw === "number" && Number.isFinite(value.mw) && value.mw > 0 && value.mw <= MAX_MW ? value.mw : null;
+}
+
+/**
+ * TODO(Marvin): when web/lib/propertyValuation.ts lands, replace the body with
+ *   const { valueListing } = await import("@/lib/propertyValuation");
+ *   return valueListing(listing, { mw });
+ * Until then every memo uses the engine's sample scenario, which is tagged sample end to end.
+ */
+async function valueListingForMemo(listing: Listing, mw: number): Promise<PropertyValuation> {
+  void listing; void mw;
+  return sampleValuation();
+}
+
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!isPropertyInvestigatorEnabled()) return reply(req, 404, { detail: "Not found" });
   if (isPublicDataMode()) return reply(req, 501, { detail: "Property memos need the listings database." });
@@ -29,6 +59,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!isSameOrigin(req)) return reply(req, 422, { detail: "Start investigations from this site." });
   const { id } = await params;
   if (!isPropertyId(id)) return reply(req, 404, { detail: "Unknown property." });
+  const mw = await workloadMw(req);
+  if (mw === null) return reply(req, 422, { detail: `Send {"mw": <positive number up to ${MAX_MW}>} or no body.` });
   const session = await clientSession();
 
   try {
@@ -47,8 +79,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       building_sf: listing.building_sf, zoning: listing.zoning, heavy_power: listing.heavy_power,
       year_built: listing.year_built, asking_price: listing.asking_price,
     };
-    // TODO(Marvin's engine): replace with the real PropertyValuation mapped to ValuationForMemo.
-    const valuation = sampleValuationForMemo();
+    const valuation = valuationForMemo(await valueListingForMemo(listing, mw));
     const writer = createGeminiMemoWriter();
     const run = newRun(id);
     await store.saveRun(run);

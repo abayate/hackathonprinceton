@@ -66,7 +66,8 @@ describe("POST /api/properties/[id]/investigate", () => {
     const done = await (await GET(new Request("http://localhost"), ctx(run_id))).json();
     expect(done.status).toBe("done");
     expect(done.memo).toMatchObject({ parcel_id: "costar-900001", recommendation: "maybe", live: true });
-    expect(done.memo.max_price_usd_per_acre).toEqual({ value: null, unit: "USD/acre", kind: "sample", source_id: null });
+    expect(done.memo.max_price_usd_per_acre).toMatchObject({ value: 250_000, unit: "USD/acre", kind: "sample" });
+    expect(write.mock.calls[0][0]).toMatchObject({ valuation_is_sample: true, verdict: "maybe" });
     expect(done).not.toHaveProperty("memo_id");
   });
 
@@ -76,6 +77,19 @@ describe("POST /api/properties/[id]/investigate", () => {
     expect((await POST(post(), ctx("costar-900001"))).status).toBe(404);
     getListing.mockRejectedValueOnce(new Error("connection refused"));
     expect((await POST(post(), ctx("costar-900001"))).status).toBe(503);
+  });
+});
+
+describe("mw body", () => {
+  const withBody = (body: string) => post({ "content-type": "application/json", "content-length": String(body.length) });
+  it("accepts no body, {} or a valid mw and rejects anything else", async () => {
+    const { POST } = await import("./route");
+    const send = (body: string) => POST(new Request(withBody(body), { body }), ctx("costar-900001"));
+    expect((await send(JSON.stringify({ mw: 0 }))).status).toBe(422);
+    expect((await send(JSON.stringify({ mw: "1.5" }))).status).toBe(422);
+    expect((await send(JSON.stringify({ mw: 1.5, extra: 1 }))).status).toBe(422);
+    expect((await send("not json")).status).toBe(422);
+    expect((await send(JSON.stringify({ mw: 1.5 }))).status).toBe(202);
   });
 });
 

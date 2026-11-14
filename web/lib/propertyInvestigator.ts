@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import type { GroundworkStore } from "./gwStore";
 import type { Memo, MemoSection, MemoSectionId, MemoSource, Num, RunRecord, RunStep, Verdict } from "./runTypes";
+import type { PropertyValuation, Tagged } from "./valuationTypes";
 
 /**
  * Groundwork property investigator: one CoStar listing + the financial engine's numbers -> a sourced memo.
@@ -28,33 +29,52 @@ export type PropertyFacts = {
   asking_price: number | null;
 };
 
-/**
- * The slice of Marvin's PropertyValuation (web/lib/valuationTypes.ts) the memo needs.
- * Kept narrow on purpose so this file does not depend on a type that is still changing.
- */
+/** The slice of Marvin's PropertyValuation the memo needs, in the contract's snake_case Num shape. */
 export type ValuationForMemo = {
   verdict: Verdict;
   reasons: string[];
+  mw: Num;
   max_price_usd_per_acre: Num;
   ten_year_cost_usd: Num;
   missing_inputs: string[];
+  sample: boolean;
 };
 
-/** Placeholder until the financial engine is wired in. Values are null and tagged sample: nothing is invented. */
-export function sampleValuationForMemo(): ValuationForMemo {
+const toNum = (tagged: Tagged): Num => ({
+  value: tagged.value !== null && Number.isFinite(tagged.value) ? tagged.value : null,
+  unit: tagged.unit, kind: tagged.kind,
+  // The engine joins every input's source with "; "; keep each one once.
+  source_id: [...new Set(tagged.source.split(";").map((part) => part.trim()).filter(Boolean))].join("; ") || null,
+});
+
+const SAMPLE_CAP_REASON = "Recommendation capped at Maybe: the valuation uses sample data, not this property's verified inputs.";
+
+/**
+ * Maps the financial engine's output into the memo (Buy is capped at Maybe when the valuation is sample-tainted). verdict -> recommendation, maxLandPricePerAcre ->
+ * max_price_usd_per_acre. A negative maximum (even free land loses) is kept as-is in the memo field but is
+ * never offered to Gemini as a quotable figure; the engine's reasons already explain it.
+ */
+export function valuationForMemo(valuation: PropertyValuation): ValuationForMemo {
+  // A sample scenario can come out "buy"; a memo about a real listing must not recommend buying on synthetic data.
+  const capped = valuation.sampleTainted && valuation.verdict === "buy";
   return {
-    verdict: "maybe",
-    reasons: ["The financial engine is not connected yet, so no maximum price has been calculated."],
-    max_price_usd_per_acre: { value: null, unit: "USD/acre", kind: "sample", source_id: null },
-    ten_year_cost_usd: { value: null, unit: "USD", kind: "sample", source_id: null },
-    missing_inputs: ["Maximum price per acre", "Ten-year cost"],
+    verdict: capped ? "maybe" : valuation.verdict,
+    reasons: capped ? [SAMPLE_CAP_REASON, ...valuation.reasons] : [...valuation.reasons],
+    mw: toNum(valuation.mw),
+    max_price_usd_per_acre: toNum(valuation.maxLandPricePerAcre),
+    ten_year_cost_usd: toNum(valuation.tenYearCost),
+    missing_inputs: [...valuation.missingInputs],
+    sample: valuation.sampleTainted,
   };
 }
 
 export type Figure = { label: string; display: string; kind: Num["kind"]; source_id: string | null };
 export type MemoWriterInput = {
   property: Omit<PropertyFacts, "property_id">;
+  workload_mw: number | null;
   verdict: Verdict;
+  /** True when any engine input was sample data; the memo must say so. */
+  valuation_is_sample: boolean;
   verdict_reasons: string[];
   figures: Figure[];
   missing_inputs: string[];
@@ -98,7 +118,8 @@ export function figuresFor(facts: PropertyFacts, valuation: ValuationForMemo): F
   const perAcre = askingPerAcre(facts);
   if (perAcre !== null) figures.push({ label: "Asking price per acre", display: `${usd(perAcre)}/acre`, kind: "reported", source_id: "costar" });
   const num = (label: string, n: Num, suffix = "") => {
-    if (n.value !== null && Number.isFinite(n.value)) figures.push({ label, display: `${usd(n.value)}${suffix}`, kind: n.kind, source_id: n.source_id });
+    // Negative or unknown values are never quotable; the engine reasons explain them in words.
+    if (n.value !== null && Number.isFinite(n.value) && n.value >= 0) figures.push({ label, display: `${usd(n.value)}${suffix}`, kind: n.kind, source_id: n.source_id });
   };
   num("Maximum price per acre", valuation.max_price_usd_per_acre, "/acre");
   num("Ten-year cost", valuation.ten_year_cost_usd);
@@ -248,7 +269,8 @@ export async function runPropertyInvestigation(run: RunRecord, facts: PropertyFa
       const property: Partial<PropertyFacts> = { ...facts };
       delete property.property_id;
       const draft = await writer.write({
-        property: property as MemoWriterInput["property"], verdict: valuation.verdict, verdict_reasons: valuation.reasons.slice(0, 6), figures,
+        property: property as MemoWriterInput["property"], workload_mw: valuation.mw.value,
+        verdict: valuation.verdict, valuation_is_sample: valuation.sample, verdict_reasons: valuation.reasons.slice(0, 6), figures,
         missing_inputs: valuation.missing_inputs.slice(0, 10),
         given_sources: GIVEN_SOURCES.map(({ source_id, title }) => ({ source_id, title })),
       }, controller.signal);

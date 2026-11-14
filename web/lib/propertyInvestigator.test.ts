@@ -2,8 +2,9 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("server-only", () => ({}));
 import { createMemoryStore } from "./gwStore";
+import { sampleValuation } from "./valuation";
 import {
-  acceptDraft, figuresFor, memoDigest, newRun, runPropertyInvestigation, sampleValuationForMemo, usd, verifyMemoDigest,
+  acceptDraft, figuresFor, memoDigest, newRun, runPropertyInvestigation, usd, valuationForMemo, verifyMemoDigest,
   type MemoDraft, type MemoWriter, type PropertyFacts, type ValuationForMemo,
 } from "./propertyInvestigator";
 
@@ -18,6 +19,8 @@ const valuation: ValuationForMemo = {
   max_price_usd_per_acre: { value: 250_000, unit: "USD/acre", kind: "modeled", source_id: null },
   ten_year_cost_usd: { value: 1_500_000_000, unit: "USD", kind: "modeled", source_id: null },
   missing_inputs: ["Utility capacity letter"],
+  mw: { value: 1.5, unit: "MW", kind: "assumed", source_id: null },
+  sample: false,
 };
 const draft: MemoDraft = {
   summary: "Buy up to $250,000/acre; asking is $200,000/acre.",
@@ -38,7 +41,10 @@ describe("figures and drafts", () => {
     expect(figuresFor(facts, valuation).map((f) => [f.display, f.kind])).toEqual([
       ["$8,000,000", "reported"], ["$200,000/acre", "reported"], ["$250,000/acre", "modeled"], ["$1,500,000,000", "modeled"],
     ]);
-    expect(figuresFor({ ...facts, asking_price: null, lot_acres: null }, sampleValuationForMemo())).toEqual([]);
+    const unknown = { value: null, unit: "USD", kind: "modeled" as const, source_id: null };
+    expect(figuresFor({ ...facts, asking_price: null, lot_acres: null }, { ...valuation, max_price_usd_per_acre: unknown, ten_year_cost_usd: unknown })).toEqual([]);
+    // A negative maximum (free land still loses) is never offered as a quotable figure.
+    expect(figuresFor({ ...facts, asking_price: null }, { ...valuation, max_price_usd_per_acre: { ...unknown, value: -5 }, ten_year_cost_usd: unknown })).toEqual([]);
     expect(usd(1234.6)).toBe("$1,235");
   });
 
@@ -57,6 +63,26 @@ describe("figures and drafts", () => {
     expect(() => acceptDraft(null, [])).toThrow();
     expect(() => acceptDraft({ ...draft, summary: "" }, [])).toThrow("no summary");
     expect(() => acceptDraft({ ...draft, sections: [{ id: "other", body_md: "x", source_ids: [] }] }, [])).toThrow("no usable sections");
+  });
+});
+
+describe("valuationForMemo", () => {
+  it("maps the engine output and caps a sample-data Buy at Maybe", () => {
+    const engine = sampleValuation();
+    expect(engine.verdict).toBe("buy");
+    const mapped = valuationForMemo(engine);
+    expect(mapped.verdict).toBe("maybe");
+    expect(mapped.reasons[0]).toContain("capped at Maybe");
+    expect(mapped.sample).toBe(true);
+    expect(mapped.max_price_usd_per_acre).toEqual({ value: 250_000, unit: "USD/acre", kind: "sample",
+      source_id: "sample:valuation-demo; assignment:analysis-period; assignment:discount-rate" });
+    expect(mapped.ten_year_cost_usd.kind).toBe("sample");
+  });
+
+  it("passes a non-sample verdict through unchanged", () => {
+    const engine = { ...sampleValuation(), sampleTainted: false, verdict: "pass" as const };
+    expect(valuationForMemo(engine)).toMatchObject({ verdict: "pass", sample: false });
+    expect(valuationForMemo({ ...engine, verdict: "buy" }).verdict).toBe("buy");
   });
 });
 
