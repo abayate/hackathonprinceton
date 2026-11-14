@@ -19,6 +19,18 @@ This file records public-record facts only. CoStar listing values (asking price,
 | Zoning | City of Houston has no zoning ordinance; deed restrictions not checked | M3 (heavy industrial) |
 | Nearest sensitive uses | Single-family home shares the rear lot line; YES Prep school campus within ~80 m on Jensen Dr | Industrial blocks and rail line on all sides |
 
+The seven checks for both properties, as the engine reads them, are in [`data/inputs/demo_checks.json`](../data/inputs/demo_checks.json).
+
+| Check | Houston | Los Angeles |
+|---|---|---|
+| Power | watch | watch |
+| Water | watch | **fail** |
+| Zoning | watch (deed restrictions unchecked) | pass |
+| Opposition | watch | pass |
+| Policy | pass | watch (not scored) |
+| Land | watch | watch (tax-delinquent) |
+| Labor | pass | pass |
+
 ## Availability
 
 Both listings are **Active / For Sale** in the CoStar kit, and CoStar re-verified them in early November 2026 (Houston Nov 2, LA Nov 4). We could not open the live LoopNet pages from here (blocked), so **someone needs to open both listings in a browser before the demo** and check that the asking prices match the following:

@@ -62,6 +62,32 @@
         "kind": "reported",
         "source": "S05",
         "note": "WRI Aqueduct 4.0 baseline water stress at the demo property (stored per site in Tiger `sites.water_stress_label`)."
+      },
+      "utility_connect_usd": {
+        "value": 1000000, "unit": "USD", "kind": "assumed", "source": "assumption",
+        "note": "New service for ~1.8 MW facility load (1.5 MW IT at PUE 1.2) on a greenfield site: line extension, transformer, metering, protection. No sourced CenterPoint figure; replace with a utility estimate. Sensitivity 0.5M-2M."
+      },
+      "benchmark_site": {
+        "about": "A hypothetical typical powered greenfield site in the Houston market sized for 1.5 MW IT. Used as the comparison site for the price ceiling. It is not a real listing.",
+        "siteId": "benchmark-houston-greenfield-1p5mw",
+        "mw": { "value": 1.5, "unit": "MW", "kind": "assumed", "source": "assumption", "note": "Same IT load as the demo properties." },
+        "acres": { "value": 1.0, "unit": "acre", "kind": "assumed", "source": "assumption", "note": "Room for a ~10-15K SF building, generators, parking and detention. No sourced footprint for this size." },
+        "askingPriceTotal": { "value": 876000, "unit": "USD", "kind": "modeled", "source": "V04", "note": "Powered land at $584K per MW x 1.5 MW (Cushman & Wakefield 2026, primary US markets average). Cross-check: HCAD appraises unpowered vacant commercial land near the demo property at ~$200K per acre (V08)." },
+        "detentionUsd": { "value": 750000, "unit": "USD", "kind": "reported", "source": "V09", "note": "Stormwater detention for 1 developed acre at ~$750K per acre (Houston panel remark). Greenfield only; add to site cost, not land." },
+        "buildCostUsdPerW": { "value": 10.51, "unit": "USD/W", "kind": "assumed", "source": "S02", "note": "Same Texas proxy as the market build cost." },
+        "utilityConnectUsd": { "value": 1000000, "unit": "USD", "kind": "assumed", "source": "assumption", "note": "Same as the market utility_connect_usd." },
+        "electricityUsdPerKwh": { "value": 0.0721, "unit": "USD/kWh", "kind": "reported", "source": "V01", "note": "Texas industrial average, Aug 2026." },
+        "waterUsdPerM3": { "value": 2.467, "unit": "USD/m3", "kind": "reported", "source": "V12", "note": "$9.34 per 1,000 gal / 3.78541 m3. Water volume charge only." },
+        "maintenanceRate": { "value": 0.02, "unit": "ratio", "kind": "assumed", "source": "assumption", "note": "Same as global maintenance_rate." },
+        "checks": [
+          { "id": "power", "status": "pass", "detail": "Assumed: a powered site by definition (the land price includes the power premium). Source: assumption." },
+          { "id": "water", "status": "watch", "detail": "Houston-area Aqueduct baseline water stress is Medium-High, matching the demo property. Source: S05." },
+          { "id": "zoning", "status": "pass", "detail": "Houston has no citywide zoning; assumes a site with no restrictive deed covenants. Source: V17." },
+          { "id": "opposition", "status": "pass", "detail": "Assumed: site chosen away from homes and schools. Source: assumption." },
+          { "id": "policy", "status": "pass", "detail": "Assumed: same Texas policy context as the demo property, which scores Low on the model. Source: M01." },
+          { "id": "land", "status": "pass", "detail": "Assumed: outside the 1% and 0.2% FEMA flood zones. Source: assumption." },
+          { "id": "labor", "status": "pass", "detail": "Houston metro construction employment 269.3K in Sep 2026, up 5.4% year on year. Source: V15." }
+        ]
       }
     },
     "los_angeles": {
@@ -111,6 +137,31 @@
         "kind": "reported",
         "source": "S05",
         "note": "WRI Aqueduct 4.0 baseline water stress at the demo property."
+      },
+      "utility_connect_usd": {
+        "value": 1000000, "unit": "USD", "kind": "assumed", "source": "assumption",
+        "note": "New LADWP service for ~1.8 MW facility load on a greenfield site. No sourced LADWP figure; replace with a utility estimate. Sensitivity 0.5M-2M."
+      },
+      "benchmark_site": {
+        "about": "A hypothetical typical powered greenfield site in the Los Angeles market sized for 1.5 MW IT. It is not a real listing. It fails the water check like every LA site under the current rule, so it cannot be the eligible alternative.",
+        "siteId": "benchmark-los-angeles-greenfield-1p5mw",
+        "mw": { "value": 1.5, "unit": "MW", "kind": "assumed", "source": "assumption", "note": "Same IT load as the demo properties." },
+        "acres": { "value": 1.0, "unit": "acre", "kind": "assumed", "source": "assumption", "note": "Same footprint assumption as the Houston benchmark." },
+        "askingPriceTotal": { "value": 3570000, "unit": "USD", "kind": "modeled", "source": "V07", "note": "1 acre at the LA County Assessor land value of the demo parcel ($3.57M per acre). The V04 powered-land average ($876K for 1.5 MW) is a primary-market average and would understate LA." },
+        "buildCostUsdPerW": { "value": 15.01, "unit": "USD/W", "kind": "assumed", "source": "V05", "note": "Silicon Valley used as the California proxy." },
+        "utilityConnectUsd": { "value": 1000000, "unit": "USD", "kind": "assumed", "source": "assumption", "note": "Same as the market utility_connect_usd." },
+        "electricityUsdPerKwh": { "value": 0.2412, "unit": "USD/kWh", "kind": "reported", "source": "V01", "note": "California industrial average, Aug 2026; LADWP is likely lower." },
+        "waterUsdPerM3": { "value": 5.125, "unit": "USD/m3", "kind": "reported", "source": "V13", "note": "LADWP Schedule C Tier 2, $19.40 per 1,000 gal / 3.78541 m3." },
+        "maintenanceRate": { "value": 0.02, "unit": "ratio", "kind": "assumed", "source": "assumption", "note": "Same as global maintenance_rate." },
+        "checks": [
+          { "id": "power", "status": "pass", "detail": "Assumed: a powered site by definition. Source: assumption." },
+          { "id": "water", "status": "fail", "detail": "Los Angeles basin Aqueduct baseline water stress is Extremely High (>80%). Source: S05." },
+          { "id": "zoning", "status": "pass", "detail": "Assumed: an industrially zoned (M2/M3) parcel. Source: assumption." },
+          { "id": "opposition", "status": "pass", "detail": "Assumed: site inside an industrial district. Source: assumption." },
+          { "id": "policy", "status": "watch", "detail": "The Texas-trained model does not score California; no California policy review done. Source: M01." },
+          { "id": "land", "status": "pass", "detail": "Assumed: outside FEMA flood zones. Source: assumption." },
+          { "id": "labor", "status": "pass", "detail": "LA-Long Beach-Anaheim construction employment 251.5K in Sep 2026, flat year on year. Source: V16." }
+        ]
       }
     }
   },
@@ -143,14 +194,19 @@
   "global": {
     "us_build_cost_usd_per_w": { "value": 12.08, "kind": "reported", "source": "V05", "note": "Turner & Townsend 2026-27 US average." },
     "us_all_in_greenfield_usd_per_mw": { "value": 17600000, "range": [8900000, 23300000], "kind": "reported", "source": "V04", "note": "Cushman & Wakefield 2026 guide, all-in excluding chips/GPUs, via secondary summaries. Power infrastructure ~21% and site acquisition ~7% of total." },
-    "powered_land_usd_per_mw": { "value": 584000, "kind": "reported", "source": "V04", "note": "Primary US markets, 2026 YTD, via secondary summary." }
+    "powered_land_usd_per_mw": { "value": 584000, "kind": "reported", "source": "V04", "note": "Primary US markets, 2026 YTD, via secondary summary." },
+    "maintenance_rate": {
+      "value": 0.02, "unit": "ratio", "kind": "assumed", "source": "assumption", "range": [0.01, 0.04],
+      "note": "Annual maintenance as a fraction of build cost. No sourced figure; team assumption. Use the range for sensitivity."
+    }
   },
   "gaps": [
     "LADWP large commercial/industrial tariff (A-2 or A-3) bill build; the LA electricity value is a state average.",
     "CenterPoint large-load delivery charges for Houston; the Houston electricity value is a state average.",
-    "Utility connection / interconnection cost per MW for either site.",
+    "Utility connection cost: filled with assumed values, not sourced. Replace with utility estimates.",
     "Cooling capital-cost difference (dry vs evaporative).",
-    "Annual maintenance / O&M rate.",
+    "Annual maintenance rate: filled with an assumed 0.02, not sourced.",
+    "Benchmark site footprint (1 acre for 1.5 MW): assumed.",
     "Houston land sale comps (public); only appraisal-district values are used."
   ]
 }
