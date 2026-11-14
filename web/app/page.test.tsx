@@ -100,7 +100,7 @@ describe("database-mode home page", () => {
 
   it("labels every card verdict and price ceiling as sample output", async () => {
     const html = await renderHome({});
-    expect(html).toContain("Sample valuation");
+    expect(html).toContain("Sample inputs");
     const listingA = cardFor(html, "costar-900001");
     expect(listingA).toMatch(/>(Buy|Maybe|Pass)<small[^>]*>Sample<\/small>/);
     expect(listingA).toContain("Ten-year cost");

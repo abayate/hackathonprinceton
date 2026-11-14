@@ -6,7 +6,8 @@ import { getModelArtifact } from "@/lib/modelArtifact";
 import { isPublicDataMode } from "@/lib/dataMode";
 import { parseMinAcres, parseMw } from "@/lib/params";
 import Explore, { type Card } from "./components/Explore";
-import { parsePriority, parseReadyBy, READY_BY_YEARS, sampleValuation, sortByPriority } from "./components/valuation";
+import { parsePriority, parseReadyBy, READY_BY_YEARS, sortByPriority } from "./components/valuationView";
+import { DEMO_MW, listingValuation } from "./components/listingValuation";
 import "./prospects.css";
 
 export const dynamic = "force-dynamic";
@@ -44,7 +45,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<SP>
     ...(raw.ready ? { ready: String(parseReadyBy(raw.ready)) } : {}),
     ...(raw.sort && parsePriority(raw.sort) !== "recommended" ? { sort: parsePriority(raw.sort) } : {}),
   };
-  const mw = parseMw(sp.mw);
+  const mw = sp.mw ? parseMw(sp.mw) : DEMO_MW;
   const readyBy = parseReadyBy(sp.ready);
   const priority = parsePriority(sp.sort);
   const [listings, modelArtifact] = await Promise.all([listListings({ ...sp, market }), getModelArtifact()]);
@@ -55,7 +56,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<SP>
     property_type: listing.property_type, lot_acres: listing.lot_acres, building_sf: listing.building_sf, ceiling_ft: listing.ceiling_ft,
     heavy_power: listing.heavy_power, asking_price: listing.asking_price, water_stress_label: listing.water_stress_label,
     p_stopped: listing.p_stopped, band: listing.band,
-    valuation: sampleValuation(listing, { it_power_mw: mw, ready_by_year: readyBy }),
+    valuation: listingValuation(listing, mw),
   })), priority);
   const clearHref = href({ market, mw: String(mw), ...(sp.ready ? { ready: sp.ready } : {}) }, {});
 
@@ -75,7 +76,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<SP>
         <div className="gw-filter-secondary"><label className="gw-property-checkbox"><input type="checkbox" name="power" value="1" defaultChecked={sp.power === "1"} /><span>Reported heavy power</span></label>{market !== "la" && <label className="gw-band-filter"><span>Texas screening band</span><select name="band" defaultValue={sp.band ?? ""} aria-describedby="screening-band-help"><option value="">All bands</option><option value="green">Green</option><option value="watch">Watch</option><option value="red">Red</option></select></label>}<Link href={clearHref}>Clear property filters</Link></div>
       </form>
       <p id="workload-help" className="gw-workload-note">MW and ready-by year set the verdict, price ceiling and ten-year cost. Neither confirms available utility capacity or a connection date.</p>
-      <p className="gw-sample-banner" role="note"><strong>Sample valuation</strong> Buy/Maybe/Pass, price ceilings and ten-year costs are placeholder outputs while the valuation engine is built. Don&apos;t use them for a decision.</p>
+      {cards.some((card) => card.valuation.sampleTainted) && <p className="gw-sample-banner" role="note"><strong>Sample inputs</strong> Verdicts come from the valuation engine, but some market inputs are still placeholders. Don&apos;t use them for a decision.</p>}
       {market !== "la" && <p id="screening-band-help" className="gw-workload-note">Selecting a screening band includes scored Texas properties only; unscored properties, including all LA properties, are excluded.</p>}
     </div>
     <div className="gw-property-results-heading"><div><h2>{listings.length} {listings.length === 1 ? "property" : "properties"} in {market === "la" ? "Los Angeles" : market === "all" ? "Houston & Los Angeles" : "Houston"}</h2><p>Property facts and asking prices from the CoStar snapshot. Availability and pricing need confirmation.</p></div><span>Reported property record</span></div>
