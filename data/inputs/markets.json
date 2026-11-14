@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-14",
+  "about": "Local inputs for the ten-year property cost and maximum-price model. Every value is tagged reported, modeled or assumed and names a source_id in data/sources.csv. 'reported' means a published figure, but often for a wider area than the site (state average, metro proxy); read 'scope' before using it. No CoStar, Vexcel or Matterport data is in this file.",
+  "conventions": {
+    "money": "USD, nominal 2026",
+    "electricity_usd_per_kwh": "all-in retail energy price per kWh of facility (not IT) load",
+    "wue_l_per_kwh": "litres of on-site water consumed per kWh of IT energy",
+    "water_usd_per_kgal": "volume charge per 1,000 US gallons, excluding meter/base charges",
+    "kinds": ["reported", "modeled", "assumed"]
+  },
+  "markets": {
+    "houston": {
+      "label": "Houston, TX (City of Houston, Harris County)",
+      "electric_utility": {
+        "value": "CenterPoint Energy (wires) + competitive retail provider (ERCOT)",
+        "kind": "reported",
+        "source": "V11",
+        "note": "Houston is in the competitive ERCOT market; CenterPoint is the delivery utility. A large-load bill must be built from the retail contract plus CenterPoint demand and rider charges."
+      },
+      "electricity_usd_per_kwh": {
+        "value": 0.0721,
+        "kind": "reported",
+        "source": "V01",
+        "scope": "Texas statewide industrial average, Aug 2026 (preliminary)",
+        "sensitivity": { "low": 0.0635, "high": 0.0896, "low_note": "TX industrial, 2025 annual average (V01)", "high_note": "TX commercial, Aug 2026 (V01)" },
+        "note": "State average is not a CenterPoint large-load tariff and excludes demand-charge structure."
+      },
+      "build_cost_usd_per_w": {
+        "value": 10.51,
+        "kind": "assumed",
+        "source": "S02",
+        "scope": "Dallas benchmark used as a Texas proxy; Turner & Townsend publishes no Houston figure",
+        "sensitivity": { "low": 10.51, "high": 12.08, "high_note": "US average 2026-27 (V05)" },
+        "note": "Benchmark is ~60 MW air-cooled build-to-suit; excludes land, utility works, IT equipment, fees (S03). Applying it to a small retrofit is an assumption."
+      },
+      "land_usd_per_acre": {
+        "value": 200000,
+        "kind": "modeled",
+        "source": "V08",
+        "scope": "Harris County Appraisal District 2026 land values for vacant commercial lots on the same block as the Jensen Dr demo property",
+        "range": [196000, 218000],
+        "note": "Appraised land value, not a sale price. Lee & Associates reports Houston industrial land up 40-50% over two years (V09), so market prices may run above appraisal."
+      },
+      "detention_usd_per_acre": {
+        "value": 750000,
+        "kind": "reported",
+        "source": "V09",
+        "scope": "Houston industrial development, panel remark, Sep 2026",
+        "note": "Stormwater detention can add roughly this much per developed acre. Applies to new site work, not to reuse of an existing building footprint."
+      },
+      "water_usd_per_kgal": {
+        "value": 9.34,
+        "kind": "reported",
+        "source": "V12",
+        "scope": "City of Houston commercial water volume charge, effective 2026-04-01",
+        "wastewater_usd_per_kgal": 11.80,
+        "note": "Excludes meter-size base charge, TCEQ fee and drainage. Wastewater applies to cooling-tower blowdown, not to evaporated water; confirm the sewer billing basis."
+      },
+      "water_stress": {
+        "value": "Medium - High (20-40%)",
+        "kind": "reported",
+        "source": "S05",
+        "note": "WRI Aqueduct 4.0 baseline water stress at the demo property (stored per site in Tiger `sites.water_stress_label`)."
+      }
+    },
+    "los_angeles": {
+      "label": "Los Angeles, CA (City of Los Angeles, LA County)",
+      "electric_utility": {
+        "value": "LADWP",
+        "kind": "assumed",
+        "source": "V07",
+        "note": "The demo parcel is inside the City of Los Angeles per the County Assessor, which implies LADWP service. Not confirmed against a utility service-territory map; neighbouring Vernon has its own utility."
+      },
+      "electricity_usd_per_kwh": {
+        "value": 0.2412,
+        "kind": "reported",
+        "source": "V01",
+        "scope": "California statewide industrial average, Aug 2026 (preliminary)",
+        "sensitivity": { "low": 0.2096, "high": 0.2511, "low_note": "CA industrial, 2025 annual average (V01)", "high_note": "CA industrial, Jul 2026 (V01)" },
+        "note": "The state average is dominated by PG&E and SCE. LADWP commercial/industrial rates are likely lower; no official LADWP 2026 C&I average was found. Using the state figure biases the LA site toward higher cost. Replace with an LADWP A-2/A-3 bill build when available."
+      },
+      "build_cost_usd_per_w": {
+        "value": 15.01,
+        "kind": "assumed",
+        "source": "V05",
+        "scope": "Silicon Valley 2026-27 figure used as the California proxy; no Los Angeles figure is published in the index",
+        "sensitivity": { "low": 12.08, "high": 15.01, "low_note": "US average 2026-27 (V05)" },
+        "note": "Silicon Valley value comes from a secondary report of the T&T index, not the T&T page itself. Same scope exclusions as S03."
+      },
+      "land_usd_per_acre": {
+        "value": 3570000,
+        "kind": "modeled",
+        "source": "V07",
+        "scope": "LA County Assessor 2026 roll land value for the Perrino Pl demo parcel ($11,316,827 / 3.172 ac)",
+        "range": [3300000, 5880000],
+        "range_note": "Low: 2022 base-year land value $10,455,000 / 3.172 ac (V07). High: one Q2 2026 off-market LAX-area land sale at $135 per land SF, reported in Kidder Mathews' Q2 2026 LA industrial report (V10, read from a search summary only).",
+        "note": "Prop 13 assessed value tracks the 2022 transfer, not 2026 market. A private CoStar sale-comp summary (median improved industrial ~$7.1M per lot acre, n=8) is in data/private/inputs/ and must not be committed."
+      },
+      "water_usd_per_kgal": {
+        "value": 19.40,
+        "kind": "reported",
+        "source": "V13",
+        "scope": "LADWP Schedule C (commercial/industrial) Tier 2 total consumption charge inside the City, Jul-Dec 2026: $14.513 per HCF / 0.748",
+        "tier1_usd_per_kgal": 14.08,
+        "tier1_note": "Tier 1 $10.529 per HCF / 0.748. A data center's cooling use would sit mostly in Tier 2.",
+        "note": "Excludes service charges and sewer fees."
+      },
+      "water_stress": {
+        "value": "Extremely High (>80%)",
+        "kind": "reported",
+        "source": "S05",
+        "note": "WRI Aqueduct 4.0 baseline water stress at the demo property."
+      }
+    }
+  },
+  "cooling": {
+    "evaporative": {
+      "wue_l_per_kwh": { "value": 3.0, "range": [1.99, 4.0], "kind": "reported", "source": "V02", "note": "Evaporative cooling tower, Table 3 of Akinade et al. 2026; value is the range midpoint." },
+      "pue_multiplier": { "value": 1.0, "kind": "reported", "source": "V02", "note": "Baseline. Apply to the team PUE assumption (1.2, S19) in web/lib/model.ts." }
+    },
+    "hybrid_evap_assist": {
+      "wue_l_per_kwh": { "value": 0.9, "range": [0.3, 1.5], "kind": "reported", "source": "V02", "note": "Hybrid / adiabatic assist; midpoint." },
+      "pue_multiplier": { "value": 1.15, "range": [1.1, 1.2], "kind": "reported", "source": "V02" }
+    },
+    "dry": {
+      "wue_l_per_kwh": { "value": 0.0, "kind": "reported", "source": "V02", "note": "~0 direct water." },
+      "pue_multiplier": {
+        "value": 1.25,
+        "range": [1.0, 1.4],
+        "kind": "modeled",
+        "source": "V02",
+        "note": "V02 lists 1.25-1.40 relative PUE (25-35% power penalty). Uptime Institute (V03, Apr 2026) finds well-designed dry systems can match evaporative PUE across ASHRAE zones 2-6, so the low end of the range is 1.0. Default uses V02's low end."
+      }
+    },
+    "capex_delta_usd_per_w": {
+      "value": 0.0,
+      "kind": "assumed",
+      "source": "assumption",
+      "note": "No sourced capital-cost difference between dry and evaporative heat rejection was found. Treated as equal; the cooling toggle changes operating cost only. Flag this in the UI."
+    }
+  },
+  "global": {
+    "us_build_cost_usd_per_w": { "value": 12.08, "kind": "reported", "source": "V05", "note": "Turner & Townsend 2026-27 US average." },
+    "us_all_in_greenfield_usd_per_mw": { "value": 17600000, "range": [8900000, 23300000], "kind": "reported", "source": "V04", "note": "Cushman & Wakefield 2026 guide, all-in excluding chips/GPUs, via secondary summaries. Power infrastructure ~21% and site acquisition ~7% of total." },
+    "powered_land_usd_per_mw": { "value": 584000, "kind": "reported", "source": "V04", "note": "Primary US markets, 2026 YTD, via secondary summary." }
+  },
+  "gaps": [
+    "LADWP large commercial/industrial tariff (A-2 or A-3) bill build; the LA electricity value is a state average.",
+    "CenterPoint large-load delivery charges for Houston; the Houston electricity value is a state average.",
+    "Utility connection / interconnection cost per MW for either site.",
+    "Cooling capital-cost difference (dry vs evaporative).",
+    "Annual maintenance / O&M rate.",
+    "Houston land sale comps (public); only appraisal-district values are used."
+  ]
+}
