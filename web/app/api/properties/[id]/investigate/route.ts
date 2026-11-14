@@ -7,7 +7,6 @@ import { getStore } from "@/lib/gwStore";
 import type { Listing } from "@/lib/listings";
 import { newRun, runPropertyInvestigation, valuationForMemo, type PropertyFacts } from "@/lib/propertyInvestigator";
 import { readJsonBody } from "@/lib/requestBody";
-import { sampleValuation } from "@/lib/valuation";
 import type { PropertyValuation } from "@/lib/valuationTypes";
 
 export const runtime = "nodejs";
@@ -41,15 +40,10 @@ async function workloadMw(req: Request): Promise<number | null> {
   return typeof value.mw === "number" && Number.isFinite(value.mw) && value.mw > 0 && value.mw <= MAX_MW ? value.mw : null;
 }
 
-/**
- * TODO(Marvin): when web/lib/propertyValuation.ts lands, replace the body with
- *   const { valueListing } = await import("@/lib/propertyValuation");
- *   return valueListing(listing, { mw });
- * Until then every memo uses the engine's sample scenario, which is tagged sample end to end.
- */
+/** Marvin's engine on this listing and workload. valuationForMemo() still caps a sample-tainted Buy at Maybe. */
 async function valueListingForMemo(listing: Listing, mw: number): Promise<PropertyValuation> {
-  void listing; void mw;
-  return sampleValuation();
+  const { valueListing } = await import("@/lib/propertyValuation");
+  return valueListing(listing, { mw });
 }
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {

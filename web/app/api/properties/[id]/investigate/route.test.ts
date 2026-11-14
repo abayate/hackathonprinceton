@@ -65,9 +65,13 @@ describe("POST /api/properties/[id]/investigate", () => {
     await Promise.all(afterTasks.map((task) => task()));
     const done = await (await GET(new Request("http://localhost"), ctx(run_id))).json();
     expect(done.status).toBe("done");
-    expect(done.memo).toMatchObject({ parcel_id: "costar-900001", recommendation: "maybe", live: true });
-    expect(done.memo.max_price_usd_per_acre).toMatchObject({ value: 250_000, unit: "USD/acre", kind: "sample" });
-    expect(write.mock.calls[0][0]).toMatchObject({ valuation_is_sample: true, verdict: "maybe" });
+    // Real engine on synthetic facts: assert the mapping rules, not a market-data-dependent verdict.
+    expect(done.memo).toMatchObject({ parcel_id: "costar-900001", live: true });
+    expect(["buy", "maybe", "pass"]).toContain(done.memo.recommendation);
+    expect(done.memo.max_price_usd_per_acre).toMatchObject({ unit: "USD/acre" });
+    const sent = write.mock.calls[0][0];
+    expect(sent.verdict).toBe(done.memo.recommendation);
+    if (sent.valuation_is_sample) expect(done.memo.recommendation).not.toBe("buy");
     expect(done).not.toHaveProperty("memo_id");
   });
 
