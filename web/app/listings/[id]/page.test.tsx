@@ -37,7 +37,10 @@ describe("database-mode listing SSR with synthetic rows", () => {
     expect(box.indexOf("Recorded asking price")).toBeGreaterThan(-1);
     expect(box.indexOf("Recorded asking price")).toBeLessThan(box.indexOf("delay exposure scenario"));
     expect(box).toContain("Maximum purchase price");
-    expect(box).toContain("Not calculated");
+    expect(box).toContain("Price ceiling");
+    expect(box).toContain(">sample<");
+    expect(html).toContain("Sample verdict");
+    expect(html).toContain("Ten-year cost");
     expect(box).toContain("not a land valuation");
     expect(html).toContain('id="property-review"');
     expect(html).toContain("Your property review");
