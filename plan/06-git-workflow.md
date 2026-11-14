@@ -4,7 +4,7 @@
 
 Yes, after two short things that have to happen first. Until both are done, parallel work produces conflicts.
 
-1. **Allen pushes the first commit (10 minutes).** Folders, `.gitignore`, `.env.example`, and the `plan/` folder. Everyone must branch from this same commit.
+1. **Allen pushes the skeleton (10 minutes).** AJ already created the repo with `plan/`, the README, and `.gitignore`. Allen adds the empty folders and `.env.example`. Everyone must branch from this same commit.
 2. **All four freeze the contract (about 30 minutes).** Walk `01-contract.md`, fix field names, tick the sign-off. Allen commits the mock JSON files to `main`.
 
 After that, every person works from their own file with no waiting: AJ builds against `mocks/`, Marvin codes formulas with fixture inputs, Noah opens the sponsor data, Allen serves mocks from real routes.
@@ -16,7 +16,7 @@ After that, every person works from their own file with no waiting: AJ builds ag
 | `lane/frontend` | AJ | `web/` |
 | `lane/model-agent` | Marvin | `model/`, `agent/` |
 | `lane/backend` | Allen | `api/`, `mocks/`, `.github/`, `Dockerfile`, `Makefile`, `.gitignore`, `.env.example`, `requirements.txt` |
-| `lane/data` | Noah | `datasources/`, `scripts/`, `data/`, `docs/`, `README.md` |
+| `lane/data` | Noah | `datasources/`, `attest/`, `scripts/`, `data/`, `docs/`, `README.md` |
 
 If two people never edit the same file, git never conflicts. So:
 
@@ -25,7 +25,7 @@ If two people never edit the same file, git never conflicts. So:
 
 ## One-time setup (each person)
 
-Allen creates the repo and adds the other three under Settings → Collaborators. Each of you accepts the email invite, then:
+AJ created the repo (`abayate/hackathonprinceton`) and adds the other three under Settings → Collaborators. Each of you accepts the email invite, then:
 
 ```bash
 git clone <repo-url>
