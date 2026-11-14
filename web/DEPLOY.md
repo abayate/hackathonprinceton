@@ -13,7 +13,7 @@
 
 The memo's verdict and max price come from the valuation, never from Gemini. A memo that quotes a dollar figure we did not supply is rejected. Each memo has a SHA-256 `digest_sha256`, and `attestation.status` is `"unavailable"` until Solana exists.
 
-**Not wired yet:** the valuation is `sampleValuationForMemo()` (verdict Maybe, null values tagged `sample`). Swap it in `app/api/properties/[id]/investigate/route.ts` when Marvin's `valuation.ts` lands.
+**Valuation:** the route maps Marvin's `PropertyValuation` into the memo (verdict becomes `recommendation`, `maxLandPricePerAcre` becomes `max_price_usd_per_acre`). Until `web/lib/propertyValuation.ts` lands it uses `sampleValuation()`, and a sample-data Buy is capped at Maybe. The swap is one line in `valueListingForMemo()` in `app/api/properties/[id]/investigate/route.ts`. The POST body is optional: `{"mw": 1.5}` (1.5 is the default).
 
 ## First run, in this order
 
