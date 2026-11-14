@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "checked": "2026-11-14",
+  "about": "Hand-checked status for the seven checks on the two demo properties, in the ValuationCheck shape (id, status, detail) plus a source ID from data/sources.csv. These replace the automatic checks for these two properties only. Detail in docs/DEMO_PROPERTIES.md. V14 and V19 are private sponsor data (CoStar, Vexcel); only the observation is recorded here.",
+  "status_rules": {
+    "labor": "pass if the metro's construction employment is at least 100K and not down year on year (BLS CES, latest month vs same month a year earlier); watch if down; this measures the general construction workforce, not data center electricians."
+  },
+  "properties": {
+    "costar-238029": {
+      "label": "5025 Jensen Dr, Houston, TX",
+      "acres_public_record": 1.00,
+      "acres_public_record_source": "V08",
+      "acres_note": "Four HCAD lots total 1.00 ac; CoStar records 1.27 ac. Use 1.00 for land math.",
+      "utilityConnectUsd": { "value": 1000000, "unit": "USD", "kind": "assumed", "source": "assumption", "note": "Heavy power is flagged but no amperage is on record, so assume a full new service like the market default." },
+      "checks": [
+        { "id": "power", "status": "watch", "detail": "Heavy power is flagged in the property record, but no amperage is recorded and CenterPoint capacity is not confirmed.", "source": "V14" },
+        { "id": "water", "status": "watch", "detail": "Aqueduct baseline water stress is Medium-High (20-40%).", "source": "S05" },
+        { "id": "zoning", "status": "watch", "detail": "Houston has no citywide zoning, but the lots are platted in the City Gardens Sec 2 subdivision and its deed restrictions were not checked.", "source": "V17" },
+        { "id": "opposition", "status": "watch", "detail": "A single-family home shares the rear lot line and a YES Prep school campus is about 80 m away on Jensen Dr.", "source": "V08" },
+        { "id": "policy", "status": "pass", "detail": "Location model scores 26/100 (Low band) for this site.", "source": "M01" },
+        { "id": "land", "status": "watch", "detail": "FEMA shaded Zone X (0.2% annual chance) with a drainage ditch along the south edge.", "source": "V06" },
+        { "id": "labor", "status": "pass", "detail": "Houston metro construction employment was 269.3K in Sep 2026 (preliminary), up 5.4% from 255.5K a year earlier.", "source": "V15" }
+      ]
+    },
+    "costar-755901": {
+      "label": "1601 S Perrino Pl, Los Angeles, CA",
+      "acres_public_record": 3.17,
+      "acres_public_record_source": "V07",
+      "acres_note": "County Assessor lot 138,174 SF = 3.17 ac, matching CoStar.",
+      "utilityConnectUsd": { "value": 250000, "unit": "USD", "kind": "assumed", "source": "assumption", "note": "Existing 2,600 A / 480 V 3-phase service (~2.2 MVA) covers ~1.8 MW facility load with evaporative cooling; assumes metering and protection work only. Dry cooling at PUE ~1.5 (~2.25 MW) would exceed it." },
+      "checks": [
+        { "id": "power", "status": "watch", "detail": "Existing 2,600 A / 480 V 3-phase service (~2.2 MVA) fits 1.5 MW IT with evaporative cooling but not with dry cooling; LADWP capacity not confirmed.", "source": "V14" },
+        { "id": "water", "status": "fail", "detail": "Aqueduct baseline water stress is Extremely High (>80%).", "source": "S05" },
+        { "id": "zoning", "status": "pass", "detail": "Zoned M3 heavy industrial, with Assessor use type Industrial; by-right data center use not confirmed with LA City Planning.", "source": "V14" },
+        { "id": "opposition", "status": "pass", "detail": "Industrial buildings and a rail line on all sides in the aerial imagery; no homes or schools adjoin.", "source": "V19" },
+        { "id": "policy", "status": "watch", "detail": "The Texas-trained model does not score California, and no California policy review was done.", "source": "M01" },
+        { "id": "land", "status": "watch", "detail": "FEMA minimal flood hazard, but the parcel is tax-delinquent (default year 2026) and CoStar's condo flag conflicts with the Assessor's single fee parcel.", "source": "V07" },
+        { "id": "labor", "status": "pass", "detail": "LA-Long Beach-Anaheim construction employment was 251.5K in Sep 2026 (preliminary), flat from 251.4K a year earlier.", "source": "V16" }
+      ]
+    }
+  }
+}
