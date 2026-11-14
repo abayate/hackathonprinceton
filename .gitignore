@@ -1,0 +1,17 @@
+# secrets
+.env*
+!.env.example
+*.pem
+
+# sponsor data (hackathon-use only, never commit)
+data/private/
+agent/samples/private/
+
+# build and dependency output
+.venv/
+node_modules/
+.next/
+__pycache__/
+
+# local files
+*.pdf
