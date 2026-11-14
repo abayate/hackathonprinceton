@@ -14,6 +14,9 @@ import { isPublicDataMode } from "@/lib/dataMode";
 import { askingPricePerAcre } from "@/lib/propertyReview";
 import PropertyImage from "@/app/components/PropertyImage";
 import PropertyDiligence from "./PropertyDiligence";
+import ValuationPanel from "./ValuationPanel";
+import { parseReadyBy, sampleValuation } from "@/app/components/valuation";
+import { VerdictBadge } from "@/app/components/Explore";
 
 export const dynamic = "force-dynamic";
 
@@ -36,11 +39,13 @@ export default async function ListingPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mw?: string }>;
+  searchParams: Promise<{ mw?: string; ready?: string }>;
 }) {
   if (isPublicDataMode()) notFound();
   const { id } = await params;
-  const mw = parseMw((await searchParams).mw);
+  const query = await searchParams;
+  const mw = parseMw(query.mw);
+  const readyBy = parseReadyBy(query.ready);
   const l = await getListing(id);
   if (!l) notFound();
   const [safer, evidence, modelArtifact] = await Promise.all([saferListingsNearby(id), projectsNearby(id), getModelArtifact()]);
@@ -49,21 +54,21 @@ export default async function ListingPage({
   const stoppedShare = stoppedShareForBand(l.band, modelArtifact.metrics.band_outcomes_oof);
   const e = economics(stoppedShare, mw);
   const checks = checksForListing(l);
+  const valuation = sampleValuation(l, { it_power_mw: mw, ready_by_year: readyBy });
   const img = (view: string, size = "full") => `/api/vexcel/image/${l.site_id}?view=${view}&size=${size}`;
   const color = BAND_COLOR[l.band ?? "none"];
   const pricePerAcre = askingPricePerAcre(l.asking_price, l.lot_acres);
   const recordedPrice = l.asking_price !== null && Number.isFinite(l.asking_price) && l.asking_price > 0 ? l.asking_price : null;
-  const missingFacts = [
-    recordedPrice === null ? "Asking price" : null,
-    !l.lot_acres ? "Parcel acreage" : null,
+  const missingFacts = [...new Set([
+    ...valuation.missing_inputs,
     !l.zoning ? "Recorded zoning" : null,
     l.heavy_power === null ? "Recorded power service" : null,
-    "Utility capacity and connection date", "Flood exposure and terrain", "Maximum purchase price and ten-year total cost",
-  ].filter(Boolean);
+  ].filter((fact): fact is string => Boolean(fact)))];
+  const usd = (value: number | null) => value == null ? "Unknown" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 
   return (
     <main className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6">
-      <Link href={`/?mw=${mw}${l.state === "CA" ? "&market=la" : ""}`} className="text-sm font-medium text-slate-500 hover:text-slate-900">
+      <Link href={`/?mw=${mw}&ready=${readyBy}${l.state === "CA" ? "&market=la" : ""}`} className="text-sm font-medium text-slate-500 hover:text-slate-900">
         ← Browse prospects
       </Link>
 
@@ -82,6 +87,15 @@ export default async function ListingPage({
         <p className="max-w-2xl text-sm leading-6 text-slate-600">CoStar property record. Confirm price, availability and suitability with the owner or broker before pursuing it.</p>
         <a href="#property-review" className="rounded-lg bg-[#215f4c] px-4 py-2 text-sm font-semibold text-white">Review this prospect</a>
       </div>
+
+      <section aria-labelledby="verdict-heading" className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3">
+          <VerdictBadge valuation={valuation} size="lg" />
+          <h2 id="verdict-heading" className="text-xl font-semibold text-slate-900">{valuation.sentence}</h2>
+        </div>
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-700">{valuation.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>
+        <p className="mt-3 text-xs text-slate-500">For {mw} MW, ready by {readyBy}. {valuation.is_sample ? "Sample verdict: placeholder logic until the valuation engine is connected. Don't use it for a decision." : ""}</p>
+      </section>
 
       {/* Gallery: Vexcel top-down + four oblique angles */}
       <div className="mt-5 grid h-[280px] grid-cols-4 grid-rows-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px]">
@@ -155,6 +169,8 @@ export default async function ListingPage({
               ))}
             </ul>
           </section>
+
+          <ValuationPanel valuation={valuation} />
 
           <PropertyDiligence key={l.site_id} propertyId={l.site_id} />
 
@@ -233,8 +249,9 @@ export default async function ListingPage({
             <p className="mt-1 text-sm text-slate-600">{pricePerAcre === null ? "Asking price per acre unknown" : `${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(pricePerAcre)} per acre · derived`}</p>
             <p className="mt-2 text-xs leading-5 text-slate-500">CoStar snapshot; price date and current availability are not verified. Price per acre divides the recorded asking price by recorded lot size.</p>
             <dl className="mt-5 space-y-2 text-sm">
-              <div className="flex justify-between gap-3"><dt className="text-slate-600">Maximum purchase price</dt><dd className="font-medium text-slate-900">Not calculated</dd></div>
-              <div className="flex justify-between gap-3"><dt className="text-slate-600">Ten-year total cost</dt><dd className="font-medium text-slate-900">Not calculated</dd></div>
+              <Row label="Price ceiling" value={valuation.max_price_usd_per_acre.value == null ? "Unknown" : `${usd(valuation.max_price_usd_per_acre.value)}/acre`} tag={valuation.max_price_usd_per_acre.kind} note={valuation.max_price_usd_per_acre.note} strong />
+              <Row label="Maximum purchase price" value={usd(valuation.max_price_usd.value)} tag={valuation.max_price_usd.kind} note="Price ceiling × recorded acreage" />
+              <Row label="Ten-year total cost" value={money(valuation.ten_year_cost_usd.value)} tag={valuation.ten_year_cost_usd.kind} note="Lowest-cost cooling design; see the breakdown" />
             </dl>
             <a href="#property-review" className="mt-5 block rounded-lg bg-[#215f4c] px-4 py-3 text-center text-sm font-semibold text-white">Start property diligence</a>
             <h2 className="mt-6 border-t border-slate-200 pt-5 text-base font-semibold text-slate-900">Area screening and cost assumptions</h2>
@@ -258,6 +275,7 @@ export default async function ListingPage({
               <p className="mt-2 text-xs text-slate-500">{(stoppedShare * 100).toFixed(1)}% of tracked Texas data center projects scored in this band were stopped (cross-validation). Small sample; today&apos;s features.</p>
             )}
             <form method="get" className="mt-5 flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2">
+              <input type="hidden" name="ready" value={readyBy} />
               <label htmlFor="mw" className="text-xs font-semibold uppercase text-slate-500">Load</label>
               <input id="mw" name="mw" type="number" min={1} defaultValue={mw} className="w-full text-sm text-slate-900 outline-none" />
               <span className="text-sm text-slate-500">MW</span>

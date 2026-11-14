@@ -6,10 +6,11 @@ import { getModelArtifact } from "@/lib/modelArtifact";
 import { isPublicDataMode } from "@/lib/dataMode";
 import { parseMinAcres, parseMw } from "@/lib/params";
 import Explore, { type Card } from "./components/Explore";
+import { parsePriority, parseReadyBy, READY_BY_YEARS, sampleValuation, sortByPriority } from "./components/valuation";
 import "./prospects.css";
 
 export const dynamic = "force-dynamic";
-type SP = ListingFilters & { mw?: string };
+type SP = ListingFilters & { mw?: string; ready?: string; sort?: string };
 
 function href(sp: SP, patch: Partial<SP>) {
   const query = new URLSearchParams();
@@ -40,18 +41,23 @@ export default async function Home({ searchParams }: { searchParams: Promise<SP>
     ...(raw.power === "1" ? { power: "1" } : {}),
     ...(market !== "la" && ["green", "watch", "red"].includes(raw.band ?? "") ? { band: raw.band } : {}),
     ...(raw.mw ? { mw: String(parseMw(raw.mw)) } : {}),
+    ...(raw.ready ? { ready: String(parseReadyBy(raw.ready)) } : {}),
+    ...(raw.sort && parsePriority(raw.sort) !== "recommended" ? { sort: parsePriority(raw.sort) } : {}),
   };
   const mw = parseMw(sp.mw);
+  const readyBy = parseReadyBy(sp.ready);
+  const priority = parsePriority(sp.sort);
   const [listings, modelArtifact] = await Promise.all([listListings({ ...sp, market }), getModelArtifact()]);
   const clientId = (await cookies()).get("client_id")?.value;
   const saved = clientId ? await watchlistIds(clientId) : [];
-  const cards: Card[] = listings.map((listing) => ({
+  const cards: Card[] = sortByPriority(listings.map((listing) => ({
     site_id: listing.site_id, name: listing.name, city: listing.city, state: listing.state, lat: listing.lat, lng: listing.lng,
     property_type: listing.property_type, lot_acres: listing.lot_acres, building_sf: listing.building_sf, ceiling_ft: listing.ceiling_ft,
     heavy_power: listing.heavy_power, asking_price: listing.asking_price, water_stress_label: listing.water_stress_label,
     p_stopped: listing.p_stopped, band: listing.band,
-  }));
-  const clearHref = href({ market, mw: String(mw) }, {});
+    valuation: sampleValuation(listing, { it_power_mw: mw, ready_by_year: readyBy }),
+  })), priority);
+  const clearHref = href({ market, mw: String(mw), ...(sp.ready ? { ready: sp.ready } : {}) }, {});
 
   return <main className="gw-prospects">
     <header className="gw-prospect-intro"><div><h1>Property prospects</h1><p>Start with the land. Follow the facts. Find the questions worth asking.</p></div><Link href="/projects" className="gw-research-link">Explore project research <span aria-hidden="true">→</span></Link></header>
@@ -63,14 +69,17 @@ export default async function Home({ searchParams }: { searchParams: Promise<SP>
         <label className="gw-property-field"><span>Property type</span><select name="type" defaultValue={sp.type ?? ""}><option value="">All types</option>{["Industrial", "Flex", "Land"].map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
         <label className="gw-property-field"><span>Minimum acres</span><input type="number" name="acres" min="0" step="any" defaultValue={sp.acres ?? ""} placeholder="Any size" /></label>
         <label className="gw-property-field"><span>Workload <small>MW</small></span><input type="number" name="mw" min="1" max="5000" step="any" required defaultValue={mw} aria-describedby="workload-help" /></label>
+        <label className="gw-property-field"><span>Ready by</span><select name="ready" defaultValue={String(readyBy)}>{READY_BY_YEARS.map((year) => <option key={year} value={year}>{year}</option>)}</select></label>
+        <label className="gw-property-field"><span>Sort by</span><select name="sort" defaultValue={priority}><option value="recommended">Recommended</option><option value="lowest_cost">Lowest ten-year cost</option><option value="verdict">Verdict: Buy first</option></select></label>
         <button type="submit" className="gw-prospect-button gw-prospect-primary">Apply search</button>
         <div className="gw-filter-secondary"><label className="gw-property-checkbox"><input type="checkbox" name="power" value="1" defaultChecked={sp.power === "1"} /><span>Reported heavy power</span></label>{market !== "la" && <label className="gw-band-filter"><span>Texas screening band</span><select name="band" defaultValue={sp.band ?? ""} aria-describedby="screening-band-help"><option value="">All bands</option><option value="green">Green</option><option value="watch">Watch</option><option value="red">Red</option></select></label>}<Link href={clearHref}>Clear property filters</Link></div>
       </form>
-      <p id="workload-help" className="gw-workload-note">MW sets the delay-cost scenario. Neither workload nor a heavy-power record confirms available utility capacity.</p>
+      <p id="workload-help" className="gw-workload-note">MW and ready-by year set the verdict, price ceiling and ten-year cost. Neither confirms available utility capacity or a connection date.</p>
+      <p className="gw-sample-banner" role="note"><strong>Sample valuation</strong> Buy/Maybe/Pass, price ceilings and ten-year costs are placeholder outputs while the valuation engine is built. Don&apos;t use them for a decision.</p>
       {market !== "la" && <p id="screening-band-help" className="gw-workload-note">Selecting a screening band includes scored Texas properties only; unscored properties, including all LA properties, are excluded.</p>}
     </div>
     <div className="gw-property-results-heading"><div><h2>{listings.length} {listings.length === 1 ? "property" : "properties"} in {market === "la" ? "Los Angeles" : market === "all" ? "Houston & Los Angeles" : "Houston"}</h2><p>Property facts and asking prices from the CoStar snapshot. Availability and pricing need confirmation.</p></div><span>Reported property record</span></div>
     {(market === "la" || market === "all") && <p className="gw-market-note">The risk model is Texas-only, so LA sites are unscored.</p>}
-    <Explore cards={cards} mw={mw} saved={saved} bandOutcomes={modelArtifact.metrics.band_outcomes_oof} clearHref={clearHref} />
+    <Explore cards={cards} mw={mw} readyBy={sp.ready ? readyBy : undefined} saved={saved} bandOutcomes={modelArtifact.metrics.band_outcomes_oof} clearHref={clearHref} />
   </main>;
 }

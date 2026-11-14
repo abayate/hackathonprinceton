@@ -98,6 +98,16 @@ describe("database-mode home page", () => {
     expect(html).not.toContain("Buy up to");
   });
 
+  it("labels every card verdict and price ceiling as sample output", async () => {
+    const html = await renderHome({});
+    expect(html).toContain("Sample valuation");
+    const listingA = cardFor(html, "costar-900001");
+    expect(listingA).toMatch(/>(Buy|Maybe|Pass)<small[^>]*>Sample<\/small>/);
+    expect(listingA).toContain("Ten-year cost");
+    expect(html).toContain('name="ready"');
+    expect(html).toContain('name="sort"');
+  });
+
   it("renders the California market with its unscored notice and no numeric score or dollar scenario", async () => {
     const html = await renderHome({ market: "la" });
     const california = cardFor(html, "costar-900004");
@@ -106,7 +116,8 @@ describe("database-mode home page", () => {
     expect(html).toContain("LA sites are unscored");
     expect(california).toContain("No band outcome estimate for this site.");
     expect(california).not.toMatch(/Risk score \d+\/100/);
-    expect(california).not.toContain("$");
+    expect(california).not.toContain("delay exposure scenario");
+    expect(california).toContain("Sample");
     expect(html).not.toContain("Synthetic Listing A");
   });
 

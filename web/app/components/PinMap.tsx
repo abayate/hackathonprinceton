@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { maplibregl } from "@/lib/maplibreClient";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-export type MapPin = { id: string; name: string; lat: number; lng: number; color: string; text: string };
+export type MapPin = { id: string; name: string; lat: number; lng: number; color: string; text: string; ariaText?: string };
 
 function stylePin(node: HTMLButtonElement, selected: boolean) {
   node.style.background = selected ? "#0f172a" : "white";
@@ -87,7 +87,7 @@ export default function PinMap({
       node.onclick = () => onSelectRef.current?.(p.id);
       stylePin(node, p.id === selectedIdRef.current);
       const marker = new maplibregl.Marker({ element: node }).setLngLat([p.lng, p.lat]).addTo(m);
-      node.setAttribute("aria-label", `Select ${p.name} on map, ${p.text === "—" || p.text === "Unscored" ? "risk score unavailable" : `risk score ${p.text}`}`);
+      node.setAttribute("aria-label", `Select ${p.name} on map, ${p.ariaText ?? (p.text === "—" || p.text === "Unscored" ? "risk score unavailable" : `risk score ${p.text}`)}`);
       markers.current.set(p.id, { m: marker, node });
     }
     if (pins.length) {
