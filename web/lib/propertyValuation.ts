@@ -13,6 +13,13 @@ const CHECK_FILE = "data/inputs/demo_checks.json";
 const CUBIC_METERS_PER_KGAL = 3.785411784; // 1,000 US gallons, exact conversion.
 const CHECK_IDS = ["power", "water", "zoning", "opposition", "policy", "land", "labor"] as const;
 const KINDS: readonly ValueKind[] = ["reported", "modeled", "assumed", "sample"];
+// Temporary Round-3 scenario until Noah supplies the existing_building block.
+// These are explicit assumptions, not engineering feasibility standards.
+const assumedReuse = (value: number, unit: string): Tagged => ({ value, unit, kind: "assumed", source: "assumption:round3-building-reuse" });
+const REUSE_FALLBACK = {
+  build_multiplier: assumedReuse(0.85, "ratio"),
+  applicability: { min_sf_per_mw: assumedReuse(10000, "SF/MW"), min_clear_height_ft: assumedReuse(18, "ft") },
+};
 
 function object(value: unknown): JsonObject {
   return value !== null && typeof value === "object" && !Array.isArray(value) ? value as JsonObject : {};
@@ -56,24 +63,46 @@ function readInputs(file: string): { data: JsonObject; missing: readonly string[
   }
 }
 
-function coolingInputs(data: JsonObject, design: CoolingDesign, build: Tagged): ValuationInputs["cooling"][CoolingDesign] {
+function coolingInputs(data: JsonObject, design: CoolingDesign, build: Tagged, reuse?: Tagged): ValuationInputs["cooling"][CoolingDesign] {
   const allCooling = object(data.cooling);
   const cooling = object(allCooling[design]);
   const multiplier = marketNumber(cooling.pue_multiplier, "ratio", `cooling.${design}.pue_multiplier`);
   const basePue: Tagged = { ...CONSTANTS.pue, unit: "kWh/kWh" };
   const delta = marketNumber(allCooling.capex_delta_usd_per_w, "USD/W", "cooling.capex_delta_usd_per_w");
+  const constructionMultiplier = reuse ?? { value: 1, unit: "ratio", kind: "assumed", source: "assumption:evaporative-build-baseline" } as Tagged;
   return {
     // Cost-scenario assumption only, disclosed in valueListing's reasons.
     eligible: true,
     pue: computed("kWh/kWh", [basePue, multiplier], (base, factor) => base * factor),
     wueLPerItKwh: marketNumber(cooling.wue_l_per_kwh, "L/kWh", `cooling.${design}.wue_l_per_kwh`),
     buildMultiplier: design === "evaporative"
-      ? { value: 1, unit: "ratio", kind: "assumed", source: "assumption:evaporative-build-baseline" }
-      : computed("ratio", [build, delta], (cost, extra) => (cost + extra) / cost),
+      ? constructionMultiplier
+      : computed("ratio", [build, constructionMultiplier, delta], (cost, factor, extra) => (cost * factor + extra) / cost),
   };
 }
 
-function listingInputs(listing: Listing, mw: number, data: JsonObject, market: JsonObject, overrides: JsonObject): ValuationInputs {
+type ReuseAssessment = { multiplier?: Tagged; reason: string };
+function buildingReuse(listing: Listing, mw: number, data: JsonObject): ReuseAssessment {
+  const fallback = !("existing_building" in data);
+  const config = fallback ? REUSE_FALLBACK : object(data.existing_building);
+  const applicability = object(config.applicability);
+  const multiplier = marketNumber(config.build_multiplier, "ratio", "existing_building.build_multiplier");
+  const sfPerMw = marketNumber(applicability.min_sf_per_mw, "SF/MW", "existing_building.applicability.min_sf_per_mw");
+  const clearHeight = marketNumber(applicability.min_clear_height_ft, "ft", "existing_building.applicability.min_clear_height_ft");
+  if (multiplier.value === null || multiplier.value <= 0 || multiplier.value > 1
+    || sfPerMw.value === null || sfPerMw.value <= 0 || clearHeight.value === null || clearHeight.value <= 0) {
+    return { reason: "Building-reuse adjustment not applied: invalid or incomplete reuse rule; full construction cost retained." };
+  }
+  const requiredSf = mw * sfPerMw.value;
+  const fits = Number.isFinite(mw) && mw > 0 && Number.isFinite(requiredSf)
+    && typeof listing.building_sf === "number" && Number.isFinite(listing.building_sf) && listing.building_sf >= requiredSf
+    && typeof listing.ceiling_ft === "number" && Number.isFinite(listing.ceiling_ft) && listing.ceiling_ft >= clearHeight.value;
+  const rule = `Requires ${sfPerMw.value.toLocaleString("en-US")} SF/MW and ${clearHeight.value} ft clear height; ${fallback ? "provisional assumed rule" : "market-file applicability rule"}.`;
+  return fits ? { multiplier, reason: `Reuses the existing ${listing.building_sf!.toLocaleString("en-US")} SF building (build cost × ${multiplier.value}, ${multiplier.kind}, source ${multiplier.source}). ${rule} This is a cost scenario, not confirmation of structural, electrical, or cooling suitability.` }
+    : { reason: `Building-reuse adjustment not applied: recorded building size or clear height is missing or insufficient. ${rule} Full construction cost retained.` };
+}
+
+function listingInputs(listing: Listing, mw: number, data: JsonObject, market: JsonObject, overrides: JsonObject, reuse?: Tagged): ValuationInputs {
   const build = marketNumber(market.build_cost_usd_per_w, "USD/W", "build_cost_usd_per_w");
   const water = marketNumber(market.water_usd_per_kgal, "USD/1000gal", "water_usd_per_kgal");
   return {
@@ -89,7 +118,7 @@ function listingInputs(listing: Listing, mw: number, data: JsonObject, market: J
     avgLoad: { ...CONSTANTS.avgLoad, unit: "ratio" },
     electricityUsdPerKwh: marketNumber(market.electricity_usd_per_kwh, "USD/kWh", "electricity_usd_per_kwh"),
     waterUsdPerM3: computed("USD/m3", [water], cost => cost / CUBIC_METERS_PER_KGAL),
-    cooling: { evaporative: coolingInputs(data, "evaporative", build), dry: coolingInputs(data, "dry", build) },
+    cooling: { evaporative: coolingInputs(data, "evaporative", build, reuse), dry: coolingInputs(data, "dry", build, reuse) },
   };
 }
 
@@ -142,11 +171,13 @@ export function valueListing(listing: Listing, opts: { mw: number }): PropertyVa
   const key = listing.state === "TX" ? "houston" : listing.state === "CA" ? "los_angeles" : "";
   const market = object(object(data.markets)[key]);
   const overrides = object(object(demo.data.properties)[listing.site_id]);
-  const inputs = listingInputs(listing, opts.mw, data, market, overrides);
+  const reuse = buildingReuse(listing, opts.mw, data);
+  const inputs = listingInputs(listing, opts.mw, data, market, overrides, reuse.multiplier);
   const alternatives = benchmarkAlternative(data, market, inputs);
   const result = valueProperty(inputs, listingChecks(listing, overrides), alternatives);
   const missingInputs = [...new Set([...result.missingInputs, ...missing, ...demo.missing, ...(Object.keys(market).length ? [] : ["market"])])];
   return { ...result, missingInputs, reasons: [...result.reasons,
+    reuse.reason,
     ...(missing.length ? ["Market input file is missing, invalid, or uses an unsupported schema."] : []),
     ...(demo.missing.length ? ["Hand-checked demo inputs unavailable; automatic listing checks retained."] : []),
     ...(!Object.keys(market).length ? ["No supported market inputs for this listing's state."] : []),

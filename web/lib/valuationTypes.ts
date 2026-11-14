@@ -90,7 +90,10 @@ export type PropertyValuation = Readonly<{
   reasons: readonly string[];
   missingInputs: readonly string[];
   askingPricePerAcre: Tagged;
-  /** Negative means even free land cannot match the eligible alternative. */
+  /** Multiply the unrounded value by acres.value for the total acquisition-price ceiling.
+   * If either value is null, the total is unknown (not zero). Keep negative values:
+   * a negative ceiling means even a free acquisition cannot match the alternative.
+   */
   maxLandPricePerAcre: Tagged;
   tenYearCost: Tagged;
   nextBestSiteId: string | null;
