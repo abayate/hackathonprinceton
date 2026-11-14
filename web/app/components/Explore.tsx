@@ -9,7 +9,8 @@ import HeartButton from "./HeartButton";
 import BandBadge from "./BandBadge";
 import PropertyImage from "./PropertyImage";
 import type { MapPin } from "./PinMap";
-import { VERDICT_STYLE, type PropertyValuation } from "./valuation";
+import type { PropertyValuation } from "@/lib/valuationTypes";
+import { cardReason, perAcre, VERDICT_STYLE } from "./valuationView";
 
 const PinMap = dynamic(() => import("./PinMap"), { ssr: false });
 const Viewer3D = dynamic(() => import("./Viewer3D"), { ssr: false });
@@ -24,19 +25,18 @@ const num = (value: number) => value.toLocaleString("en-US", { maximumFractionDi
 const askingPrice = (value: number | null) => value != null && Number.isFinite(value) && value > 0
   ? value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }) : null;
 
-const perAcre = (value: number | null) => value == null ? null : `${value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}/acre`;
-
 export function VerdictBadge({ valuation, size = "sm" }: { valuation: PropertyValuation; size?: "sm" | "lg" }) {
   const style = VERDICT_STYLE[valuation.verdict];
-  return <span className={`inline-flex items-center gap-1.5 rounded-full font-bold text-white ${style.cls} ${size === "lg" ? "px-3.5 py-1.5 text-lg" : "px-2.5 py-0.5 text-xs"}`}>{style.label}{valuation.is_sample && <small className="rounded-full bg-white/25 px-1.5 text-[9px] font-semibold uppercase tracking-wide">Sample</small>}</span>;
+  return <span className={`inline-flex items-center gap-1.5 rounded-full font-bold text-white ${style.cls} ${size === "lg" ? "px-3.5 py-1.5 text-lg" : "px-2.5 py-0.5 text-xs"}`}>{style.label}{valuation.sampleTainted && <small className="rounded-full bg-white/25 px-1.5 text-[9px] font-semibold uppercase tracking-wide">Sample</small>}</span>;
 }
 
 function CardVerdict({ valuation }: { valuation: PropertyValuation }) {
-  const ceiling = perAcre(valuation.max_price_usd_per_acre.value);
+  const max = valuation.maxLandPricePerAcre.value;
+  const ceiling = max != null && max >= 0 ? perAcre(max) : null;
   return <div className="gw-card-verdict">
     <div className="gw-card-verdict-head"><VerdictBadge valuation={valuation} />{valuation.verdict !== "pass" && ceiling && <strong>Buy up to {ceiling}</strong>}</div>
-    <p>{valuation.reasons[0]}</p>
-    <dl><div><dt>Ten-year cost</dt><dd>{money(valuation.ten_year_cost_usd.value)}</dd></div><div><dt>Asking</dt><dd>{perAcre(valuation.asking_price_usd_per_acre.value) ?? "Unknown"}</dd></div></dl>
+    <p>{cardReason(valuation)}</p>
+    <dl><div><dt>Ten-year cost</dt><dd>{money(valuation.tenYearCost.value)}</dd></div><div><dt>Asking</dt><dd>{perAcre(valuation.askingPricePerAcre.value) ?? "Unknown"}</dd></div></dl>
   </div>;
 }
 
@@ -61,7 +61,7 @@ export default function Explore({ cards, mw, readyBy, saved, bandOutcomes, clear
   const selectedCard = cards.find((card) => card.site_id === selectedId);
   const pins: MapPin[] = useMemo(() => cards.filter((card) => Number.isFinite(card.lat) && Number.isFinite(card.lng) && Math.abs(card.lat) <= 90 && Math.abs(card.lng) <= 180).map((card) => ({
     id: card.site_id, name: card.name, lat: card.lat, lng: card.lng, color: VERDICT_STYLE[card.valuation.verdict].color,
-    text: VERDICT_STYLE[card.valuation.verdict].label, ariaText: `sample verdict ${VERDICT_STYLE[card.valuation.verdict].label}`,
+    text: VERDICT_STYLE[card.valuation.verdict].label, ariaText: `${card.valuation.sampleTainted ? "sample " : ""}verdict ${VERDICT_STYLE[card.valuation.verdict].label}`,
   })), [cards]);
   const pinIds = new Set(pins.map((pin) => pin.id));
 
@@ -92,7 +92,7 @@ export default function Explore({ cards, mw, readyBy, saved, bandOutcomes, clear
       {!cards.length && <section className="gw-property-empty"><h3>No properties match this search</h3><p>Try a smaller minimum acreage, include more property types, or remove the heavy-power filter. Unknown facts are not treated as matching a requirement.</p><Link className="gw-prospect-button" href={clearHref}>Clear property filters</Link></section>}
     </div>
     <aside className="gw-property-map" aria-label="Property locations">
-      <div className="gw-property-map-heading"><div><strong>Explore the surroundings</strong><p>Pins show the sample verdict for each property.</p></div><div className="gw-property-map-toggle" aria-label="Property map view">{(["map", "3d"] as const).map((value) => <button type="button" key={value} onClick={() => setView(value)} aria-pressed={view === value}>{value === "map" ? "Map" : "3D city"}</button>)}</div></div>
+      <div className="gw-property-map-heading"><div><strong>Explore the surroundings</strong><p>Pins show the verdict for each property.</p></div><div className="gw-property-map-toggle" aria-label="Property map view">{(["map", "3d"] as const).map((value) => <button type="button" key={value} onClick={() => setView(value)} aria-pressed={view === value}>{value === "map" ? "Map" : "3D city"}</button>)}</div></div>
       <div className="gw-property-map-canvas">{pins.length ? view === "map" ? <PinMap pins={pins} selectedId={selectedId} onSelect={pick} /> : <Viewer3D pins={pins} focusId={selectedId} onSelect={pick} /> : <div className="gw-property-map-empty">{cards.length ? "No valid map coordinates for these properties." : "Your matching property locations will appear here."}</div>}</div>
       <div className="gw-property-map-caption" aria-live="polite">{selectedCard ? <><div><span>Selected property</span><strong>{selectedCard.name}</strong><p>{selectedCard.city}, {selectedCard.state}</p></div><Link href={`/listings/${encodeURIComponent(selectedCard.site_id)}?mw=${mw}${readyBy ? `&ready=${readyBy}` : ""}`}>View record <span aria-hidden="true">→</span></Link></> : <p>Select a property to explore its location.</p>}</div>
       <p className="gw-property-map-note">3D city imagery depends on Vexcel coverage and service access. Imagery is context; parcel boundaries, terrain and site conditions need verification.</p>
