@@ -27,6 +27,6 @@ it.each(["public", "database"])("uses the checked-in Texas projects in %s mode w
   expect(candidates.every((candidate) => candidate.id.match(/^[a-f0-9-]{36}$/))).toBe(true);
   expect(watched.length).toBeGreaterThan(0);
   expect(watched.every((source) => candidates.some((candidate) => candidate.id === source.projectId))).toBe(true);
-  expect(Object.values(bandRates).every((rate) => rate >= 0 && rate <= 1)).toBe(true);
+  expect(Object.values(bandRates).every((rate) => rate !== null && rate >= 0 && rate <= 1)).toBe(true);
   expect(db.query).not.toHaveBeenCalled();
 });
