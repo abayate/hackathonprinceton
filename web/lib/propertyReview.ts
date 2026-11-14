@@ -84,3 +84,6 @@ export function askingPricePerAcre(price: number | null, acres: number | null): 
   const result = price / acres;
   return Number.isFinite(result) ? result : null;
 }
+
+/** Server-side validation for PUT /api/properties/[id]/review, using the same rules as local saves. */
+export function isPropertyReview(input: unknown, id: string): input is PropertyReview { return validReview(input, id); }

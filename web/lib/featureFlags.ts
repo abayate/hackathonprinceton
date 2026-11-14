@@ -8,3 +8,8 @@ export function isEvidenceIntakeEnabled(): boolean {
 export function isInvestigatorEnabled(): boolean {
   return process.env.ENABLE_INVESTIGATOR === "true";
 }
+
+/** Groundwork property memos (POST /api/properties/[id]/investigate). Off unless exactly true. */
+export function isPropertyInvestigatorEnabled(): boolean {
+  return process.env.ENABLE_PROPERTY_INVESTIGATOR === "true";
+}
