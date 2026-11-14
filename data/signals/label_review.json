@@ -1,0 +1,42 @@
+[
+  {
+    "project_id": "1c23acb7-4ec3-459b-aa99-1bd3104a4fb9",
+    "tracker_status": "defeated",
+    "tracker_stop_date": "2026-02-18",
+    "kind_finding": "consistent",
+    "date_finding": "consistent",
+    "note": "The council denied this project's map amendment on February 18, matching the tracker's defeated label and date; the zoning change was not heard.",
+    "signal_ids": ["san-marcos-map-amendment-denied-2026-02"],
+    "source_ids": ["R04"]
+  },
+  {
+    "project_id": "4f2eaf6e-61e0-4721-8ac1-8f12718c64c8",
+    "tracker_status": "withdrawn",
+    "tracker_stop_date": "2026-09-01",
+    "kind_finding": "consistent",
+    "date_finding": "not_established",
+    "note": "The developer withdrew the proposal before the September 8 council meeting, but the source does not establish the tracker's September 1 withdrawal day.",
+    "signal_ids": ["tomahawk-proposal-withdrawn-2026-09"],
+    "source_ids": ["R08", "R16"]
+  },
+  {
+    "project_id": "36a8e10f-045d-47b7-8e64-0319d509ce45",
+    "tracker_status": "suspended",
+    "tracker_stop_date": "2026-09-25",
+    "kind_finding": "consistent",
+    "date_finding": "differs",
+    "note": "Construction had already halted when reported on January 21, supporting a suspension but placing that halt before the tracker's September 25 stop date.",
+    "signal_ids": ["matrix-construction-suspended-2026-01"],
+    "source_ids": ["R05", "R14"]
+  },
+  {
+    "project_id": "53035780-aaef-4edb-b279-eb8e2b5cc470",
+    "tracker_status": "defeated",
+    "tracker_stop_date": "2026-08-24",
+    "kind_finding": "not_established",
+    "date_finding": "not_established",
+    "note": "The August 24 report describes a citywide ordinance rather than a vote on Data Factory's proposal, so the project's defeated label and stop day remain unestablished.",
+    "signal_ids": ["athens-resident-opposition-2026-04", "athens-city-ordinance-enacted-2026-08"],
+    "source_ids": ["R09", "R13"]
+  }
+]

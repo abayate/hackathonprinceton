@@ -20,9 +20,20 @@ node_modules/
 dist/
 .next/
 
+# Local verification and tool caches
+.verification/
+coverage/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.tsbuildinfo
+
 # Local files
 *.pdf
 
 # OS / editor
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/

@@ -1,6 +1,7 @@
 import type { Site } from "./sites";
 import type { Listing } from "./listings";
-import { BANDS, CONSTANTS } from "./model";
+import { BANDS, CONSTANTS, displayScore } from "./model";
+import { signalAppliesTo, type Signal } from "./signals";
 
 export type CheckStatus = "pass" | "watch" | "fail" | "unknown";
 export type Check = {
@@ -10,6 +11,7 @@ export type Check = {
   detail: string;
   basis: string; // how the status was decided
   sources: { label: string; url?: string }[];
+  datedRecordCount?: number;
 };
 
 const SRC = {
@@ -18,6 +20,7 @@ const SRC = {
   geocoder: { label: "Census Geocoder", url: "https://geocoding.geo.census.gov/geocoder/" },
   tracker: { label: "More Than Just Parks tracker", url: "https://morethanjustparks.com/data-center-tracker/state/texas" },
   audit: { label: "Texas Tribune, Aug 2026 audit freeze", url: "https://www.texastribune.org/2026/08/03/texas-data-center-project-audit-greg-abbott/" },
+  model: { label: "Model card and evaluation", url: "/evidence" },
 };
 
 function waterStatus(label: string | null): CheckStatus {
@@ -27,9 +30,9 @@ function waterStatus(label: string | null): CheckStatus {
   return "pass";
 }
 
-export function checksFor(s: Site): Check[] {
+export function checksFor(s: Site, knownSignals: readonly Signal[] = []): Check[] {
   const p = s.p_stopped;
-  return [
+  const checks: Check[] = [
     {
       id: "power",
       title: "Power",
@@ -56,7 +59,7 @@ export function checksFor(s: Site): Check[] {
         s.in_city_limits == null
           ? "Could not place this site in a city or county."
           : s.in_city_limits
-            ? `Inside ${s.city} city limits: a rezoning or permit can go to a city council vote.`
+            ? `Inside ${s.city?.replace(/ city$/, "") ?? "local"} city limits: a rezoning or permit can go to a city council vote.`
             : "Unincorporated land: Texas counties have limited zoning power here.",
       basis: "Inside city limits is watch, because most Texas data center fights end in a council vote.",
       sources: [SRC.geocoder],
@@ -68,9 +71,9 @@ export function checksFor(s: Site): Check[] {
       detail:
         p == null
           ? "No model score (location not reliable)."
-          : `Model says ${Math.round(p * 100)}% chance of being blocked or delayed, based on ${s.nearest_metro} distance (${s.km_to_nearest_metro.toFixed(0)} km), ${s.county_tracked_projects} tracked data centers in ${s.county}, county density and water stress.`,
-      basis: `Trained on 16 stopped vs 86 under-construction Texas projects. Below ${BANDS.watch * 100}% passes, ${BANDS.red * 100}%+ fails.`,
-      sources: [SRC.tracker],
+          : `Risk score ${displayScore(p)}/100. Inputs include distance to ${s.nearest_metro} (${s.km_to_nearest_metro.toFixed(0)} km), tracked data centers in ${s.county}, and county density.`,
+      basis: `Threshold bands are display rules: scores below ${BANDS.watch * 100}/100 pass, scores ${BANDS.red * 100}/100 and above fail. See the model card for evaluation details.`,
+      sources: [SRC.tracker, SRC.model],
     },
     {
       id: "policy",
@@ -97,6 +100,11 @@ export function checksFor(s: Site): Check[] {
       sources: [],
     },
   ];
+  // Site is the Texas tracker record; callers supply only records known at the selected date.
+  const matching = knownSignals.filter((signal) => signalAppliesTo(signal, s.project_id, {
+    city: s.city, county: s.county, state: "TX", inCityLimits: s.in_city_limits,
+  }));
+  return checks.map((check) => ({ ...check, datedRecordCount: matching.filter((signal) => signal.check_id === check.id).length }));
 }
 
 const COSTAR = { label: "CoStar property record" };
@@ -144,9 +152,9 @@ export function checksForListing(l: Listing): Check[] {
       status: p == null ? "unknown" : p >= BANDS.red ? "fail" : p >= BANDS.watch ? "watch" : "pass",
       detail: p == null
         ? (l.model_note ?? "Not scored.")
-        : `${Math.round(p * 100)}% chance of being blocked or delayed, from where it sits: ${l.km_to_metro.toFixed(0)} km from ${l.nearest_metro}, ${l.county_tracked_projects} tracked data centers in ${l.county}, county density ${Math.round(l.county_density ?? 0)}/sq mi.`,
-      basis: `Logistic regression trained on 16 stopped vs 86 under-construction Texas projects (AUC 0.70). Below ${BANDS.watch * 100}% passes, ${BANDS.red * 100}%+ fails.`,
-      sources: [SRC.tracker],
+        : `Risk score ${displayScore(p)}/100. Inputs include distance to ${l.nearest_metro} (${l.km_to_metro.toFixed(0)} km), tracked data centers in ${l.county}, and county density ${Math.round(l.county_density ?? 0)}/sq mi.`,
+      basis: `Threshold bands are display rules: scores below ${BANDS.watch * 100}/100 pass, scores ${BANDS.red * 100}/100 and above fail. See the model card for evaluation details.`,
+      sources: [SRC.tracker, SRC.model],
     },
     {
       id: "policy",

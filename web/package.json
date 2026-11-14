@@ -6,26 +6,37 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
-    "maplibre-gl": "^4.7.1",
-    "next": "15.5.4",
+    "maplibre-gl": "6.18.0",
+    "next": "15.5.29",
     "pg": "^8.13.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "server-only": "^0.0.1"
   },
+  "overrides": {
+    "next@15.5.29": {
+      "postcss": "8.5.33",
+      "sharp": "0.35.5"
+    }
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "24.19.2",
     "@types/pg": "^8.11.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "5.1.0",
     "eslint": "^9",
-    "eslint-config-next": "15.5.4",
+    "eslint-config-next": "15.5.29",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "5.1.0"
   }
 }

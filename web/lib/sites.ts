@@ -1,6 +1,8 @@
 import "server-only";
 import { pool } from "./db";
 import { band, type Band } from "./model";
+import { isPublicDataMode } from "./dataMode";
+import { isClientId, parseMaxWaterStress } from "./params";
 
 export type Site = {
   project_id: string;
@@ -67,6 +69,7 @@ function withBand(r: Omit<Site, "band">): Site {
 }
 
 export async function listSites(f: Filters): Promise<Site[]> {
+  if (isPublicDataMode()) return (await import("./publicStore")).listPublicSites(f);
   const where: string[] = [];
   const args: unknown[] = [];
   const status = f.status ?? "proposed";
@@ -77,8 +80,9 @@ export async function listSites(f: Filters): Promise<Site[]> {
     args.push(`%${f.q}%`);
     where.push(`(p.name ILIKE $${args.length} OR p.county ILIKE $${args.length} OR f.city ILIKE $${args.length})`);
   }
-  if (f.water) {
-    args.push(Number(f.water));
+  const maxWaterStress = parseMaxWaterStress(f.water);
+  if (maxWaterStress !== undefined) {
+    args.push(maxWaterStress);
     where.push(`f.water_stress_score <= $${args.length}`);
   }
   const sql =
@@ -92,11 +96,13 @@ export async function listSites(f: Filters): Promise<Site[]> {
 }
 
 export async function getSite(id: string): Promise<Site | null> {
+  if (isPublicDataMode()) return (await import("./publicStore")).getPublicSite(id);
   const { rows } = await pool.query(BASE + " WHERE p.project_id = $1", [id]);
   return rows[0] ? withBand(rows[0]) : null;
 }
 
 export async function getSites(ids: string[]): Promise<Site[]> {
+  if (isPublicDataMode()) return (await import("./publicStore")).getPublicSites(ids);
   if (!ids.length) return [];
   const { rows } = await pool.query(BASE + " WHERE p.project_id = ANY($1)", [ids]);
   const byId = new Map(rows.map((r) => [r.project_id, withBand(r)]));
@@ -104,6 +110,7 @@ export async function getSites(ids: string[]): Promise<Site[]> {
 }
 
 export async function scoreHistory(id: string) {
+  if (isPublicDataMode()) return (await import("./publicStore")).publicScoreHistory(id);
   const { rows } = await pool.query(
     `SELECT to_char(scored_at, 'YYYY-MM-DD HH24:MI') AS at, p_stopped, model_version
      FROM risk_scores WHERE project_id = $1 ORDER BY scored_at`,
@@ -114,6 +121,7 @@ export async function scoreHistory(id: string) {
 
 // Nearby sites (PostGIS) with a lower risk score than this one.
 export async function saferNearby(id: string, limit = 3) {
+  if (isPublicDataMode()) return (await import("./publicStore")).saferPublicNearby(id, limit);
   const { rows } = await pool.query(
     `WITH latest AS (
        SELECT DISTINCT ON (project_id) project_id, p_stopped
@@ -135,9 +143,22 @@ export async function saferNearby(id: string, limit = 3) {
 }
 
 export async function watchlistIds(clientId: string): Promise<string[]> {
+  const publicMode = isPublicDataMode();
+  if (!isClientId(clientId)) return [];
+  if (publicMode) return (await import("./publicStore")).publicWatchlistIds(clientId);
+  return (await watchlistEntries(clientId)).map((entry) => entry.project_id);
+}
+
+export async function watchlistEntries(clientId: string): Promise<{ project_id: string; added_at: string }[]> {
+  const publicMode = isPublicDataMode();
+  if (!isClientId(clientId)) return [];
+  if (publicMode) return (await import("./publicStore")).publicWatchlistEntries(clientId);
   const { rows } = await pool.query(
-    "SELECT project_id FROM site_watchlist WHERE client_id = $1 ORDER BY added_at DESC",
+    "SELECT project_id, added_at FROM site_watchlist WHERE client_id = $1 ORDER BY added_at DESC",
     [clientId],
   );
-  return rows.map((r) => r.project_id);
+  return rows.map((row: { project_id: string; added_at: Date | string }) => ({
+    project_id: row.project_id,
+    added_at: row.added_at instanceof Date ? row.added_at.toISOString() : new Date(row.added_at).toISOString(),
+  }));
 }

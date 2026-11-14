@@ -1,3 +1,5 @@
+import type { BandOutcomes } from "./modelCard";
+
 // Every constant here is tagged with where it comes from. IDs match data/sources.csv.
 
 export type Kind = "reported" | "modeled" | "assumed";
@@ -29,13 +31,22 @@ export function band(p: number | null): Band | null {
   return "green";
 }
 
-export function economics(pStopped: number | null, mw: number) {
+/** Round down so a displayed score never crosses its unchanged risk-band threshold. */
+export function displayScore(score: number | null | undefined): number | null {
+  return score == null || !Number.isFinite(score) || score < 0 || score > 1 ? null : Math.floor(score * 100);
+}
+
+export function stoppedShareForBand(riskBand: Band | null, outcomes: BandOutcomes): number | null {
+  return riskBand === null ? null : outcomes.bands[riskBand].rate;
+}
+
+export function economics(stoppedShare: number | null, mw: number) {
   const kw = mw * 1000;
   const monthlyLease = kw * CONSTANTS.leaseUsdPerKwMonth.value;
   const buildCost = mw * 1e6 * CONSTANTS.buildCostUsdPerW.value;
   const annualPower =
     kw * CONSTANTS.pue.value * CONSTANTS.avgLoad.value * 8760 * CONSTANTS.electricityUsdPerKwh.value;
-  const expectedDelayMonths = pStopped == null ? null : pStopped * CONSTANTS.typicalDelayMonths.value;
+  const expectedDelayMonths = stoppedShare == null ? null : stoppedShare * CONSTANTS.typicalDelayMonths.value;
   const expectedDelayCost = expectedDelayMonths == null ? null : expectedDelayMonths * monthlyLease;
   return { buildCost, annualPower, monthlyLease, expectedDelayMonths, expectedDelayCost };
 }

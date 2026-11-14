@@ -3,127 +3,81 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useMemo, useRef, useState } from "react";
-import { BAND_COLOR, economics, money, type Band } from "@/lib/model";
+import { BAND_COLOR, displayScore, economics, money, stoppedShareForBand, type Band } from "@/lib/model";
+import type { BandOutcomes } from "@/lib/modelCard";
 import HeartButton from "./HeartButton";
+import BandBadge from "./BandBadge";
+import PropertyImage from "./PropertyImage";
 import type { MapPin } from "./PinMap";
 
 const PinMap = dynamic(() => import("./PinMap"), { ssr: false });
 const Viewer3D = dynamic(() => import("./Viewer3D"), { ssr: false });
 
 export type Card = {
-  site_id: string;
-  name: string;
-  city: string;
-  state: string;
-  lat: number;
-  lng: number;
-  property_type: string;
-  lot_acres: number | null;
-  building_sf: number | null;
-  ceiling_ft: number | null;
-  heavy_power: boolean | null;
-  asking_price: number | null;
-  water_stress_label: string | null;
-  p_stopped: number | null;
-  band: Band | null;
+  site_id: string; name: string; city: string; state: string; lat: number; lng: number;
+  property_type: string; lot_acres: number | null; building_sf: number | null; ceiling_ft: number | null;
+  heavy_power: boolean | null; asking_price: number | null; water_stress_label: string | null;
+  p_stopped: number | null; band: Band | null;
 };
+const num = (value: number) => value.toLocaleString("en-US", { maximumFractionDigits: 1 });
+const askingPrice = (value: number | null) => value != null && Number.isFinite(value) && value > 0
+  ? value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }) : null;
 
-const BAND_TEXT: Record<Band, string> = { green: "Low risk", watch: "Watch", red: "High risk" };
+function ScreeningContext({ card, mw, bandOutcomes }: { card: Card; mw: number; bandOutcomes: BandOutcomes }) {
+  const stoppedShare = stoppedShareForBand(card.band, bandOutcomes);
+  const scenario = economics(stoppedShare, mw);
+  return <details className="gw-property-screening"><summary><span>Screening context</span><BandBadge band={card.band} /></summary>
+    <div>{card.p_stopped != null && <p><strong>Risk score {displayScore(card.p_stopped)}/100</strong></p>}
+      {stoppedShare == null ? <p>No band outcome estimate for this site.</p> : <><p>{(stoppedShare * 100).toFixed(1)}% of tracked Texas data center projects scored in this band were stopped (cross-validation). Small sample; today&apos;s features.</p><p><strong>{money(scenario.expectedDelayCost)}</strong> delay exposure scenario at {num(mw)} MW.</p></>}
+      {card.water_stress_label && <p>Regional water stress: {card.water_stress_label}.</p>}
+      <p>The model band is context, not a purchase verdict. The dollar scenario is an assumption, not a forecast or valuation.</p><Link href="/evidence">Read model assumptions</Link>
+    </div>
+  </details>;
+}
 
-const num = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 1 });
-
-export default function Explore({ cards, mw, saved }: { cards: Card[]; mw: number; saved: string[] }) {
+export default function Explore({ cards, mw, saved, bandOutcomes, clearHref = "/" }: { cards: Card[]; mw: number; saved: string[]; bandOutcomes: BandOutcomes; clearHref?: string }) {
   const [selected, setSelected] = useState<string | null>(cards[0]?.site_id ?? null);
   const [view, setView] = useState<"map" | "3d">("map");
-  const listRef = useRef<HTMLDivElement>(null);
+  const cardNodes = useRef(new Map<string, HTMLElement>());
   const savedSet = useMemo(() => new Set(saved), [saved]);
-
-  const pins: MapPin[] = useMemo(
-    () => cards.map((c) => ({
-      id: c.site_id,
-      name: c.name,
-      lat: c.lat,
-      lng: c.lng,
-      color: BAND_COLOR[c.band ?? "none"],
-      text: c.p_stopped == null ? "—" : `${Math.round(c.p_stopped * 100)}%`,
-    })),
-    [cards],
-  );
+  const selectedId = cards.some((card) => card.site_id === selected) ? selected : cards[0]?.site_id ?? null;
+  const selectedCard = cards.find((card) => card.site_id === selectedId);
+  const pins: MapPin[] = useMemo(() => cards.filter((card) => Number.isFinite(card.lat) && Number.isFinite(card.lng) && Math.abs(card.lat) <= 90 && Math.abs(card.lng) <= 180).map((card) => ({
+    id: card.site_id, name: card.name, lat: card.lat, lng: card.lng, color: BAND_COLOR[card.band ?? "none"],
+    text: displayScore(card.p_stopped) == null ? "—" : `${displayScore(card.p_stopped)}/100`,
+  })), [cards]);
+  const pinIds = new Set(pins.map((pin) => pin.id));
 
   function pick(id: string) {
     setSelected(id);
-    listRef.current?.querySelector(`[data-id="${id}"]`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    cardNodes.current.get(id)?.scrollIntoView({ behavior: "auto", block: "nearest" });
+    cardNodes.current.get(id)?.focus({ preventScroll: true });
   }
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-      <div ref={listRef} className="grid content-start gap-x-5 gap-y-8 sm:grid-cols-2 lg:max-h-[calc(100vh-9.5rem)] lg:overflow-y-auto lg:pr-3">
-        {cards.map((c) => {
-          const e = economics(c.p_stopped, mw);
-          const on = c.site_id === selected;
-          return (
-            <article key={c.site_id} data-id={c.site_id} onMouseEnter={() => setSelected(c.site_id)} className="group">
-              <Link href={`/listings/${c.site_id}?mw=${mw}`} className="block">
-                <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-200 ring-offset-2 transition ${on ? "ring-2 ring-slate-900" : ""}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/api/vexcel/image/${c.site_id}?view=ortho&size=thumb`}
-                    alt={`Aerial view of ${c.name}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute left-3 top-3 flex gap-1.5">
-                    {c.band && (
-                      <span className="rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold shadow-sm" style={{ color: BAND_COLOR[c.band] }}>
-                        ● {BAND_TEXT[c.band]}
-                      </span>
-                    )}
-                    {c.heavy_power && (
-                      <span className="rounded-full bg-slate-900/85 px-2.5 py-1 text-xs font-semibold text-white">⚡ Heavy power</span>
-                    )}
-                  </div>
-                  <div className="absolute right-3 top-3"><HeartButton projectId={c.site_id} saved={savedSet.has(c.site_id)} /></div>
-                </div>
-                <div className="mt-3 space-y-0.5">
-                  <div className="flex items-baseline justify-between gap-2">
-                    <h3 className="truncate font-semibold text-slate-900">{c.city}, {c.state} · {c.property_type}</h3>
-                    {c.p_stopped != null && <span className="shrink-0 text-sm text-slate-700">{Math.round(c.p_stopped * 100)}% risk</span>}
-                  </div>
-                  <p className="truncate text-sm text-slate-500">{c.name}</p>
-                  <p className="text-sm text-slate-500">
-                    {[c.lot_acres && `${num(c.lot_acres)} acres`, c.building_sf && `${num(c.building_sf)} sf`, c.ceiling_ft && `${c.ceiling_ft} ft clear`].filter(Boolean).join(" · ") || "Size not reported"}
-                  </p>
-                  <p className="pt-1 text-sm text-slate-900">
-                    {c.asking_price ? <><span className="font-semibold">{money(c.asking_price)}</span> asking · </> : null}
-                    <span className="font-semibold">{money(e.expectedDelayCost)}</span>
-                    <span className="text-slate-500"> delay risk at {mw} MW</span>
-                  </p>
-                </div>
-              </Link>
-            </article>
-          );
-        })}
-        {!cards.length && <p className="text-slate-500">No sites match. Try fewer filters.</p>}
-      </div>
-
-      <div className="relative h-[55vh] overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-200 lg:sticky lg:top-[8.5rem] lg:h-[calc(100vh-10rem)]">
-        <div className="absolute left-1/2 top-3 z-10 flex -translate-x-1/2 rounded-full bg-white p-1 text-sm font-semibold shadow-md ring-1 ring-slate-200">
-          {(["map", "3d"] as const).map((v) => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`rounded-full px-4 py-1.5 transition ${view === v ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"}`}
-            >
-              {v === "map" ? "Map" : "3D city"}
-            </button>
-          ))}
-        </div>
-        {view === "map" ? (
-          <PinMap pins={pins} selectedId={selected} onSelect={pick} />
-        ) : (
-          <Viewer3D pins={pins} focusId={selected} onSelect={pick} />
-        )}
-      </div>
+  return <div className="gw-property-explore">
+    <div className="gw-property-list">
+      {cards.map((card) => {
+        const price = askingPrice(card.asking_price);
+        const on = card.site_id === selectedId;
+        const detailHref = `/listings/${encodeURIComponent(card.site_id)}?mw=${mw}`;
+        return <article key={card.site_id} data-id={card.site_id} tabIndex={-1} ref={(node) => { if (node) cardNodes.current.set(card.site_id, node); else cardNodes.current.delete(card.site_id); }} onMouseEnter={() => setSelected(card.site_id)} onFocus={() => setSelected(card.site_id)} className={`gw-property-card ${on ? "gw-property-card-selected" : ""}`}>
+          <div className="gw-property-photo"><Link href={detailHref} aria-label={`Open property record for ${card.name}`}><PropertyImage src={`/api/vexcel/image/${encodeURIComponent(card.site_id)}?view=ortho&size=thumb`} alt={`Aerial view of ${card.name}`} className="gw-property-thumbnail" /></Link><span className="gw-property-type">{card.property_type}</span><div className="gw-property-save"><HeartButton projectId={card.site_id} saved={savedSet.has(card.site_id)} /></div></div>
+          <div className="gw-property-card-body"><p className="gw-property-location">{card.city}, {card.state}</p><h3><Link href={detailHref}>{card.name}</Link></h3>
+            <div className="gw-property-price"><span>Asking price <small>Reported snapshot</small></span><strong>{price ?? "Not reported"}</strong></div>
+            <dl className="gw-property-facts"><div><dt>Land</dt><dd>{card.lot_acres == null ? "Not reported" : `${num(card.lot_acres)} acres`}</dd></div><div><dt>Building</dt><dd>{card.building_sf == null ? "Not reported" : `${num(card.building_sf)} sq ft`}</dd></div>{card.ceiling_ft != null && <div><dt>Clear height</dt><dd>{num(card.ceiling_ft)} ft</dd></div>}</dl>
+            {card.heavy_power && <p className="gw-property-power">Heavy power reported <span>Utility capacity unconfirmed</span></p>}
+            <ScreeningContext card={card} mw={mw} bandOutcomes={bandOutcomes} />
+            <div className="gw-property-card-actions"><Link href={detailHref}>Open property <span aria-hidden="true">→</span></Link>{pinIds.has(card.site_id) ? <button type="button" onClick={() => setSelected(card.site_id)} aria-pressed={on}>Locate on map</button> : <span>Map location unavailable</span>}</div>
+          </div>
+        </article>;
+      })}
+      {!cards.length && <section className="gw-property-empty"><h3>No properties match this search</h3><p>Try a smaller minimum acreage, include more property types, or remove the heavy-power filter. Unknown facts are not treated as matching a requirement.</p><Link className="gw-prospect-button" href={clearHref}>Clear property filters</Link></section>}
     </div>
-  );
+    <aside className="gw-property-map" aria-label="Property locations">
+      <div className="gw-property-map-heading"><div><strong>Explore the surroundings</strong><p>Map pins show screening scores, not prices.</p></div><div className="gw-property-map-toggle" aria-label="Property map view">{(["map", "3d"] as const).map((value) => <button type="button" key={value} onClick={() => setView(value)} aria-pressed={view === value}>{value === "map" ? "Map" : "3D city"}</button>)}</div></div>
+      <div className="gw-property-map-canvas">{pins.length ? view === "map" ? <PinMap pins={pins} selectedId={selectedId} onSelect={pick} /> : <Viewer3D pins={pins} focusId={selectedId} onSelect={pick} /> : <div className="gw-property-map-empty">{cards.length ? "No valid map coordinates for these properties." : "Your matching property locations will appear here."}</div>}</div>
+      <div className="gw-property-map-caption" aria-live="polite">{selectedCard ? <><div><span>Selected property</span><strong>{selectedCard.name}</strong><p>{selectedCard.city}, {selectedCard.state}</p></div><Link href={`/listings/${encodeURIComponent(selectedCard.site_id)}?mw=${mw}`}>View record <span aria-hidden="true">→</span></Link></> : <p>Select a property to explore its location.</p>}</div>
+      <p className="gw-property-map-note">3D city imagery depends on Vexcel coverage and service access. Imagery is context; parcel boundaries, terrain and site conditions need verification.</p>
+    </aside>
+  </div>;
 }

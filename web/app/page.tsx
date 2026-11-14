@@ -2,85 +2,75 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { listListings, type ListingFilters } from "@/lib/listings";
 import { watchlistIds } from "@/lib/sites";
+import { getModelArtifact } from "@/lib/modelArtifact";
+import { isPublicDataMode } from "@/lib/dataMode";
+import { parseMinAcres, parseMw } from "@/lib/params";
 import Explore, { type Card } from "./components/Explore";
+import "./prospects.css";
 
 export const dynamic = "force-dynamic";
-
 type SP = ListingFilters & { mw?: string };
 
 function href(sp: SP, patch: Partial<SP>) {
-  const q = new URLSearchParams();
-  for (const [k, v] of Object.entries({ ...sp, ...patch })) if (v) q.set(k, String(v));
-  return `/?${q}`;
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries({ ...sp, ...patch })) if (value) query.set(key, value);
+  return `/?${query}`;
 }
 
-function Chip({ to, on, children }: { to: string; on: boolean; children: React.ReactNode }) {
-  return (
-    <Link
-      href={to}
-      className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition ${
-        on ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white text-slate-700 hover:border-slate-900"
-      }`}
-    >
-      {children}
-    </Link>
-  );
+function CatalogUnavailable() {
+  return <main className="gw-prospects gw-catalog-unavailable">
+    <div className="gw-prospect-intro"><div><h1>Find the next place to build.</h1><p>Explore land and buildings, examine the property record, and decide what deserves a closer look.</p></div><span className="gw-catalog-scope">Houston & Los Angeles</span></div>
+    <section className="gw-catalog-boundary" aria-labelledby="catalog-status">
+      <div className="gw-catalog-message"><span className="gw-availability">Public research available</span><h2 id="catalog-status">Property catalog unavailable</h2><p>This preview includes public Texas project research. The CoStar property catalog for Houston and Los Angeles has not been loaded here.</p><p>Asking prices and building records require the connected catalog. Aerial and 3D views also depend on sponsor service access. Tracked projects describe development activity; they are not properties offered for sale.</p><div className="gw-catalog-actions"><Link className="gw-prospect-button gw-prospect-primary" href="/projects">Explore project research</Link><Link className="gw-prospect-button" href="/workspace">Open research workspace</Link></div></div>
+      <div className="gw-catalog-markets"><h3>Property markets</h3>{["Houston, Texas", "Los Angeles, California"].map((market) => <div key={market}><svg aria-hidden="true" viewBox="0 0 44 44" fill="none"><path d="M5 36h34M10 35V14l12-6 12 6v21M18 35V23h8v12M16 16h3m6 0h3" stroke="currentColor" strokeWidth="1.5" /></svg><span><strong>{market}</strong><small>Catalog not loaded</small></span></div>)}<p>Open project research to explore the public records available in this preview.</p></div>
+    </section>
+  </main>;
 }
 
 export default async function Home({ searchParams }: { searchParams: Promise<SP> }) {
-  const sp = await searchParams;
-  const market = sp.market ?? "houston";
-  const mw = Math.max(1, Number(sp.mw) || 100);
-  const listings = await listListings({ ...sp, market });
+  const raw = await searchParams;
+  if (isPublicDataMode()) return <CatalogUnavailable />;
+  const market = raw.market === "la" || raw.market === "all" ? raw.market : "houston";
+  const minAcres = parseMinAcres(raw.acres);
+  const sp: SP = {
+    ...(raw.market ? { market } : {}),
+    ...(typeof raw.q === "string" && raw.q.trim() ? { q: raw.q.trim().slice(0, 200) } : {}),
+    ...(["Industrial", "Flex", "Land"].includes(raw.type ?? "") ? { type: raw.type } : {}),
+    ...(minAcres !== undefined ? { acres: String(minAcres) } : {}),
+    ...(raw.power === "1" ? { power: "1" } : {}),
+    ...(market !== "la" && ["green", "watch", "red"].includes(raw.band ?? "") ? { band: raw.band } : {}),
+    ...(raw.mw ? { mw: String(parseMw(raw.mw)) } : {}),
+  };
+  const mw = parseMw(sp.mw);
+  const [listings, modelArtifact] = await Promise.all([listListings({ ...sp, market }), getModelArtifact()]);
   const clientId = (await cookies()).get("client_id")?.value;
   const saved = clientId ? await watchlistIds(clientId) : [];
-
-  const cards: Card[] = listings.map((l) => ({
-    site_id: l.site_id, name: l.name, city: l.city, state: l.state, lat: l.lat, lng: l.lng,
-    property_type: l.property_type, lot_acres: l.lot_acres, building_sf: l.building_sf, ceiling_ft: l.ceiling_ft,
-    heavy_power: l.heavy_power, asking_price: l.asking_price, water_stress_label: l.water_stress_label,
-    p_stopped: l.p_stopped, band: l.band,
+  const cards: Card[] = listings.map((listing) => ({
+    site_id: listing.site_id, name: listing.name, city: listing.city, state: listing.state, lat: listing.lat, lng: listing.lng,
+    property_type: listing.property_type, lot_acres: listing.lot_acres, building_sf: listing.building_sf, ceiling_ft: listing.ceiling_ft,
+    heavy_power: listing.heavy_power, asking_price: listing.asking_price, water_stress_label: listing.water_stress_label,
+    p_stopped: listing.p_stopped, band: listing.band,
   }));
+  const clearHref = href({ market, mw: String(mw) }, {});
 
-  return (
-    <main className="mx-auto max-w-[1600px] px-4 sm:px-6">
-      <div className="sticky top-16 z-10 -mx-4 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="mr-2 flex rounded-full bg-slate-100 p-1">
-            {[["houston", "Houston"], ["la", "Los Angeles"]].map(([k, label]) => (
-              <Link key={k} href={href(sp, { market: k })}
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold ${market === k ? "bg-white text-slate-900 shadow" : "text-slate-600"}`}>
-                {label}
-              </Link>
-            ))}
-          </div>
-          <Chip to={href(sp, { type: undefined })} on={!sp.type}>All types</Chip>
-          {["Industrial", "Flex", "Land"].map((t) => (
-            <Chip key={t} to={href(sp, { type: t })} on={sp.type === t}>{t}</Chip>
-          ))}
-          <span className="mx-1 h-6 w-px bg-slate-200" />
-          <Chip to={href(sp, { power: sp.power === "1" ? undefined : "1" })} on={sp.power === "1"}>⚡ Heavy power</Chip>
-          <Chip to={href(sp, { acres: sp.acres === "5" ? undefined : "5" })} on={sp.acres === "5"}>5+ acres</Chip>
-          {market === "houston" && (
-            <>
-              <Chip to={href(sp, { band: sp.band === "green" ? undefined : "green" })} on={sp.band === "green"}>Low risk only</Chip>
-            </>
-          )}
-          <form className="ml-auto flex items-center gap-2 text-sm text-slate-600" method="get">
-            {Object.entries(sp).filter(([k]) => k !== "mw").map(([k, v]) => <input key={k} type="hidden" name={k} value={String(v)} />)}
-            <label htmlFor="mw">Your load</label>
-            <input id="mw" name="mw" type="number" min={1} defaultValue={mw} className="w-20 rounded-full border border-slate-300 px-3 py-1.5 text-slate-900" />
-            <span>MW</span>
-          </form>
-        </div>
-        <p className="mt-2 text-sm text-slate-500">
-          {listings.length} sites · real aerials by Vexcel · property data by CoStar
-          {market === "la" && " · risk model is Texas-only, so LA sites are unscored"}
-        </p>
-      </div>
-      <div className="py-5">
-        <Explore cards={cards} mw={mw} saved={saved} />
-      </div>
-    </main>
-  );
+  return <main className="gw-prospects">
+    <header className="gw-prospect-intro"><div><h1>Property prospects</h1><p>Start with the land. Follow the facts. Find the questions worth asking.</p></div><Link href="/projects" className="gw-research-link">Explore project research <span aria-hidden="true">→</span></Link></header>
+    <div className="gw-prospect-search">
+      <nav className="gw-market-switch" aria-label="Property market">{[["houston", "Houston"], ["la", "Los Angeles"], ["all", "Both markets"]].map(([key, label]) => <Link key={key} href={href(sp, { market: key, ...(key === "la" ? { band: undefined } : {}) })} aria-current={market === key ? "page" : undefined}>{label}</Link>)}</nav>
+      <form method="get" action="/" className="gw-property-filters">
+        <input type="hidden" name="market" value={market} />
+        <label className="gw-property-field gw-property-search"><span>Location or property</span><input type="search" name="q" defaultValue={sp.q ?? ""} maxLength={200} placeholder="Address, city or property name" /></label>
+        <label className="gw-property-field"><span>Property type</span><select name="type" defaultValue={sp.type ?? ""}><option value="">All types</option>{["Industrial", "Flex", "Land"].map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
+        <label className="gw-property-field"><span>Minimum acres</span><input type="number" name="acres" min="0" step="any" defaultValue={sp.acres ?? ""} placeholder="Any size" /></label>
+        <label className="gw-property-field"><span>Workload <small>MW</small></span><input type="number" name="mw" min="1" max="5000" step="any" required defaultValue={mw} aria-describedby="workload-help" /></label>
+        <button type="submit" className="gw-prospect-button gw-prospect-primary">Apply search</button>
+        <div className="gw-filter-secondary"><label className="gw-property-checkbox"><input type="checkbox" name="power" value="1" defaultChecked={sp.power === "1"} /><span>Reported heavy power</span></label>{market !== "la" && <label className="gw-band-filter"><span>Texas screening band</span><select name="band" defaultValue={sp.band ?? ""} aria-describedby="screening-band-help"><option value="">All bands</option><option value="green">Green</option><option value="watch">Watch</option><option value="red">Red</option></select></label>}<Link href={clearHref}>Clear property filters</Link></div>
+      </form>
+      <p id="workload-help" className="gw-workload-note">MW sets the delay-cost scenario. Neither workload nor a heavy-power record confirms available utility capacity.</p>
+      {market !== "la" && <p id="screening-band-help" className="gw-workload-note">Selecting a screening band includes scored Texas properties only; unscored properties, including all LA properties, are excluded.</p>}
+    </div>
+    <div className="gw-property-results-heading"><div><h2>{listings.length} {listings.length === 1 ? "property" : "properties"} in {market === "la" ? "Los Angeles" : market === "all" ? "Houston & Los Angeles" : "Houston"}</h2><p>Property facts and asking prices from the CoStar snapshot. Availability and pricing need confirmation.</p></div><span>Reported property record</span></div>
+    {(market === "la" || market === "all") && <p className="gw-market-note">The risk model is Texas-only, so LA sites are unscored.</p>}
+    <Explore cards={cards} mw={mw} saved={saved} bandOutcomes={modelArtifact.metrics.band_outcomes_oof} clearHref={clearHref} />
+  </main>;
 }

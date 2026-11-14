@@ -37,3 +37,9 @@ Build a narrow, real slice, not the whole product:
 - **Sponsor data:** CoStar, Vexcel and Matterport data never go in git. `build_sites.py` writes only to Tiger; Vexcel images are cached in `data/private/cache/vexcel/`. The Vexcel key stays server-side: the browser only talks to `/api/vexcel/image/[siteId]` and `/api/vexcel/3d/[tileset|tile]`.
 - **Vexcel coverage:** the hackathon key covers Houston and LA only (other places return 403).
 - **Constants:** every cost or rate in `web/lib/model.ts` names its source ID from `data/sources.csv` and is tagged reported, modeled or assumed.
+
+### Verified public-mode commands
+
+- Public demo from the repository root: `cd web && DATA_MODE=public npm run dev` (then open `http://localhost:3000`). It reads the checked-in public project data and keeps watchlist/intake sessions in process memory; this does not verify database mode.
+- Public-mode HTTP smoke from `web/`: `npm run smoke`. It builds and starts the production app on a free loopback port, checks public routes and watchlist replay, verifies disabled routes remain closed, and stops its server without database or sponsor credentials.
+- Web checks from `web/`: `npm test`, `npm run typecheck`, `npm run lint`, and `npm run build`.

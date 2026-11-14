@@ -1,6 +1,7 @@
 import "server-only";
 import { pool } from "./db";
 import { band, type Band } from "./model";
+import { parseMinAcres } from "./params";
 
 export type Listing = {
   site_id: string;
@@ -61,8 +62,9 @@ export async function listListings(f: ListingFilters): Promise<Listing[]> {
     args.push(f.type);
     where.push(`property_type = $${args.length}`);
   }
-  if (f.acres) {
-    args.push(Number(f.acres));
+  const minAcres = parseMinAcres(f.acres);
+  if (minAcres !== undefined) {
+    args.push(minAcres);
     where.push(`lot_acres >= $${args.length}`);
   }
   if (f.power === "1") where.push(`heavy_power IS TRUE`);

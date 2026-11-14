@@ -12,9 +12,10 @@
  "label": "1 = stopped (withdrawn, denied, moratorium, suspended, cancelled), 0 = built",
  "data": "More Than Just Parks Texas tracker (T01) + Census geocoder and county data",
  "notes": [
-  "Features are static location and project facts, not dated signals, so they carry no outcome leakage, but they also cannot show risk changing over time.",
+  "Features are today's location/project snapshot, not pre-decision observations. county_tracked_projects includes proposed projects from today's tracker, so historical leakage is possible; this is not a temporal backtest.",
   "Built projects include older colocation sites; stopped ones are mostly recent proposals. The 'recent' comparison reduces that mismatch.",
-  "Small sample: treat metrics as indicative, not proof."
+  "Small sample: treat metrics as indicative, not proof.",
+  "Class-weighted scores are not calibrated probabilities. Prior correction is an evaluation diagnostic only; deployed scoring parameters are unchanged. Band stopped shares inform illustrative delay exposure scenarios, not forecasts."
  ],
  "default_model": "recent",
  "comparisons": {
@@ -26,10 +27,139 @@
     "n_built": 217,
     "cv": "5-fold stratified, repeated 20 times",
     "roc_auc_mean": 0.779,
-    "roc_auc_std": 0.132,
-    "stopped_recall_at_0_5": 0.739,
-    "stopped_precision_at_0_5": 0.208,
-    "baseline_stopped_rate": 0.069
+    "roc_auc_std": 0.131,
+    "stopped_recall_at_0_5": 0.743,
+    "stopped_precision_at_0_5": 0.209,
+    "baseline_stopped_rate": 0.069,
+    "mean_score_training": 0.348103,
+    "oof_prediction_count": 4660,
+    "oof_aggregation": "Pooled held-out predictions; each project appears once per repeat (20 times), not 20 independent projects.",
+    "oof_thresholds": {
+     "0.4": {
+      "recall": 0.809375,
+      "precision": 0.174528
+     },
+     "0.5": {
+      "recall": 0.740625,
+      "precision": 0.201018
+     },
+     "0.6": {
+      "recall": 0.65,
+      "precision": 0.206554
+     }
+    },
+    "brier_raw_oof": 0.171336,
+    "brier_prior_corrected_oof": 0.060428,
+    "brier_base_rate_oof": 0.063993,
+    "reliability_raw_oof": [
+     {
+      "lower": 0.0,
+      "upper": 0.2,
+      "count": 1909,
+      "mean_score": 0.10541,
+      "stopped_rate": 0.020953
+     },
+     {
+      "lower": 0.2,
+      "upper": 0.4,
+      "count": 1267,
+      "mean_score": 0.297973,
+      "stopped_rate": 0.016575
+     },
+     {
+      "lower": 0.4,
+      "upper": 0.6,
+      "count": 477,
+      "mean_score": 0.484192,
+      "stopped_rate": 0.106918
+     },
+     {
+      "lower": 0.6,
+      "upper": 0.8,
+      "count": 543,
+      "mean_score": 0.704396,
+      "stopped_rate": 0.202578
+     },
+     {
+      "lower": 0.8,
+      "upper": 1.0,
+      "count": 464,
+      "mean_score": 0.867206,
+      "stopped_rate": 0.211207
+     }
+    ],
+    "reliability_prior_corrected_oof": [
+     {
+      "lower": 0.0,
+      "upper": 0.2,
+      "count": 4090,
+      "mean_score": 0.036584,
+      "stopped_rate": 0.044743
+     },
+     {
+      "lower": 0.2,
+      "upper": 0.4,
+      "count": 457,
+      "mean_score": 0.277127,
+      "stopped_rate": 0.242888
+     },
+     {
+      "lower": 0.4,
+      "upper": 0.6,
+      "count": 99,
+      "mean_score": 0.47933,
+      "stopped_rate": 0.20202
+     },
+     {
+      "lower": 0.6,
+      "upper": 0.8,
+      "count": 14,
+      "mean_score": 0.6461,
+      "stopped_rate": 0.428571
+     },
+     {
+      "lower": 0.8,
+      "upper": 1.0,
+      "count": 0,
+      "mean_score": null,
+      "stopped_rate": null
+     }
+    ],
+    "prior_correction": "Diagnostic log-odds shift using only each training fold's stopped share; not a calibrated deployment probability.",
+    "band_outcomes_oof": {
+     "thresholds": {
+      "watch": 0.4,
+      "red": 0.6
+     },
+     "repeat_count": 20,
+     "count_basis": "Pooled held-out predictions, 20 per project. Repeat ranges measure split sensitivity, not confidence intervals. Outcomes are stopped, not delayed.",
+     "bands": {
+      "green": {
+       "count": 3176,
+       "stopped_count": 61,
+       "rate": 0.019207,
+       "repeat_min": 0.018293,
+       "repeat_max": 0.024691,
+       "repeats_with_observations": 20
+      },
+      "watch": {
+       "count": 477,
+       "stopped_count": 51,
+       "rate": 0.106918,
+       "repeat_min": 0.074074,
+       "repeat_max": 0.153846,
+       "repeats_with_observations": 20
+      },
+      "red": {
+       "count": 1007,
+       "stopped_count": 208,
+       "rate": 0.206554,
+       "repeat_min": 0.176471,
+       "repeat_max": 0.234043,
+       "repeats_with_observations": 20
+      }
+     }
+    }
    },
    "coefficients": {
     "in_city_limits": 0.245,
@@ -66,10 +196,139 @@
     "n_built": 86,
     "cv": "5-fold stratified, repeated 20 times",
     "roc_auc_mean": 0.7,
-    "roc_auc_std": 0.149,
+    "roc_auc_std": 0.15,
     "stopped_recall_at_0_5": 0.704,
     "stopped_precision_at_0_5": 0.313,
-    "baseline_stopped_rate": 0.157
+    "baseline_stopped_rate": 0.157,
+    "mean_score_training": 0.427852,
+    "oof_prediction_count": 2040,
+    "oof_aggregation": "Pooled held-out predictions; each project appears once per repeat (20 times), not 20 independent projects.",
+    "oof_thresholds": {
+     "0.4": {
+      "recall": 0.8125,
+      "precision": 0.253411
+     },
+     "0.5": {
+      "recall": 0.703125,
+      "precision": 0.299601
+     },
+     "0.6": {
+      "recall": 0.55,
+      "precision": 0.321755
+     }
+    },
+    "brier_raw_oof": 0.217856,
+    "brier_prior_corrected_oof": 0.125457,
+    "brier_base_rate_oof": 0.132432,
+    "reliability_raw_oof": [
+     {
+      "lower": 0.0,
+      "upper": 0.2,
+      "count": 295,
+      "mean_score": 0.116015,
+      "stopped_rate": 0.135593
+     },
+     {
+      "lower": 0.2,
+      "upper": 0.4,
+      "count": 719,
+      "mean_score": 0.302872,
+      "stopped_rate": 0.027816
+     },
+     {
+      "lower": 0.4,
+      "upper": 0.6,
+      "count": 479,
+      "mean_score": 0.49021,
+      "stopped_rate": 0.175365
+     },
+     {
+      "lower": 0.6,
+      "upper": 0.8,
+      "count": 446,
+      "mean_score": 0.703885,
+      "stopped_rate": 0.331839
+     },
+     {
+      "lower": 0.8,
+      "upper": 1.0,
+      "count": 101,
+      "mean_score": 0.844145,
+      "stopped_rate": 0.277228
+     }
+    ],
+    "reliability_prior_corrected_oof": [
+     {
+      "lower": 0.0,
+      "upper": 0.2,
+      "count": 1436,
+      "mean_score": 0.08624,
+      "stopped_rate": 0.084262
+     },
+     {
+      "lower": 0.2,
+      "upper": 0.4,
+      "count": 471,
+      "mean_score": 0.291923,
+      "stopped_rate": 0.350318
+     },
+     {
+      "lower": 0.4,
+      "upper": 0.6,
+      "count": 124,
+      "mean_score": 0.474262,
+      "stopped_rate": 0.25
+     },
+     {
+      "lower": 0.6,
+      "upper": 0.8,
+      "count": 9,
+      "mean_score": 0.642146,
+      "stopped_rate": 0.333333
+     },
+     {
+      "lower": 0.8,
+      "upper": 1.0,
+      "count": 0,
+      "mean_score": null,
+      "stopped_rate": null
+     }
+    ],
+    "prior_correction": "Diagnostic log-odds shift using only each training fold's stopped share; not a calibrated deployment probability.",
+    "band_outcomes_oof": {
+     "thresholds": {
+      "watch": 0.4,
+      "red": 0.6
+     },
+     "repeat_count": 20,
+     "count_basis": "Pooled held-out predictions, 20 per project. Repeat ranges measure split sensitivity, not confidence intervals. Outcomes are stopped, not delayed.",
+     "bands": {
+      "green": {
+       "count": 1014,
+       "stopped_count": 60,
+       "rate": 0.059172,
+       "repeat_min": 0.055556,
+       "repeat_max": 0.06383,
+       "repeats_with_observations": 20
+      },
+      "watch": {
+       "count": 479,
+       "stopped_count": 84,
+       "rate": 0.175365,
+       "repeat_min": 0.137931,
+       "repeat_max": 0.26087,
+       "repeats_with_observations": 20
+      },
+      "red": {
+       "count": 547,
+       "stopped_count": 176,
+       "rate": 0.321755,
+       "repeat_min": 0.259259,
+       "repeat_max": 0.36,
+       "repeats_with_observations": 20
+      }
+     }
+    }
    },
    "coefficients": {
     "in_city_limits": 0.184,
@@ -98,5 +357,17 @@
    ],
    "median_log_capacity_mw": 2.301
   }
+ },
+ "holdout_demo": {
+  "project_id": "1c23acb7-4ec3-459b-aa99-1bd3104a4fb9",
+  "name": "Highlander SM One (San Marcos)",
+  "comparison": "recent",
+  "training_n": 101,
+  "score": 0.569606,
+  "percentile": 73.267,
+  "percentile_basis": "Share of the other 101 recent projects with a score no greater, from the same holdout-trained model; reference scores are in-sample.",
+  "handoff_score": 0.57,
+  "reproduces_handoff_to_2dp": true,
+  "limitation": "Project excluded from fitting and scaling, but feature data are today's snapshot. This is not a historical backtest."
  }
 }
